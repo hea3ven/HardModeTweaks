@@ -1,0 +1,43 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            name = "forge"
+            url = "http://files.minecraftforge.net/maven"
+        }
+        maven {
+            name = "sonatype"
+            url = "https://oss.sonatype.org/content/repositories/snapshots/"
+        }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:1.1-SNAPSHOT'
+    }
+}
+
+apply plugin: 'forge'
+
+sourceCompatibility = 1.6
+
+version = "1.0a1"
+group = "com.hea3ven"
+archivesBaseName = "hardmodetweaks"
+
+minecraft {
+    version = "1.7.2-10.12.0.1024"
+    assetDir = "eclipse"
+}
+
+sourceSets.main {
+    java {
+        srcDirs 'src'
+    }
+    resources {
+        srcDirs 'resources'
+    }
+}
+
+processResources {
+    from(sourceSets.main.resources.srcDirs)
+}
+
