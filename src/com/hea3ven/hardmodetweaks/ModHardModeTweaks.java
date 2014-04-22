@@ -48,10 +48,12 @@ public class ModHardModeTweaks {
 	public static HardModeTweaksCommonProxy proxy;
 
 	private HardModeRulesManager rulesManager;
+	private EatingRegenManager eatingRegenManager;
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		rulesManager = new HardModeRulesManager();
+		eatingRegenManager = new EatingRegenManager();
 
 		File cfgFile = event.getSuggestedConfigurationFile();
 		loadConfig(cfgFile, !cfgFile.exists());
@@ -60,6 +62,7 @@ public class ModHardModeTweaks {
 	@EventHandler
 	public void modInit(FMLInitializationEvent event) {
 		MinecraftForge.EVENT_BUS.register(rulesManager);
+		MinecraftForge.EVENT_BUS.register(eatingRegenManager);
 	}
 
 	@EventHandler
