@@ -52,6 +52,8 @@ public class ModHardModeTweaks {
 	@SidedProxy(clientSide = "com.hea3ven.hardmodetweaks.HardModeTweaksCommonProxy", serverSide = "com.hea3ven.hardmodetweaks.HardModeTweaksCommonProxy")
 	public static HardModeTweaksCommonProxy proxy;
 
+	public static double dayLengthMultiplier = 1.0d;
+
 	private HardModeRulesManager rulesManager;
 	private EatingRegenManager eatingRegenManager;
 
@@ -65,7 +67,7 @@ public class ModHardModeTweaks {
 
 		logger.info("Loading config");
 		File cfgFile = event.getSuggestedConfigurationFile();
-		loadConfig(cfgFile, !cfgFile.exists());
+		loadConfig(cfgFile);
 	}
 
 	@Subscribe
@@ -78,10 +80,13 @@ public class ModHardModeTweaks {
 	public void postInit(FMLPostInitializationEvent event) {
 	}
 
-	private void loadConfig(File cfgFile, boolean doSave) {
+	private void loadConfig(File cfgFile) {
 		Configuration cfg = new Configuration(cfgFile);
 		try {
 			cfg.load();
+
+			dayLengthMultiplier = 1.0d / cfg.get("options",
+					"dayLenthMultiplier", 1.0d).getDouble(1.0d);
 
 			GameRules rules = new GameRules();
 			for (String ruleName : rules.getRules()) {
@@ -95,8 +100,7 @@ public class ModHardModeTweaks {
 			FMLLog.log(Level.FATAL, e,
 					"Pandora's Chest configuration failed to load.");
 		} finally {
-			if (doSave)
-				cfg.save();
+			cfg.save();
 		}
 	}
 

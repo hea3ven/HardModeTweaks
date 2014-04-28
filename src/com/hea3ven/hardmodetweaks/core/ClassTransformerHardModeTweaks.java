@@ -13,7 +13,6 @@ import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.InsnNode;
-import org.objectweb.asm.tree.LdcInsnNode;
 import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.MethodNode;
 import org.objectweb.asm.tree.VarInsnNode;
@@ -219,15 +218,15 @@ public class ClassTransformerHardModeTweaks implements IClassTransformer {
 		logger.info(
 				"Creating new implementation of getWorldTime({}) method of WorldInfo",
 				originalGetWorldTimeName);
-		classNode.methods
-				.add(createNewGetWorldTimeMethod(originalGetWorldTimeName, obfuscated));
+		classNode.methods.add(createNewGetWorldTimeMethod(
+				originalGetWorldTimeName, obfuscated));
 		logger.info("Finished adding getWorldTime method to WorldInfo");
 
 		logger.info(
 				"Creating new implementation of setWorldTime({}) method of WorldInfo",
 				originalSetWorldTimeName);
-		classNode.methods
-				.add(createNewSetWorldTimeMethod(originalSetWorldTimeName, obfuscated));
+		classNode.methods.add(createNewSetWorldTimeMethod(
+				originalSetWorldTimeName, obfuscated));
 		logger.info("Finished adding setWorldTime method to WorldInfo");
 
 		return writeClass(classNode);
@@ -236,7 +235,7 @@ public class ClassTransformerHardModeTweaks implements IClassTransformer {
 	private MethodNode createNewGetWorldTimeMethod(String methodName,
 			boolean obfuscated) {
 		// > long getWorldTime() {
-		// >     return Math.floor(worldTime * 0.5d);
+		// >     return (long)Math.floor(worldTime * ModHardModeTweaks.dayLengthMultiplier);
 		// > }
 		MethodNode getWorldTimeMethod = new MethodNode(Opcodes.ASM4,
 				Opcodes.ACC_PUBLIC, methodName, "()J", null, null);
@@ -246,7 +245,10 @@ public class ClassTransformerHardModeTweaks implements IClassTransformer {
 				obfuscated ? WORLD_INFO_WORLD_TIME_OBF_FIELD
 						: WORLD_INFO_WORLD_TIME_FIELD, "J"));
 		getWorldTimeMethod.instructions.add(new InsnNode(Opcodes.L2D));
-		getWorldTimeMethod.instructions.add(new LdcInsnNode(0.5d));
+		getWorldTimeMethod.instructions.add(new FieldInsnNode(
+				Opcodes.GETSTATIC,
+				"com/hea3ven/hardmodetweaks/ModHardModeTweaks",
+				"dayLengthMultiplier", "D"));
 		getWorldTimeMethod.instructions.add(new InsnNode(Opcodes.DMUL));
 		getWorldTimeMethod.instructions.add(new MethodInsnNode(
 				Opcodes.INVOKESTATIC, "java/lang/Math", "floor", "(D)D"));
@@ -258,14 +260,17 @@ public class ClassTransformerHardModeTweaks implements IClassTransformer {
 	private MethodNode createNewSetWorldTimeMethod(String methodName,
 			boolean obfuscated) {
 		// > void setWorldTime(long time) {
-		// >     worldTime = (long)Math.floor(time / 2.0d);
+		// >     worldTime = (long)Math.floor(time / ModHardModeTweaks.dayLengthMultiplier);
 		// > }
 		MethodNode setWorldTimeMethod = new MethodNode(Opcodes.ASM4,
 				Opcodes.ACC_PUBLIC, methodName, "(J)V", null, null);
 		setWorldTimeMethod.instructions.add(new VarInsnNode(Opcodes.ALOAD, 0));
 		setWorldTimeMethod.instructions.add(new VarInsnNode(Opcodes.LLOAD, 1));
 		setWorldTimeMethod.instructions.add(new InsnNode(Opcodes.L2D));
-		setWorldTimeMethod.instructions.add(new LdcInsnNode(0.5d));
+		setWorldTimeMethod.instructions.add(new FieldInsnNode(
+				Opcodes.GETSTATIC,
+				"com/hea3ven/hardmodetweaks/ModHardModeTweaks",
+				"dayLengthMultiplier", "D"));
 		setWorldTimeMethod.instructions.add(new InsnNode(Opcodes.DDIV));
 		setWorldTimeMethod.instructions.add(new MethodInsnNode(
 				Opcodes.INVOKESTATIC, "java/lang/Math", "floor", "(D)D"));
