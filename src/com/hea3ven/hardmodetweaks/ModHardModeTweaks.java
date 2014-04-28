@@ -28,18 +28,22 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 
 import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.google.common.eventbus.Subscribe;
 
 import cpw.mods.fml.common.FMLLog;
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 
-@Mod(modid = "hardmodetweaks", version = "1.0a1", dependencies = "required-after:Forge@[10.12.0.1024,)")
+//@Mod(modid = "hardmodetweaks", version = "1.0a1", dependencies = "required-after:Forge@[10.12.0.1024,)")
 public class ModHardModeTweaks {
+
+	private Logger logger = LogManager.getLogger("HardModeTweaks.Mod");
 
 	@Instance("hardmodetweaks")
 	public static ModHardModeTweaks instance;
@@ -50,22 +54,24 @@ public class ModHardModeTweaks {
 	private HardModeRulesManager rulesManager;
 	private EatingRegenManager eatingRegenManager;
 
-	@EventHandler
+	@Subscribe
 	public void preInit(FMLPreInitializationEvent event) {
 		rulesManager = new HardModeRulesManager();
 		eatingRegenManager = new EatingRegenManager();
 
+		logger.info("Loading config");
 		File cfgFile = event.getSuggestedConfigurationFile();
 		loadConfig(cfgFile, !cfgFile.exists());
 	}
 
-	@EventHandler
+	@Subscribe
 	public void modInit(FMLInitializationEvent event) {
+		logger.debug("Registering event listeners on the forge bus");
 		MinecraftForge.EVENT_BUS.register(rulesManager);
 		MinecraftForge.EVENT_BUS.register(eatingRegenManager);
 	}
 
-	@EventHandler
+	@Subscribe
 	public void postInit(FMLPostInitializationEvent event) {
 	}
 
