@@ -31,6 +31,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 
 import cpw.mods.fml.common.FMLLog;
@@ -54,10 +55,13 @@ public class ModHardModeTweaks {
 	private HardModeRulesManager rulesManager;
 	private EatingRegenManager eatingRegenManager;
 
-	@Subscribe
-	public void preInit(FMLPreInitializationEvent event) {
+	public ModHardModeTweaks() {
 		rulesManager = new HardModeRulesManager();
 		eatingRegenManager = new EatingRegenManager();
+	}
+
+	@Subscribe
+	public void preInit(FMLPreInitializationEvent event) {
 
 		logger.info("Loading config");
 		File cfgFile = event.getSuggestedConfigurationFile();
@@ -67,7 +71,6 @@ public class ModHardModeTweaks {
 	@Subscribe
 	public void modInit(FMLInitializationEvent event) {
 		logger.debug("Registering event listeners on the forge bus");
-		MinecraftForge.EVENT_BUS.register(rulesManager);
 		MinecraftForge.EVENT_BUS.register(eatingRegenManager);
 	}
 
@@ -95,6 +98,10 @@ public class ModHardModeTweaks {
 			if (doSave)
 				cfg.save();
 		}
+	}
+
+	public void registerBus(EventBus bus) {
+		bus.register(rulesManager);
 	}
 
 }

@@ -4,16 +4,17 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.GameRules;
-import net.minecraftforge.event.world.WorldEvent;
+import net.minecraft.world.WorldServer;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import com.google.common.eventbus.Subscribe;
+
+import cpw.mods.fml.common.event.FMLServerStartedEvent;
 
 public class HardModeRulesManager {
 
@@ -25,28 +26,25 @@ public class HardModeRulesManager {
 	public HardModeRulesManager() {
 		rulesValues = new HashMap<String, String>();
 	}
-	
-	@SubscribeEvent
-	public void worldLoad(WorldEvent.Load e) {
-		logger.debug("Event WorldEvent.Load received");
-		if (e.world.provider.dimensionId == 0 && !e.world.isRemote) {
-			if ((e.world.difficultySetting != null && e.world.difficultySetting == EnumDifficulty.HARD)
-					|| Minecraft.getMinecraft().gameSettings.difficulty == EnumDifficulty.HARD) {
-				logger.info("Assinging hard mode rules");
-				GameRules rules = MinecraftServer.getServer()
-						.worldServerForDimension(0).getGameRules();
-				for (Entry<String, String> entry : rulesValues.entrySet()) {
-					rules.setOrCreateGameRule(entry.getKey(), entry.getValue());
-				}
-			} else {
-				logger.info("Assinging default rules");
-				GameRules defaultRules = new GameRules();
-				GameRules rules = MinecraftServer.getServer()
-						.worldServerForDimension(0).getGameRules();
-				for (String ruleName : defaultRules.getRules()) {
-					rules.setOrCreateGameRule(ruleName,
-							defaultRules.getGameRuleStringValue(ruleName));
-				}
+
+	@Subscribe
+	public void serverStarted(FMLServerStartedEvent e) {
+		logger.debug("Event FMLServerStartedEvent received");
+		WorldServer server = MinecraftServer.getServer()
+				.worldServerForDimension(0);
+		if (server.difficultySetting == EnumDifficulty.HARD) {
+			logger.info("Assinging hard mode rules");
+			GameRules rules = server.getGameRules();
+			for (Entry<String, String> entry : rulesValues.entrySet()) {
+				rules.setOrCreateGameRule(entry.getKey(), entry.getValue());
+			}
+		} else {
+			logger.info("Assinging default rules");
+			GameRules defaultRules = new GameRules();
+			GameRules rules = server.getGameRules();
+			for (String ruleName : defaultRules.getRules()) {
+				rules.setOrCreateGameRule(ruleName,
+						defaultRules.getGameRuleStringValue(ruleName));
 			}
 		}
 	}

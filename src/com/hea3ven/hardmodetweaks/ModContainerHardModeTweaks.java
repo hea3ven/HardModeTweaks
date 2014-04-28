@@ -44,6 +44,7 @@ public class ModContainerHardModeTweaks extends DummyModContainer {
     public boolean registerBus(EventBus bus, LoadController controller)
     {
         bus.register(ModHardModeTweaks.instance);
+        ModHardModeTweaks.instance.registerBus(bus);
         return true;
     }
 
