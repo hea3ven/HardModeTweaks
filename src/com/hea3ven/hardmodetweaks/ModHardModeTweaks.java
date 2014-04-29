@@ -57,9 +57,12 @@ public class ModHardModeTweaks {
 	private HardModeRulesManager rulesManager;
 	private EatingRegenManager eatingRegenManager;
 
+	private boolean doEatingRegen;
+
 	public ModHardModeTweaks() {
 		rulesManager = new HardModeRulesManager();
 		eatingRegenManager = new EatingRegenManager();
+		doEatingRegen = true;
 	}
 
 	@Subscribe
@@ -73,7 +76,8 @@ public class ModHardModeTweaks {
 	@Subscribe
 	public void modInit(FMLInitializationEvent event) {
 		logger.debug("Registering event listeners on the forge bus");
-		MinecraftForge.EVENT_BUS.register(eatingRegenManager);
+		if(doEatingRegen)
+			MinecraftForge.EVENT_BUS.register(eatingRegenManager);
 	}
 
 	@Subscribe
@@ -87,6 +91,10 @@ public class ModHardModeTweaks {
 
 			dayLengthMultiplier = 1.0d / cfg.get("options",
 					"dayLenthMultiplier", 1.0d).getDouble(1.0d);
+
+			doEatingRegen = cfg.get("options",
+					"doEatingRegen", true).getBoolean(true);
+
 
 			GameRules rules = new GameRules();
 			for (String ruleName : rules.getRules()) {
