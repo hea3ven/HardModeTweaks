@@ -16,7 +16,7 @@ Download latest version: [Hard Mode Tweaks v1.0b1](http://www.mediafire.com/down
 
 ## Features
 
-### Day Lenth Setting
+### Day Length Setting
 
 Config option in hardmodetweaks.cfg:
 ```
