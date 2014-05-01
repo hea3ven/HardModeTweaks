@@ -19,24 +19,36 @@ import org.objectweb.asm.tree.VarInsnNode;
 
 public class ClassTransformerHardModeTweaks implements IClassTransformer {
 
-	private static final String WORLD_SERVER_CLASS = "net.minecraft.world.WorldServer";
-	private static final String WORLD_SERVER_OBF_CLASS = "mj";
-	private static final String WORLD_SERVER_TICK_METHOD = "tick";
-	private static final String WORLD_SERVER_TICK_OBF_METHOD = "b";
-
-	private static final String WORLD_CLIENT_CLASS = "net.minecraft.client.multiplayer.WorldClient";
-	private static final String WORLD_CLIENT_OBF_CLASS = "biz";
-	private static final String WORLD_CLIENT_TICK_METHOD = "tick";
-	private static final String WORLD_CLIENT_TICK_OBF_METHOD = "b";
-
-	private static final String WORLD_INFO_CLASS = "net.minecraft.world.storage.WorldInfo";
-	private static final String WORLD_INFO_OBF_CLASS = "axe";
-	private static final String WORLD_INFO_WORLD_TIME_FIELD = "worldTime";
-	private static final String WORLD_INFO_WORLD_TIME_OBF_FIELD = "field_76094_f";
-	private static final String WORLD_INFO_GET_WORLD_TIME_METHOD = "getWorldTime";
-	private static final String WORLD_INFO_GET_WORLD_TIME_OBF_METHOD = "g";
-	private static final String WORLD_INFO_SET_WORLD_TIME_METHOD = "setWorldTime";
-	private static final String WORLD_INFO_SET_WORLD_TIME_OBF_METHOD = "c";
+	private static final ObfuscatedClass WORLD_SERVER_CLASS = new ObfuscatedClass(
+			"net.minecraft.world.WorldServer", "mj");
+	private static final ObfuscatedMethod WORLD_SERVER_TICK = new ObfuscatedMethod(
+			WORLD_SERVER_CLASS, "tick", "b");
+	private static final ObfuscatedClass WORLD_CLIENT = new ObfuscatedClass(
+			"net.minecraft.client.multiplayer.WorldClient", "biz");
+	private static final ObfuscatedMethod WORLD_CLIENT_TICK = new ObfuscatedMethod(
+			WORLD_CLIENT, "tick", "b");
+	private static final ObfuscatedMethod WORLD_CLIENT_GET_WORLD_TIME = new ObfuscatedMethod(
+			WORLD_CLIENT, "getWorldTime", "I");
+	private static final ObfuscatedMethod WORLD_CLIENT_SET_WORLD_TIME = new ObfuscatedMethod(
+			WORLD_CLIENT, "setWorldTime", "b");
+	private static final ObfuscatedClass WORLD_INFO = new ObfuscatedClass(
+			"net.minecraft.world.storage.WorldInfo", "axe");
+	private static final ObfuscatedMethod WORLD_INFO_GET_WORLD_TIME = new ObfuscatedMethod(
+			WORLD_INFO, "getWorldTime", "g");
+	private static final ObfuscatedMethod WORLD_INFO_SET_WORLD_TIME = new ObfuscatedMethod(
+			WORLD_INFO, "setWorldTime", "c");
+	private static final ObfuscatedField WORLD_INFO_WORLD_TIME = new ObfuscatedField(
+			WORLD_INFO, "worldTime", "h");
+	private static final ObfuscatedClass WORLD = new ObfuscatedClass(
+			"net.minecraft.world.World", "afn");
+	private static final ObfuscatedMethod WORLD_GET_WORLD_INFO_MTHD = new ObfuscatedMethod(
+			WORLD, "getWorldInfo", "M");
+	private static final ObfuscatedField WORLD_PROVIDER = new ObfuscatedField(
+			WORLD, "provider", "t");
+	private static final ObfuscatedClass WORLD_PROVIDER_CLASS = new ObfuscatedClass(
+			"net.minecraft.world.WorldProvider", "apa");
+	private static final ObfuscatedField WORLD_PROVIDER_WORLD_OBJ_FLD = new ObfuscatedField(
+			WORLD_PROVIDER_CLASS, "worldObj", "b");
 
 	private Logger logger = LogManager
 			.getLogger("HardModeTweaks.ClassTransformer");
@@ -44,27 +56,25 @@ public class ClassTransformerHardModeTweaks implements IClassTransformer {
 	@Override
 	public byte[] transform(String name, String transformedName,
 			byte[] basicClass) {
-		if (name.equals(WORLD_SERVER_CLASS)
-				|| name.equals(WORLD_SERVER_OBF_CLASS)) {
+		if (WORLD_SERVER_CLASS.matchesName(name)) {
 			logger.info("Class WorldServer({}/{}) is loading, patching it",
 					name, transformedName);
 			return patchWorldServer(name, basicClass,
-					name.equals(WORLD_SERVER_OBF_CLASS));
+					WORLD_SERVER_CLASS.isObfuscated(name));
 		}
 
-		if (name.equals(WORLD_CLIENT_CLASS)
-				|| name.equals(WORLD_CLIENT_OBF_CLASS)) {
+		if (WORLD_CLIENT.matchesName(name)) {
 			logger.info("Class WorldClient({}/{}) is loading, patching it",
 					name, transformedName);
 			return patchWorldClient(name, basicClass,
-					name.equals(WORLD_CLIENT_OBF_CLASS));
+					WORLD_CLIENT.isObfuscated(name));
 		}
 
-		if (name.equals(WORLD_INFO_CLASS) || name.equals(WORLD_INFO_OBF_CLASS)) {
+		if (WORLD_INFO.matchesName(name)) {
 			logger.info("Class WorldInfo({}/{}) is loading, patching it", name,
 					transformedName);
 			return patchWorldInfo(name, basicClass,
-					name.equals(WORLD_INFO_OBF_CLASS));
+					WORLD_INFO.isObfuscated(name));
 		}
 
 		return basicClass;
@@ -79,18 +89,17 @@ public class ClassTransformerHardModeTweaks implements IClassTransformer {
 
 		logger.info("Looking for tick method of WorldServer");
 		MethodNode tickMethod = getMethod(classNode,
-				obfuscated ? WORLD_SERVER_TICK_OBF_METHOD
-						: WORLD_SERVER_TICK_METHOD, "()V");
+				WORLD_SERVER_TICK.get(obfuscated), "()V");
 		if (tickMethod == null)
 			error("Could not find the method");
 		logger.info("Patching tick({}) method of WorldServer", tickMethod.name);
-		patchWorldServerTick(tickMethod);
+		patchWorldServerTick(tickMethod, obfuscated);
 		logger.info("Finished patching tick method of WorldServer");
 
 		return writeClass(classNode);
 	}
 
-	private void patchWorldServerTick(MethodNode method) {
+	private void patchWorldServerTick(MethodNode method, boolean obfuscated) {
 		Iterator<AbstractInsnNode> iter = method.instructions.iterator();
 
 		// Replace
@@ -102,9 +111,11 @@ public class ClassTransformerHardModeTweaks implements IClassTransformer {
 
 			if (currentNode.getOpcode() == Opcodes.INVOKEVIRTUAL) {
 				MethodInsnNode methodInsnNode = (MethodInsnNode) currentNode;
-				if (methodInsnNode.name.equals("getWorldTime")) {
+				if (WORLD_INFO_GET_WORLD_TIME.matchesNode(methodInsnNode,
+						"()J", obfuscated)) {
 					methodInsnNode.name = "getRealWorldTime";
-				} else if (methodInsnNode.name.equals("setWorldTime")) {
+				} else if (WORLD_INFO_SET_WORLD_TIME.matchesNode(
+						methodInsnNode, "(J)V", obfuscated)) {
 					methodInsnNode.name = "setRealWorldTime";
 				}
 			}
@@ -120,8 +131,7 @@ public class ClassTransformerHardModeTweaks implements IClassTransformer {
 
 		logger.info("Looking for tick method of WorldClient");
 		MethodNode tickMethod = getMethod(classNode,
-				obfuscated ? WORLD_CLIENT_TICK_OBF_METHOD
-						: WORLD_CLIENT_TICK_METHOD, "()V");
+				WORLD_CLIENT_TICK.get(obfuscated), "()V");
 		if (tickMethod == null)
 			error("Could not find the method");
 		logger.info("Patching tick({}) method of WorldClient", tickMethod.name);
@@ -144,44 +154,58 @@ public class ClassTransformerHardModeTweaks implements IClassTransformer {
 
 			if (currentNode.getOpcode() == Opcodes.INVOKEVIRTUAL) {
 				MethodInsnNode methodInsnNode = (MethodInsnNode) currentNode;
-				if (methodInsnNode.name.equals("getWorldTime")) {
+				if (WORLD_CLIENT_GET_WORLD_TIME.matchesNode(methodInsnNode,
+						"()J", obfuscated)) {
 					methodInsnNode.name = "getRealWorldTime";
-					methodInsnNode.owner = "net/minecraft/world/storage/WorldInfo";
+					methodInsnNode.owner = WORLD_INFO.getPath(obfuscated);
 
-					method.instructions.insertBefore(currentNode.getPrevious(),
+					method.instructions.insertBefore(
+							currentNode.getPrevious(),
+							new FieldInsnNode(Opcodes.GETFIELD, WORLD
+									.getPath(obfuscated), WORLD_PROVIDER
+									.get(obfuscated), "L"
+									+ WORLD_PROVIDER_CLASS.getPath(obfuscated)
+									+ ";"));
+					method.instructions.insertBefore(
+							currentNode.getPrevious(),
 							new FieldInsnNode(Opcodes.GETFIELD,
-									"net/minecraft/world/World", "provider",
-									"Lnet/minecraft/world/WorldProvider;"));
-					method.instructions.insertBefore(currentNode.getPrevious(),
-							new FieldInsnNode(Opcodes.GETFIELD,
-									"net/minecraft/world/WorldProvider",
-									"worldObj", "Lnet/minecraft/world/World;"));
-					method.instructions
-							.insertBefore(
-									currentNode.getPrevious(),
-									new MethodInsnNode(Opcodes.INVOKEVIRTUAL,
-											"net/minecraft/world/World",
-											"getWorldInfo",
-											"()Lnet/minecraft/world/storage/WorldInfo;"));
+									WORLD_PROVIDER_CLASS.getPath(obfuscated),
+									WORLD_PROVIDER_WORLD_OBJ_FLD
+											.get(obfuscated), "L"
+											+ WORLD.getPath(obfuscated) + ";"));
+					method.instructions.insertBefore(
+							currentNode.getPrevious(),
+							new MethodInsnNode(Opcodes.INVOKEVIRTUAL, WORLD
+									.getPath(obfuscated),
+									WORLD_GET_WORLD_INFO_MTHD.get(obfuscated),
+									"()L" + WORLD_INFO.getPath(obfuscated)
+											+ ";"));
 
-					method.instructions.insertBefore(currentNode,
+					method.instructions.insertBefore(
+							currentNode,
+							new FieldInsnNode(Opcodes.GETFIELD, WORLD
+									.getPath(obfuscated), WORLD_PROVIDER
+									.get(obfuscated), "L"
+									+ WORLD_PROVIDER_CLASS.getPath(obfuscated)
+									+ ";"));
+					method.instructions.insertBefore(
+							currentNode,
 							new FieldInsnNode(Opcodes.GETFIELD,
-									"net/minecraft/world/World", "provider",
-									"Lnet/minecraft/world/WorldProvider;"));
-					method.instructions.insertBefore(currentNode,
-							new FieldInsnNode(Opcodes.GETFIELD,
-									"net/minecraft/world/WorldProvider",
-									"worldObj", "Lnet/minecraft/world/World;"));
-					method.instructions
-							.insertBefore(
-									currentNode,
-									new MethodInsnNode(Opcodes.INVOKEVIRTUAL,
-											"net/minecraft/world/World",
-											"getWorldInfo",
-											"()Lnet/minecraft/world/storage/WorldInfo;"));
-				} else if (methodInsnNode.name.equals("setWorldTime")) {
+									WORLD_PROVIDER_CLASS.getPath(obfuscated),
+									WORLD_PROVIDER_WORLD_OBJ_FLD
+											.get(obfuscated), "L"
+											+ WORLD.getPath(obfuscated) + ";"));
+					method.instructions.insertBefore(
+							currentNode,
+							new MethodInsnNode(Opcodes.INVOKEVIRTUAL, WORLD
+									.getPath(obfuscated),
+									WORLD_GET_WORLD_INFO_MTHD.get(obfuscated),
+									"()L" + WORLD_INFO.getPath(obfuscated)
+											+ ";"));
+				} else if (WORLD_CLIENT_SET_WORLD_TIME.matchesNode(
+						methodInsnNode, "(J)V", obfuscated)) {
 					methodInsnNode.name = "setRealWorldTime";
-					methodInsnNode.owner = "net/minecraft/world/storage/WorldInfo";
+					methodInsnNode.owner = WORLD_INFO.getPath(obfuscated);
 
 				}
 			}
@@ -197,8 +221,7 @@ public class ClassTransformerHardModeTweaks implements IClassTransformer {
 
 		logger.info("Renaming getWorldTime method of WorldInfo to getRealWorldTime");
 		MethodNode getWorldTimeMethod = getMethod(classNode,
-				obfuscated ? WORLD_INFO_GET_WORLD_TIME_OBF_METHOD
-						: WORLD_INFO_GET_WORLD_TIME_METHOD, "()J");
+				WORLD_INFO_GET_WORLD_TIME.get(obfuscated), "()J");
 		if (getWorldTimeMethod == null)
 			error("Could not find the method");
 		String originalGetWorldTimeName = getWorldTimeMethod.name;
@@ -207,8 +230,7 @@ public class ClassTransformerHardModeTweaks implements IClassTransformer {
 
 		logger.info("Renaming setWorldTime method of WorldInfo to setRealWorldTime");
 		MethodNode setWorldTimeMethod = getMethod(classNode,
-				obfuscated ? WORLD_INFO_SET_WORLD_TIME_OBF_METHOD
-						: WORLD_INFO_SET_WORLD_TIME_METHOD, "(J)V");
+				WORLD_INFO_SET_WORLD_TIME.get(obfuscated), "(J)V");
 		if (setWorldTimeMethod == null)
 			error("Could not find the method");
 		String originalSetWorldTimeName = setWorldTimeMethod.name;
@@ -241,9 +263,8 @@ public class ClassTransformerHardModeTweaks implements IClassTransformer {
 				Opcodes.ACC_PUBLIC, methodName, "()J", null, null);
 		getWorldTimeMethod.instructions.add(new VarInsnNode(Opcodes.ALOAD, 0));
 		getWorldTimeMethod.instructions.add(new FieldInsnNode(Opcodes.GETFIELD,
-				"net/minecraft/world/storage/WorldInfo",
-				obfuscated ? WORLD_INFO_WORLD_TIME_OBF_FIELD
-						: WORLD_INFO_WORLD_TIME_FIELD, "J"));
+				WORLD_INFO.getPath(obfuscated), WORLD_INFO_WORLD_TIME
+						.get(obfuscated), "J"));
 		getWorldTimeMethod.instructions.add(new InsnNode(Opcodes.L2D));
 		getWorldTimeMethod.instructions.add(new FieldInsnNode(
 				Opcodes.GETSTATIC,
@@ -276,9 +297,8 @@ public class ClassTransformerHardModeTweaks implements IClassTransformer {
 				Opcodes.INVOKESTATIC, "java/lang/Math", "floor", "(D)D"));
 		setWorldTimeMethod.instructions.add(new InsnNode(Opcodes.D2L));
 		setWorldTimeMethod.instructions.add(new FieldInsnNode(Opcodes.PUTFIELD,
-				"net/minecraft/world/storage/WorldInfo",
-				obfuscated ? WORLD_INFO_WORLD_TIME_OBF_FIELD
-						: WORLD_INFO_WORLD_TIME_FIELD, "J"));
+				WORLD_INFO.getPath(obfuscated), WORLD_INFO_WORLD_TIME
+						.get(obfuscated), "J"));
 		setWorldTimeMethod.instructions.add(new InsnNode(Opcodes.RETURN));
 		return setWorldTimeMethod;
 	}
