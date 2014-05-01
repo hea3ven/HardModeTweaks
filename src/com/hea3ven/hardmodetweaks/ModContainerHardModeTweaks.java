@@ -1,3 +1,24 @@
+/**
+ * 
+ * Copyright (c) 2014 Hea3veN
+ * 
+ *  This file is part of HardModeTweaks.
+ *
+ *  HardModeTweaks is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU Lesser General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  HardModeTweaks is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU Lesser General Public License
+ *  along with HardModeTweaks.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
 package com.hea3ven.hardmodetweaks;
 
 import java.util.Arrays;
@@ -21,7 +42,7 @@ public class ModContainerHardModeTweaks extends DummyModContainer {
         ModMetadata meta = getMetadata();
         meta.modId       = "hardmodetweaks";
         meta.name        = "Hard Mode Tweaks";
-        meta.version     = "1.0a1";
+        meta.version     = "1.0b1";
         meta.authorList  = Arrays.asList("Hea3veN");
         meta.description = "Gameplay changes";
         meta.url         = "https://github.com/hea3ven/HardModeTweaks";
@@ -32,7 +53,7 @@ public class ModContainerHardModeTweaks extends DummyModContainer {
         Set<ArtifactVersion> requirements = Sets.newHashSet();
         List<ArtifactVersion> dependencies = Lists.newArrayList();
         List<ArtifactVersion> dependants = Lists.newArrayList();
-        Loader.instance().computeDependencies("required-after:Forge@[10.12.0.1024,)", requirements, dependencies, dependants);
+        Loader.instance().computeDependencies("required-after:Forge@[10.12.0.1060,)", requirements, dependencies, dependants);
         meta.requiredMods = requirements;
         meta.dependencies = dependencies;
         meta.dependants = dependants;
