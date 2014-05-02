@@ -35,6 +35,9 @@ public class EatingRegenManager {
 	private Logger logger = LogManager
 			.getLogger("HardModeTweaks.EatingRegenManager");
 
+	public int foodHealingMinimum = 3;
+	public double foodHealingMultiplier = 0.3d;
+
 	@SubscribeEvent
 	public void playerUseItemFinished(PlayerUseItemEvent.Finish e) {
 		logger.debug("Event PlayerUseItemEvent.Finish received");
@@ -42,7 +45,8 @@ public class EatingRegenManager {
 				&& e.item.getItem() instanceof ItemFood) {
 			logger.debug("Finished eating");
 			float healAmount = (float) Math.ceil((((ItemFood) e.item.getItem())
-					.func_150905_g(e.item) - 3) / 3.0f);
+					.func_150905_g(e.item) - foodHealingMinimum)
+					* foodHealingMultiplier);
 			if (healAmount > 0) {
 				logger.debug("Healing for {}", healAmount);
 				e.entityPlayer.heal(healAmount);

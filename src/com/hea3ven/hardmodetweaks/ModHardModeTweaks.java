@@ -99,14 +99,18 @@ public class ModHardModeTweaks {
 			doEatingRegen = cfg.get("options", "doEatingRegen", true)
 					.getBoolean(true);
 			logger.info("config doEatingRegen = {}", doEatingRegen);
+			eatingRegenManager.foodHealingMinimum = cfg.get("options",
+					"foodHealingMinimum", 3).getInt();
+			eatingRegenManager.foodHealingMultiplier = cfg.get("options",
+					"foodHealingMultiplier", 0.3d).getDouble(0.3d);
 
-			mobDamageManager.skeletonDamageMultiplier = cfg.get("options",
+			mobDamageManager.skeletonDamageMultiplier = cfg.get("mobs",
 					"skeletonDamageMultiplier", 1.0d).getDouble(1.0d);
-			mobDamageManager.zombieDamageMultiplier = cfg.get("options",
+			mobDamageManager.zombieDamageMultiplier = cfg.get("mobs",
 					"zombieDamageMultiplier", 1.0d).getDouble(1.0d);
-			mobDamageManager.spiderDamageMultiplier = cfg.get("options",
+			mobDamageManager.spiderDamageMultiplier = cfg.get("mobs",
 					"spiderDamageMultiplier", 1.0d).getDouble(1.0d);
-			mobDamageManager.creeperExplosionRadius = cfg.get("options",
+			mobDamageManager.creeperExplosionRadius = cfg.get("mobs",
 					"creeperExplosionRadius", 3).getInt(3);
 
 			GameRules rules = new GameRules();
