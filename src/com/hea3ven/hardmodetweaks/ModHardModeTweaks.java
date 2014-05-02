@@ -56,12 +56,14 @@ public class ModHardModeTweaks {
 
 	private HardModeRulesManager rulesManager;
 	private EatingRegenManager eatingRegenManager;
+	private MobDamageManager mobDamageManager;
 
 	private boolean doEatingRegen;
 
 	public ModHardModeTweaks() {
 		rulesManager = new HardModeRulesManager();
 		eatingRegenManager = new EatingRegenManager();
+		mobDamageManager = new MobDamageManager();
 		doEatingRegen = true;
 	}
 
@@ -78,6 +80,7 @@ public class ModHardModeTweaks {
 		logger.debug("Registering event listeners on the forge bus");
 		if (doEatingRegen)
 			MinecraftForge.EVENT_BUS.register(eatingRegenManager);
+		MinecraftForge.EVENT_BUS.register(mobDamageManager);
 	}
 
 	@Subscribe
@@ -96,6 +99,15 @@ public class ModHardModeTweaks {
 			doEatingRegen = cfg.get("options", "doEatingRegen", true)
 					.getBoolean(true);
 			logger.info("config doEatingRegen = {}", doEatingRegen);
+
+			mobDamageManager.skeletonDamageMultiplier = cfg.get("options",
+					"skeletonDamageMultiplier", 1.0d).getDouble(1.0d);
+			mobDamageManager.zombieDamageMultiplier = cfg.get("options",
+					"zombieDamageMultiplier", 1.0d).getDouble(1.0d);
+			mobDamageManager.spiderDamageMultiplier = cfg.get("options",
+					"spiderDamageMultiplier", 1.0d).getDouble(1.0d);
+			mobDamageManager.creeperExplosionRadius = cfg.get("options",
+					"creeperExplosionRadius", 3).getInt(3);
 
 			GameRules rules = new GameRules();
 			for (String ruleName : rules.getRules()) {
