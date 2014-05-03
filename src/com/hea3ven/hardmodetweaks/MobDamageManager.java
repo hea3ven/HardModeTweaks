@@ -53,42 +53,55 @@ public class MobDamageManager {
 	}
 
 	private void tweakZombie(EntityLivingBase zombie) {
-		logger.info("Changing zombie data");
+		logger.trace("Changing zombie data");
 		IAttributeInstance dmgAttr = zombie.getAttributeMap()
 				.getAttributeInstance(SharedMonsterAttributes.attackDamage);
 		dmgAttr.setBaseValue(dmgAttr.getBaseValue() * zombieDamageMultiplier);
 	}
 
 	private void tweakSpider(EntityLivingBase spider) {
-		logger.info("Changing spider data");
+		logger.trace("Changing spider data");
 		IAttributeInstance dmgAttr = spider.getAttributeMap()
 				.getAttributeInstance(SharedMonsterAttributes.attackDamage);
 		dmgAttr.setBaseValue(dmgAttr.getBaseValue() * spiderDamageMultiplier);
 	}
 
 	private void tweakCreeper(SpecialSpawn e) {
-		logger.info("Changing creeper data");
+		logger.trace("Changing creeper data");
 		Field explosionRadiusField = null;
 		try {
 			explosionRadiusField = EntityCreeper.class
-					.getDeclaredField("explosionRadius");
+					.getDeclaredField("field_82226_g");
 		} catch (NoSuchFieldException e1) {
-			logger.error("could not get 'explosionRadius' field", e1);
+			logger.error("could not get 'field_82226_g' field", e1);
+			try {
+				explosionRadiusField = EntityCreeper.class
+						.getDeclaredField("explosionRadius");
+			} catch (NoSuchFieldException e2) {
+				logger.error("could not get 'explosionRadius' field", e1);
+			} catch (SecurityException e2) {
+				logger.error("could not get 'explosionRadius' field", e1);
+			}
 		} catch (SecurityException e1) {
-			logger.error("could not get 'explosionRadius' field", e1);
+			logger.error("could not get 'field_82226_g' field", e1);
 		}
-		try {
-			explosionRadiusField.setAccessible(true);
-			explosionRadiusField.set(e.entityLiving, creeperExplosionRadius);
-		} catch (IllegalArgumentException e1) {
-			logger.error("could not set 'explosionRadius' field's value", e1);
-		} catch (IllegalAccessException e1) {
-			logger.error("could not set 'explosionRadius' field's value", e1);
+		if (explosionRadiusField != null) {
+			try {
+				explosionRadiusField.setAccessible(true);
+				explosionRadiusField
+						.set(e.entityLiving, creeperExplosionRadius);
+			} catch (IllegalArgumentException e1) {
+				logger.error("could not set 'explosionRadius' field's value",
+						e1);
+			} catch (IllegalAccessException e1) {
+				logger.error("could not set 'explosionRadius' field's value",
+						e1);
+			}
 		}
 	}
 
 	private void tweakSkeletonArrow(EntityArrow arrow) {
-		logger.info("Changing arrow data");
+		logger.trace("Changing arrow data");
 		arrow.setDamage(arrow.getDamage() * skeletonDamageMultiplier);
 	}
 }
