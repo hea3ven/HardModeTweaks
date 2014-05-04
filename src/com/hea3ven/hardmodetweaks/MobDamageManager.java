@@ -47,8 +47,6 @@ public class MobDamageManager {
 				tweakZombiePigman(e.entityLiving);
 			} else if (entityName.equals("Ghast")) {
 				tweakGhast(e.entityLiving);
-			} else {
-				logger.trace("Monster {} not handled", entityName);
 			}
 		}
 	}

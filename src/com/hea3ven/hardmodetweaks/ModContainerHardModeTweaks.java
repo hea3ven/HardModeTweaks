@@ -42,7 +42,7 @@ public class ModContainerHardModeTweaks extends DummyModContainer {
         ModMetadata meta = getMetadata();
         meta.modId       = "hardmodetweaks";
         meta.name        = "Hard Mode Tweaks";
-        meta.version     = "1.0b2";
+        meta.version     = "1.0b3";
         meta.authorList  = Arrays.asList("Hea3veN");
         meta.description = "Gameplay changes";
         meta.url         = "https://github.com/hea3ven/HardModeTweaks";

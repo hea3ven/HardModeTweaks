@@ -4,12 +4,12 @@ Hard Mode Tweaks is a compilation of gameplay modifications to make survival a l
 
 ## Download
 
-Download latest version: [Hard Mode Tweaks v1.0b2](http://www.mediafire.com/download/wwps7cx7b6p01id/hardmodetweaks-1.0b2.jar)
+Download latest version: [Hard Mode Tweaks v1.0b3](http://www.mediafire.com/download/dctpqwbfacz5224/hardmodetweaks-1.0b3.jar)
 
 ## Installation
 
 1. Install Forge.
-2. Copy the "hardmodetweaks-1.0.b2.jar" file to the "mods" folder.
+2. Copy the "hardmodetweaks-1.0.b3.jar" file to the "mods" folder.
 
 ## Features
 
@@ -53,6 +53,9 @@ mobs {
         D:skeletonDamageMultiplier=1.0
         D:spiderDamageMultiplier=1.0
         D:zombieDamageMultiplier=1.0
+        D:endermanDamageMultiplier=1.0
+        I:ghastExplosionRadius=1
+        D:silverfishDamageMultiplier=1.0
 }
 ```
 

@@ -19,7 +19,7 @@ apply plugin: 'forge'
 
 sourceCompatibility = 1.6
 
-version = "1.0b2"
+version = "1.0b3"
 group = "com.hea3ven"
 archivesBaseName = "hardmodetweaks"
 
