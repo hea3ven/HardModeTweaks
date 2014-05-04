@@ -21,7 +21,7 @@ Download latest version: [Hard Mode Tweaks v1.0b1](http://www.mediafire.com/down
 Config option in hardmodetweaks.cfg:
 ```
 options {
-    D:dayLenthMultiplier=1.0
+    D:dayLengthMultiplier=1.0
 }
 ```
 

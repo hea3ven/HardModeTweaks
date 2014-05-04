@@ -93,7 +93,7 @@ public class ModHardModeTweaks {
 			cfg.load();
 
 			dayLengthMultiplier = 1.0d / cfg.get("options",
-					"dayLenthMultiplier", 1.0d).getDouble(1.0d);
+					"dayLengthMultiplier", 1.0d).getDouble(1.0d);
 			logger.info("config dayLengthMultiplier = {}", dayLengthMultiplier);
 
 			doEatingRegen = cfg.get("options", "doEatingRegen", true)
