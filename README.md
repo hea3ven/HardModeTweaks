@@ -1,18 +1,15 @@
 # Hard Mode Tweaks
 
-Hard Mode Tweaks is a compilation of gameplay modifications to either make
-survival a little more challenging or that I find interesting. One of the
-biggest features included, is the ability to change the lenth of the
-minecraft day.
+Hard Mode Tweaks is a compilation of gameplay modifications to make survival a little more challenging, or things that I find interesting. One big feature included is the ability to change the lenth of the minecraft day. Other features include changing the damage that monster do, changing game rules from the config file and the hability to heal when you eat.
 
 ## Download
 
-Download latest version: [Hard Mode Tweaks v1.0b1](http://www.mediafire.com/download/drwt3bb5krlcuds/hardmodetweaks-1.0b1.jar)
+Download latest version: [Hard Mode Tweaks v1.0b2](http://www.mediafire.com/download/wwps7cx7b6p01id/hardmodetweaks-1.0b2.jar)
 
 ## Installation
 
 1. Install Forge.
-2. Copy the "hardmodetweaks-1.0.b1.jar" file to the "mods" folder.
+2. Copy the "hardmodetweaks-1.0.b2.jar" file to the "mods" folder.
 
 ## Features
 
@@ -36,16 +33,27 @@ Config option in hardmodetweaks.cfg:
 ```
 options {
     B:doEatingRegen=true
+    I:foodHealingMinimum=3
+    D:foodHealingMultiplier=0.3
 }
 ```
 
-When this option is set to true, you will heal a little bit depending on how
-much the food you are eating replenishes the hunger bar. The lowest forms
-of food like carrots don't heal at all. This setting is mainly targeted to
-use when the "naturalRegeneration" rule is turned off.
+When this option is set to true, you will heal a little bit depending on the food value of what you are eating (see http://minecraft.gamepedia.com/Food#Foods). The formula goes "(foodValue - foodHealingMinimum) * foodHealingMultiplier" rounded up, if this value is greater than zero, it heals you for that much. The lowest forms of food like carrots will not heal you anything at all. This setting is mainly targeted to use when the "naturalRegeneration" rule is turned off.
 
 ### Game Rules section
 
 The whole "gamerules" section allows you to change the values of vanilla
 gamerules. This gamerules are applied when the server is started up/the save
 is loaded, and only if the gamemode is set to hard.
+
+### Mobs section
+```
+mobs {
+        I:creeperExplosionRadius=3
+        D:skeletonDamageMultiplier=1.0
+        D:spiderDamageMultiplier=1.0
+        D:zombieDamageMultiplier=1.0
+}
+```
+
+In the "mobs" section you can modify the damage that monsters do.
