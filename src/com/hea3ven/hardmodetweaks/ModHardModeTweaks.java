@@ -112,6 +112,12 @@ public class ModHardModeTweaks {
 					"spiderDamageMultiplier", 1.0d).getDouble(1.0d);
 			mobDamageManager.creeperExplosionRadius = cfg.get("mobs",
 					"creeperExplosionRadius", 3).getInt(3);
+			mobDamageManager.endermanDamageMultiplier = cfg.get("mobs",
+					"endermanDamageMultiplier", 1.0d).getDouble(1.0d);
+			mobDamageManager.ghastExplosionRadius = cfg.get("mobs",
+					"ghastExplosionRadius", 1).getInt(1);
+			mobDamageManager.silverfishDamageMultiplier = cfg.get("mobs",
+					"silverfishDamageMultiplier", 1.0d).getDouble(1.0d);
 
 			GameRules rules = new GameRules();
 			for (String ruleName : rules.getRules()) {
