@@ -118,6 +118,8 @@ public class ModHardModeTweaks {
 					"ghastExplosionRadius", 1).getInt(1);
 			mobDamageManager.silverfishDamageMultiplier = cfg.get("mobs",
 					"silverfishDamageMultiplier", 1.0d).getDouble(1.0d);
+			mobDamageManager.arrowsIgnoreArmor = cfg.get("mobs",
+					"arrowsIgnoreArmor", true).getBoolean(true);
 
 			GameRules rules = new GameRules();
 			for (String ruleName : rules.getRules()) {

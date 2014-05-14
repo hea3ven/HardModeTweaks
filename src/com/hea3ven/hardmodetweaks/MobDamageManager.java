@@ -11,6 +11,7 @@ import net.minecraft.entity.monster.EntityGhast;
 import net.minecraft.entity.monster.EntitySilverfish;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent.SpecialSpawn;
 
 import org.apache.logging.log4j.LogManager;
@@ -30,6 +31,7 @@ public class MobDamageManager {
 	public double endermanDamageMultiplier = 1.0d;
 	public int ghastExplosionRadius = 1;
 	public double silverfishDamageMultiplier = 1.0d;
+	public boolean arrowsIgnoreArmor = true;
 
 	@SubscribeEvent
 	public void specialSpawnEvent(SpecialSpawn e) {
@@ -63,7 +65,12 @@ public class MobDamageManager {
 		} else if (e.entity instanceof EntitySilverfish) {
 			tweakSilverfish((EntitySilverfish) e.entity);
 		}
+	}
 
+	@SubscribeEvent
+	public void livingAttackEvent(LivingAttackEvent e) {
+		if(arrowsIgnoreArmor && e.source.getDamageType() == "arrow")
+			e.source.setDamageBypassesArmor();
 	}
 
 	private void tweakZombie(EntityLivingBase zombie) {
