@@ -57,6 +57,7 @@ public class ModHardModeTweaks {
 	private HardModeRulesManager rulesManager;
 	private EatingRegenManager eatingRegenManager;
 	private MobDamageManager mobDamageManager;
+	private AITweaksManager aiTweaksManager;
 
 	private boolean doEatingRegen;
 
@@ -64,6 +65,7 @@ public class ModHardModeTweaks {
 		rulesManager = new HardModeRulesManager();
 		eatingRegenManager = new EatingRegenManager();
 		mobDamageManager = new MobDamageManager();
+		aiTweaksManager = new AITweaksManager();
 		doEatingRegen = true;
 	}
 
@@ -81,6 +83,7 @@ public class ModHardModeTweaks {
 		if (doEatingRegen)
 			MinecraftForge.EVENT_BUS.register(eatingRegenManager);
 		MinecraftForge.EVENT_BUS.register(mobDamageManager);
+		MinecraftForge.EVENT_BUS.register(aiTweaksManager);
 	}
 
 	@Subscribe
@@ -94,15 +97,16 @@ public class ModHardModeTweaks {
 
 			dayLengthMultiplier = 1.0d / cfg.get("options",
 					"dayLengthMultiplier", 1.0d).getDouble(1.0d);
-			logger.info("config dayLengthMultiplier = {}", dayLengthMultiplier);
 
 			doEatingRegen = cfg.get("options", "doEatingRegen", true)
 					.getBoolean(true);
-			logger.info("config doEatingRegen = {}", doEatingRegen);
 			eatingRegenManager.foodHealingMinimum = cfg.get("options",
 					"foodHealingMinimum", 3).getInt();
 			eatingRegenManager.foodHealingMultiplier = cfg.get("options",
 					"foodHealingMultiplier", 0.3d).getDouble(0.3d);
+
+			aiTweaksManager.tweakPanicAI = cfg.get("options", "tweakPanicAI",
+					true).getBoolean(true);
 
 			mobDamageManager.skeletonDamageMultiplier = cfg.get("mobs",
 					"skeletonDamageMultiplier", 1.0d).getDouble(1.0d);

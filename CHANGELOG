@@ -1,5 +1,6 @@
     * Prevent healing when eating if the food has a negative effect.
     * Added config option for arrows to ignore armor.
+    * Added tweak for animals to run away from attacker instead of randomly.
 Version 1.0b3:
     * Fixed typo error on the dayLengthMultiplier option.
     * Added damage config options for endermen, ghasts and silverfish.
