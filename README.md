@@ -4,7 +4,7 @@ Hard Mode Tweaks is a compilation of gameplay modifications to make survival a l
 
 ## Download
 
-Download latest version: [Hard Mode Tweaks v1.0b3](http://www.mediafire.com/download/dctpqwbfacz5224/hardmodetweaks-1.0b3.jar)
+Download latest version: [Hard Mode Tweaks v1.0b4](http://www.mediafire.com/download/0i8kaed43j4kk46/hardmodetweaks-1.0b4.jar)
 
 ## Installation
 
@@ -51,6 +51,7 @@ is loaded, and only if the gamemode is set to hard.
 mobs {
         I:creeperExplosionRadius=3
         D:skeletonDamageMultiplier=1.0
+        B:arrowsIgnoreArmor=true
         D:spiderDamageMultiplier=1.0
         D:zombieDamageMultiplier=1.0
         D:endermanDamageMultiplier=1.0
@@ -60,3 +61,12 @@ mobs {
 ```
 
 In the "mobs" section you can modify the damage that monsters do.
+
+### Animals run away when hurt
+```
+options {
+    B:tweakPanicAI=true
+}
+```
+
+Makes animals run away when you attack them, making it harder to hunt wild animals in open fields.
