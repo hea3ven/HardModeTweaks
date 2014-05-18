@@ -21,8 +21,6 @@
 
 package com.hea3ven.hardmodetweaks;
 
-import java.lang.reflect.Field;
-
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
@@ -64,39 +62,9 @@ public class EatingRegenManager {
 	}
 
 	private boolean negativePotionEffect(Item item) {
-		int foodPotionId = getFoodPotionId(item);
+		int foodPotionId = ((ItemFood) item).potionId;
 		return foodPotionId == HUNGER_POTION_ID
 				|| foodPotionId == POISON_POTION_ID
 				|| foodPotionId == WITHER_POTION_ID;
 	}
-
-	private int getFoodPotionId(Item item) {
-		Field potionIdField = null;
-		try {
-			potionIdField = ItemFood.class.getDeclaredField("field_77851_ca");
-		} catch (NoSuchFieldException e1) {
-			logger.error("could not get 'field_77851_ca' field", e1);
-			try {
-				potionIdField = ItemFood.class.getDeclaredField("potionId");
-			} catch (NoSuchFieldException e2) {
-				logger.error("could not get 'potionId' field", e1);
-			} catch (SecurityException e2) {
-				logger.error("could not get 'potionId' field", e1);
-			}
-		} catch (SecurityException e1) {
-			logger.error("could not get 'field_77851_ca' field", e1);
-		}
-		if (potionIdField != null) {
-			try {
-				potionIdField.setAccessible(true);
-				return (Integer) potionIdField.get(item);
-			} catch (IllegalArgumentException e1) {
-				logger.error("could not set 'potionId' field's value", e1);
-			} catch (IllegalAccessException e1) {
-				logger.error("could not set 'potionId' field's value", e1);
-			}
-		}
-		return 0;
-	}
-
 }

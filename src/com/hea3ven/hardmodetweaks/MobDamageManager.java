@@ -1,7 +1,5 @@
 package com.hea3ven.hardmodetweaks;
 
-import java.lang.reflect.Field;
-
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -69,7 +67,7 @@ public class MobDamageManager {
 
 	@SubscribeEvent
 	public void livingAttackEvent(LivingAttackEvent e) {
-		if(arrowsIgnoreArmor && e.source.getDamageType() == "arrow")
+		if (arrowsIgnoreArmor && e.source.getDamageType() == "arrow")
 			e.source.setDamageBypassesArmor();
 	}
 
@@ -89,36 +87,7 @@ public class MobDamageManager {
 
 	private void tweakCreeper(SpecialSpawn e) {
 		logger.trace("Changing creeper data");
-		Field explosionRadiusField = null;
-		try {
-			explosionRadiusField = EntityCreeper.class
-					.getDeclaredField("field_82226_g");
-		} catch (NoSuchFieldException e1) {
-			logger.error("could not get 'field_82226_g' field", e1);
-			try {
-				explosionRadiusField = EntityCreeper.class
-						.getDeclaredField("explosionRadius");
-			} catch (NoSuchFieldException e2) {
-				logger.error("could not get 'explosionRadius' field", e1);
-			} catch (SecurityException e2) {
-				logger.error("could not get 'explosionRadius' field", e1);
-			}
-		} catch (SecurityException e1) {
-			logger.error("could not get 'field_82226_g' field", e1);
-		}
-		if (explosionRadiusField != null) {
-			try {
-				explosionRadiusField.setAccessible(true);
-				explosionRadiusField
-						.set(e.entityLiving, creeperExplosionRadius);
-			} catch (IllegalArgumentException e1) {
-				logger.error("could not set 'explosionRadius' field's value",
-						e1);
-			} catch (IllegalAccessException e1) {
-				logger.error("could not set 'explosionRadius' field's value",
-						e1);
-			}
-		}
+		((EntityCreeper) e.entityLiving).explosionRadius = creeperExplosionRadius;
 	}
 
 	private void tweakSkeletonArrow(EntityArrow arrow) {
@@ -142,35 +111,7 @@ public class MobDamageManager {
 
 	private void tweakGhast(EntityLivingBase ghast) {
 		logger.trace("Changing creeper data");
-		Field explosionStrengthField = null;
-		try {
-			explosionStrengthField = EntityGhast.class
-					.getDeclaredField("field_92014_j");
-		} catch (NoSuchFieldException e1) {
-			logger.error("could not get 'field_92014_j' field", e1);
-			try {
-				explosionStrengthField = EntityCreeper.class
-						.getDeclaredField("explosionStrength");
-			} catch (NoSuchFieldException e2) {
-				logger.error("could not get 'explosionStrength' field", e1);
-			} catch (SecurityException e2) {
-				logger.error("could not get 'explosionStrength' field", e1);
-			}
-		} catch (SecurityException e1) {
-			logger.error("could not get 'field_92014_j' field", e1);
-		}
-		if (explosionStrengthField != null) {
-			try {
-				explosionStrengthField.setAccessible(true);
-				explosionStrengthField.set(ghast, ghastExplosionRadius);
-			} catch (IllegalArgumentException e1) {
-				logger.error("could not set 'explosionStrength' field's value",
-						e1);
-			} catch (IllegalAccessException e1) {
-				logger.error("could not set 'explosionStrength' field's value",
-						e1);
-			}
-		}
+		((EntityGhast) ghast).explosionStrength = ghastExplosionRadius;
 	}
 
 	private void tweakSilverfish(EntityLivingBase silverfish) {
