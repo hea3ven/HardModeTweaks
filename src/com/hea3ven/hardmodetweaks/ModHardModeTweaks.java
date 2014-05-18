@@ -52,8 +52,6 @@ public class ModHardModeTweaks {
 	@SidedProxy(clientSide = "com.hea3ven.hardmodetweaks.HardModeTweaksCommonProxy", serverSide = "com.hea3ven.hardmodetweaks.HardModeTweaksCommonProxy")
 	public static HardModeTweaksCommonProxy proxy;
 
-	public static double dayLengthMultiplier = 1.0d;
-
 	private HardModeRulesManager rulesManager;
 	private EatingRegenManager eatingRegenManager;
 	private MobDamageManager mobDamageManager;
@@ -95,7 +93,7 @@ public class ModHardModeTweaks {
 		try {
 			cfg.load();
 
-			dayLengthMultiplier = 1.0d / cfg.get("options",
+			TimeTweaksManager.dayLengthMultiplier = 1.0d / cfg.get("options",
 					"dayLengthMultiplier", 1.0d).getDouble(1.0d);
 
 			doEatingRegen = cfg.get("options", "doEatingRegen", true)

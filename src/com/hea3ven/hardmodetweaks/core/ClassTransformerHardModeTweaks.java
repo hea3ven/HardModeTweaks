@@ -124,23 +124,37 @@ public class ClassTransformerHardModeTweaks implements IClassTransformer {
 		Iterator<AbstractInsnNode> iter = method.instructions.iterator();
 
 		// Replace
-		// > getWorldTime()
+		// > this.worldInfo.setWorldTime(this.worldInfo.getWorldTime() + 1L);
 		// To
-		// > getRealWorldTime()
+		// > TimeTweaksManager.addTick(this.worldInfo);
+		int index = 0;
 		while (iter.hasNext()) {
 			AbstractInsnNode currentNode = iter.next();
 
 			if (currentNode.getOpcode() == Opcodes.INVOKEVIRTUAL) {
 				MethodInsnNode methodInsnNode = (MethodInsnNode) currentNode;
 				if (WORLD_INFO_GET_WORLD_TIME.matchesNode(methodInsnNode,
-						"()J", obfuscated)) {
-					methodInsnNode.name = "getRealWorldTime";
-				} else if (WORLD_INFO_SET_WORLD_TIME.matchesNode(
-						methodInsnNode, "(J)V", obfuscated)) {
-					methodInsnNode.name = "setRealWorldTime";
+						"()J", obfuscated)
+						&& currentNode.getNext().getOpcode() == Opcodes.LCONST_1) {
+					// Found the call
+					index = method.instructions.indexOf(currentNode) - 2;
 				}
 			}
 		}
+		if (index == 0)
+			error("Could not find call in WorldServer.tick method");
+
+		method.instructions.remove(method.instructions.get(index));
+		method.instructions.remove(method.instructions.get(index));
+		method.instructions.remove(method.instructions.get(index));
+		method.instructions.remove(method.instructions.get(index));
+		method.instructions.remove(method.instructions.get(index));
+		method.instructions.remove(method.instructions.get(index));
+		method.instructions.insertBefore(method.instructions.get(index),
+				new MethodInsnNode(Opcodes.INVOKESTATIC,
+						"com/hea3ven/hardmodetweaks/TimeTweaksManager",
+						"addTick", "(L" + WORLD_INFO.getPath(obfuscated)
+								+ ";)V"));
 	}
 
 	//
@@ -168,69 +182,40 @@ public class ClassTransformerHardModeTweaks implements IClassTransformer {
 		// Replace
 		// > this.setWorldTime(this.getWorldTime() + 1L);
 		// To
-		// > this.provider.worldObj.getWorldInfo().setWorldTime(
-		// >         this.provider.worldObj.getWorldInfo().getRealWorldTime() + 1L);
+		// > TimeTweaksManager.addTick(this.provider);
+		int index = 0;
 		while (iter.hasNext()) {
 			AbstractInsnNode currentNode = iter.next();
 
 			if (currentNode.getOpcode() == Opcodes.INVOKEVIRTUAL) {
 				MethodInsnNode methodInsnNode = (MethodInsnNode) currentNode;
 				if (WORLD_CLIENT_GET_WORLD_TIME.matchesNode(methodInsnNode,
-						"()J", obfuscated)) {
-					methodInsnNode.name = "getRealWorldTime";
-					methodInsnNode.owner = WORLD_INFO.getPath(obfuscated);
-
-					method.instructions.insertBefore(
-							currentNode.getPrevious(),
-							new FieldInsnNode(Opcodes.GETFIELD, WORLD
-									.getPath(obfuscated), WORLD_PROVIDER
-									.get(obfuscated), "L"
-									+ WORLD_PROVIDER_CLASS.getPath(obfuscated)
-									+ ";"));
-					method.instructions.insertBefore(
-							currentNode.getPrevious(),
-							new FieldInsnNode(Opcodes.GETFIELD,
-									WORLD_PROVIDER_CLASS.getPath(obfuscated),
-									WORLD_PROVIDER_WORLD_OBJ_FLD
-											.get(obfuscated), "L"
-											+ WORLD.getPath(obfuscated) + ";"));
-					method.instructions.insertBefore(
-							currentNode.getPrevious(),
-							new MethodInsnNode(Opcodes.INVOKEVIRTUAL, WORLD
-									.getPath(obfuscated),
-									WORLD_GET_WORLD_INFO_MTHD.get(obfuscated),
-									"()L" + WORLD_INFO.getPath(obfuscated)
-											+ ";"));
-
-					method.instructions.insertBefore(
-							currentNode,
-							new FieldInsnNode(Opcodes.GETFIELD, WORLD
-									.getPath(obfuscated), WORLD_PROVIDER
-									.get(obfuscated), "L"
-									+ WORLD_PROVIDER_CLASS.getPath(obfuscated)
-									+ ";"));
-					method.instructions.insertBefore(
-							currentNode,
-							new FieldInsnNode(Opcodes.GETFIELD,
-									WORLD_PROVIDER_CLASS.getPath(obfuscated),
-									WORLD_PROVIDER_WORLD_OBJ_FLD
-											.get(obfuscated), "L"
-											+ WORLD.getPath(obfuscated) + ";"));
-					method.instructions.insertBefore(
-							currentNode,
-							new MethodInsnNode(Opcodes.INVOKEVIRTUAL, WORLD
-									.getPath(obfuscated),
-									WORLD_GET_WORLD_INFO_MTHD.get(obfuscated),
-									"()L" + WORLD_INFO.getPath(obfuscated)
-											+ ";"));
-				} else if (WORLD_CLIENT_SET_WORLD_TIME.matchesNode(
-						methodInsnNode, "(J)V", obfuscated)) {
-					methodInsnNode.name = "setRealWorldTime";
-					methodInsnNode.owner = WORLD_INFO.getPath(obfuscated);
-
+						"()J", obfuscated)
+						&& currentNode.getNext().getOpcode() == Opcodes.LCONST_1) {
+					index = method.instructions.indexOf(currentNode) - 1;
 				}
 			}
 		}
+		if (index == 0)
+			error("Could not find call in WorldServer.tick method");
+
+		method.instructions.remove(method.instructions.get(index));
+		method.instructions.remove(method.instructions.get(index));
+		method.instructions.remove(method.instructions.get(index));
+		method.instructions.remove(method.instructions.get(index));
+		method.instructions.remove(method.instructions.get(index));
+		method.instructions.insertBefore(method.instructions.get(index),
+				new FieldInsnNode(Opcodes.GETFIELD, WORLD.getPath(obfuscated),
+						WORLD_PROVIDER.get(obfuscated), "L"
+								+ WORLD_PROVIDER_CLASS.getPath(obfuscated)
+								+ ";"));
+		method.instructions.insert(
+				method.instructions.get(index),
+				new MethodInsnNode(Opcodes.INVOKESTATIC,
+						"com/hea3ven/hardmodetweaks/TimeTweaksManager",
+						"addTick", "(L"
+								+ WORLD_PROVIDER_CLASS.getPath(obfuscated)
+								+ ";)V"));
 	}
 
 	//
@@ -278,23 +263,15 @@ public class ClassTransformerHardModeTweaks implements IClassTransformer {
 	private MethodNode createNewGetWorldTimeMethod(String methodName,
 			boolean obfuscated) {
 		// > long getWorldTime() {
-		// >     return (long)Math.floor(worldTime * ModHardModeTweaks.dayLengthMultiplier);
+		// >     return TimeTweaksManager.getWorldTime(this);
 		// > }
 		MethodNode getWorldTimeMethod = new MethodNode(Opcodes.ASM4,
 				Opcodes.ACC_PUBLIC, methodName, "()J", null, null);
 		getWorldTimeMethod.instructions.add(new VarInsnNode(Opcodes.ALOAD, 0));
-		getWorldTimeMethod.instructions.add(new FieldInsnNode(Opcodes.GETFIELD,
-				WORLD_INFO.getPath(obfuscated), WORLD_INFO_WORLD_TIME
-						.get(obfuscated), "J"));
-		getWorldTimeMethod.instructions.add(new InsnNode(Opcodes.L2D));
-		getWorldTimeMethod.instructions.add(new FieldInsnNode(
-				Opcodes.GETSTATIC,
-				"com/hea3ven/hardmodetweaks/ModHardModeTweaks",
-				"dayLengthMultiplier", "D"));
-		getWorldTimeMethod.instructions.add(new InsnNode(Opcodes.DMUL));
 		getWorldTimeMethod.instructions.add(new MethodInsnNode(
-				Opcodes.INVOKESTATIC, "java/lang/Math", "floor", "(D)D"));
-		getWorldTimeMethod.instructions.add(new InsnNode(Opcodes.D2L));
+				Opcodes.INVOKESTATIC,
+				"com/hea3ven/hardmodetweaks/TimeTweaksManager", "getWorldTime",
+				"(L" + WORLD_INFO.getPath(obfuscated) + ";)J"));
 		getWorldTimeMethod.instructions.add(new InsnNode(Opcodes.LRETURN));
 		return getWorldTimeMethod;
 	}
@@ -302,24 +279,16 @@ public class ClassTransformerHardModeTweaks implements IClassTransformer {
 	private MethodNode createNewSetWorldTimeMethod(String methodName,
 			boolean obfuscated) {
 		// > void setWorldTime(long time) {
-		// >     worldTime = (long)Math.floor(time / ModHardModeTweaks.dayLengthMultiplier);
+		// >     TimeTweaksManager.setWorldTime(this, time);
 		// > }
 		MethodNode setWorldTimeMethod = new MethodNode(Opcodes.ASM4,
 				Opcodes.ACC_PUBLIC, methodName, "(J)V", null, null);
 		setWorldTimeMethod.instructions.add(new VarInsnNode(Opcodes.ALOAD, 0));
 		setWorldTimeMethod.instructions.add(new VarInsnNode(Opcodes.LLOAD, 1));
-		setWorldTimeMethod.instructions.add(new InsnNode(Opcodes.L2D));
-		setWorldTimeMethod.instructions.add(new FieldInsnNode(
-				Opcodes.GETSTATIC,
-				"com/hea3ven/hardmodetweaks/ModHardModeTweaks",
-				"dayLengthMultiplier", "D"));
-		setWorldTimeMethod.instructions.add(new InsnNode(Opcodes.DDIV));
 		setWorldTimeMethod.instructions.add(new MethodInsnNode(
-				Opcodes.INVOKESTATIC, "java/lang/Math", "floor", "(D)D"));
-		setWorldTimeMethod.instructions.add(new InsnNode(Opcodes.D2L));
-		setWorldTimeMethod.instructions.add(new FieldInsnNode(Opcodes.PUTFIELD,
-				WORLD_INFO.getPath(obfuscated), WORLD_INFO_WORLD_TIME
-						.get(obfuscated), "J"));
+				Opcodes.INVOKESTATIC,
+				"com/hea3ven/hardmodetweaks/TimeTweaksManager", "setWorldTime",
+				"(L" + WORLD_INFO.getPath(obfuscated) + ";J)V"));
 		setWorldTimeMethod.instructions.add(new InsnNode(Opcodes.RETURN));
 		return setWorldTimeMethod;
 	}
