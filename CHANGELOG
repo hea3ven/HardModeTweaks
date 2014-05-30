@@ -1,3 +1,4 @@
+    * Added config to make the day longer/shorter than the night.
 Version 1.0b4:
     * Prevent healing when eating if the food has a negative effect.
     * Added config option for arrows to ignore armor.
@@ -9,4 +10,4 @@ Version 1.0b2:
     * Added extra config options for the eating regen.
     * Added config options for the damage of monsters.
 Version 1.0b1:
-    * initial release[/code][/spoiler]
+    * initial release.

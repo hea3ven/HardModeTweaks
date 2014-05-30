@@ -95,6 +95,8 @@ public class ModHardModeTweaks {
 
 			TimeTweaksManager.dayLengthMultiplier = 1.0d / cfg.get("options",
 					"dayLengthMultiplier", 1.0d).getDouble(1.0d);
+			TimeTweaksManager.dayToNightRatio = (float)cfg.get("options",
+					"dayToNightRatio", 1.0d).getDouble(1.0d);
 
 			doEatingRegen = cfg.get("options", "doEatingRegen", true)
 					.getBoolean(true);

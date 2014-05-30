@@ -70,6 +70,8 @@ public class ClassTransformerHardModeTweaks implements IClassTransformer {
 			"net.minecraft.world.WorldProvider", "apa");
 	private static final ObfuscatedField WORLD_PROVIDER_WORLD_OBJ_FLD = new ObfuscatedField(
 			WORLD_PROVIDER_CLASS, "worldObj", "b");
+	private static final ObfuscatedMethod WORLD_PROVIDER_CALC_CEL_ANGLE = new ObfuscatedMethod(
+			WORLD, "calculateCelestialAngle", "a");
 
 	private Logger logger = LogManager
 			.getLogger("HardModeTweaks.ClassTransformer");
@@ -96,6 +98,13 @@ public class ClassTransformerHardModeTweaks implements IClassTransformer {
 					transformedName);
 			return patchWorldInfo(name, basicClass,
 					WORLD_INFO.isObfuscated(name));
+		}
+
+		if (WORLD_PROVIDER_CLASS.matchesName(name)) {
+			logger.info("Class WorldProvider({}/{}) is loading, patching it",
+					name, transformedName);
+			return patchWorldProvider(name, basicClass,
+					WORLD_PROVIDER_CLASS.isObfuscated(name));
 		}
 
 		return basicClass;
@@ -291,6 +300,46 @@ public class ClassTransformerHardModeTweaks implements IClassTransformer {
 				"(L" + WORLD_INFO.getPath(obfuscated) + ";J)V"));
 		setWorldTimeMethod.instructions.add(new InsnNode(Opcodes.RETURN));
 		return setWorldTimeMethod;
+	}
+
+	//
+	// ******************** WorldProvider ********************
+	//
+	private byte[] patchWorldProvider(String name, byte[] basicClass,
+			boolean obfuscated) {
+		ClassNode classNode = readClass(basicClass);
+
+		logger.info("Searching for the calculateCelestialAngle method of WorldProvider");
+		MethodNode calcCelAngleMethod = getMethod(classNode,
+				WORLD_PROVIDER_CALC_CEL_ANGLE.get(obfuscated), "(JF)F");
+		if (calcCelAngleMethod == null)
+			error("Could not find the method");
+		classNode.methods.remove(calcCelAngleMethod);
+		logger.info(
+				"Creating new implementation of calculateCelestialAngle({}) method of WorldProvider",
+				WORLD_PROVIDER_CALC_CEL_ANGLE.get(obfuscated));
+		classNode.methods.add(createNewCalcCelAngleMethod(
+				WORLD_PROVIDER_CALC_CEL_ANGLE.get(obfuscated), obfuscated));
+		logger.info("Finished adding calculateCelestialAngle method to WorldProvider");
+
+		return writeClass(classNode);
+	}
+
+	private MethodNode createNewCalcCelAngleMethod(String methodName,
+			boolean obfuscated) {
+		// > float calculateCelestialAngle(long time, float off) {
+		// >     return TimeTweaksManager.calculateCelestialAngle(time, off);
+		// > }
+		MethodNode getWorldTimeMethod = new MethodNode(Opcodes.ASM4,
+				Opcodes.ACC_PUBLIC, methodName, "(JF)F", null, null);
+		getWorldTimeMethod.instructions.add(new VarInsnNode(Opcodes.LLOAD, 1));
+		getWorldTimeMethod.instructions.add(new VarInsnNode(Opcodes.FLOAD, 3));
+		getWorldTimeMethod.instructions.add(new MethodInsnNode(
+				Opcodes.INVOKESTATIC,
+				"com/hea3ven/hardmodetweaks/TimeTweaksManager",
+				"calculateCelestialAngle", "(JF)F"));
+		getWorldTimeMethod.instructions.add(new InsnNode(Opcodes.FRETURN));
+		return getWorldTimeMethod;
 	}
 
 	//
