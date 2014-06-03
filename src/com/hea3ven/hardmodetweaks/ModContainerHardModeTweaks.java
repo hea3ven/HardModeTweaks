@@ -25,9 +25,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.common.eventbus.EventBus;
+import com.hea3ven.hardmodetweaks.props.ProjectConfig;
 
 import cpw.mods.fml.common.DummyModContainer;
 import cpw.mods.fml.common.LoadController;
@@ -37,33 +41,43 @@ import cpw.mods.fml.common.versioning.ArtifactVersion;
 
 public class ModContainerHardModeTweaks extends DummyModContainer {
 
-	public ModContainerHardModeTweaks() {
+    private Logger logger = LogManager
+            .getLogger("HardModeTweaks.ModContainerHardModeTweaks");
+
+    public ModContainerHardModeTweaks() {
         super(new ModMetadata());
+
+        logger.debug("configuring the mod");
+
         ModMetadata meta = getMetadata();
-        meta.modId       = "hardmodetweaks";
-        meta.name        = "Hard Mode Tweaks";
-        meta.version     = "1.0b4";
-        meta.authorList  = Arrays.asList("Hea3veN");
+        meta.modId = "hardmodetweaks";
+        meta.name = "Hard Mode Tweaks";
+        meta.version = ProjectConfig.version;
+        meta.authorList = Arrays.asList("Hea3veN");
         meta.description = "Gameplay changes";
-        meta.url         = "https://github.com/hea3ven/HardModeTweaks";
-        meta.updateUrl   = "https://github.com/hea3ven/HardModeTweaks";
+        meta.url = "https://github.com/hea3ven/HardModeTweaks";
+        meta.updateUrl = "https://github.com/hea3ven/HardModeTweaks";
         meta.screenshots = new String[0];
-        //meta.logoFile    = "/hmt_logo.png";
-        
+        // meta.logoFile = "/hmt_logo.png";
+
         Set<ArtifactVersion> requirements = Sets.newHashSet();
         List<ArtifactVersion> dependencies = Lists.newArrayList();
         List<ArtifactVersion> dependants = Lists.newArrayList();
-        Loader.instance().computeDependencies("required-after:Forge@[10.12.0.1060,)", requirements, dependencies, dependants);
-        meta.requiredMods = requirements;
-        meta.dependencies = dependencies;
-        meta.dependants = dependants;
-        
-        ModHardModeTweaks.instance = new ModHardModeTweaks();
- 	}
 
-	@Override
-    public boolean registerBus(EventBus bus, LoadController controller)
-    {
+        if (ProjectConfig.forge_version != null) {
+            Loader.instance().computeDependencies(
+                    "required-after:Forge@[" + ProjectConfig.forge_version
+                            + ",)", requirements, dependencies, dependants);
+            meta.requiredMods = requirements;
+            meta.dependencies = dependencies;
+            meta.dependants = dependants;
+        }
+
+        ModHardModeTweaks.instance = new ModHardModeTweaks();
+    }
+
+    @Override
+    public boolean registerBus(EventBus bus, LoadController controller) {
         bus.register(ModHardModeTweaks.instance);
         ModHardModeTweaks.instance.registerBus(bus);
         return true;

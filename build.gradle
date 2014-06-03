@@ -44,6 +44,19 @@ sourceSets.main {
 }
 
 processResources {
-    from(sourceSets.main.resources.srcDirs)
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+    inputs.property "forgeversion", project.minecraft.apiVersion
+
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+        include 'project.properties'
+        expand 'version':project.version, 'mcversion':project.minecraft.version, 'forgeversion':project.minecraft.apiVersion
+    }
+
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+        exclude 'project.properties'
+    }
 }
 
