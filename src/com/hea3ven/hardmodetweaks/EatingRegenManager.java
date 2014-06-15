@@ -29,42 +29,42 @@ import net.minecraftforge.event.entity.player.PlayerUseItemEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.hea3ven.hardmodetweaks.config.Config;
+
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class EatingRegenManager {
 
-	private Logger logger = LogManager
-			.getLogger("HardModeTweaks.EatingRegenManager");
+    private Logger logger = LogManager
+            .getLogger("HardModeTweaks.EatingRegenManager");
 
-	public int foodHealingMinimum = 3;
-	public double foodHealingMultiplier = 0.3d;
+    private static final int HUNGER_POTION_ID = 17;
+    private static final int POISON_POTION_ID = 19;
+    private static final int WITHER_POTION_ID = 20;
 
-	private static final int HUNGER_POTION_ID = 17;
-	private static final int POISON_POTION_ID = 19;
-	private static final int WITHER_POTION_ID = 20;
+    @SubscribeEvent
+    public void playerUseItemFinished(PlayerUseItemEvent.Finish e) {
+        logger.debug("Event PlayerUseItemEvent.Finish received");
+        if (Config.enableEatingHeal
+                && e.item.getItem().getItemUseAction(e.item) == EnumAction.eat
+                && e.item.getItem() instanceof ItemFood) {
+            logger.debug("Finished eating");
+            if (negativePotionEffect(e.item.getItem()))
+                return;
+            int foodValue = ((ItemFood) e.item.getItem()).func_150905_g(e.item);
+            if (foodValue > Config.requiredFoodValue) {
+                float healAmount = (foodValue - Config.healValueOffset)
+                        * Config.healValueMultiplier;
+                logger.debug("Healing for {}", healAmount);
+                e.entityPlayer.heal(healAmount);
+            }
+        }
+    }
 
-	@SubscribeEvent
-	public void playerUseItemFinished(PlayerUseItemEvent.Finish e) {
-		logger.debug("Event PlayerUseItemEvent.Finish received");
-		if (e.item.getItem().getItemUseAction(e.item) == EnumAction.eat
-				&& e.item.getItem() instanceof ItemFood) {
-			logger.debug("Finished eating");
-			if (negativePotionEffect(e.item.getItem()))
-				return;
-			float healAmount = (float) Math.ceil((((ItemFood) e.item.getItem())
-					.func_150905_g(e.item) - foodHealingMinimum)
-					* foodHealingMultiplier);
-			if (healAmount > 0) {
-				logger.debug("Healing for {}", healAmount);
-				e.entityPlayer.heal(healAmount);
-			}
-		}
-	}
-
-	private boolean negativePotionEffect(Item item) {
-		int foodPotionId = ((ItemFood) item).potionId;
-		return foodPotionId == HUNGER_POTION_ID
-				|| foodPotionId == POISON_POTION_ID
-				|| foodPotionId == WITHER_POTION_ID;
-	}
+    private boolean negativePotionEffect(Item item) {
+        int foodPotionId = ((ItemFood) item).potionId;
+        return foodPotionId == HUNGER_POTION_ID
+                || foodPotionId == POISON_POTION_ID
+                || foodPotionId == WITHER_POTION_ID;
+    }
 }

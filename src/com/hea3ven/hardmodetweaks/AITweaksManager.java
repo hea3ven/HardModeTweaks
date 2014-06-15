@@ -6,16 +6,16 @@ import net.minecraft.entity.ai.EntityAIPanic;
 import net.minecraft.entity.ai.EntityAITasks;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 
+import com.hea3ven.hardmodetweaks.config.Config;
 import com.hea3ven.hardmodetweaks.entity.ai.EntityAIPanicAway;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class AITweaksManager {
-	public boolean tweakPanicAI = true;
 
 	@SubscribeEvent
 	public void specialSpawnEvent(EntityJoinWorldEvent e) {
-		if (tweakPanicAI && e.entity instanceof EntityLiving) {
+		if (Config.enableTweakAnimalAI && e.entity instanceof EntityLiving) {
 			replaceAIPanicTask((EntityLiving) e.entity);
 		}
 	}

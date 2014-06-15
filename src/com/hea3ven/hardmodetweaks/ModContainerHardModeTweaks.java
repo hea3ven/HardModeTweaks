@@ -31,7 +31,7 @@ import org.apache.logging.log4j.Logger;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.common.eventbus.EventBus;
-import com.hea3ven.hardmodetweaks.props.ProjectConfig;
+import com.hea3ven.hardmodetweaks.config.ProjectConfig;
 
 import cpw.mods.fml.common.DummyModContainer;
 import cpw.mods.fml.common.LoadController;

@@ -1,4 +1,4 @@
-package com.hea3ven.hardmodetweaks.props;
+package com.hea3ven.hardmodetweaks.config;
 
 import java.io.IOException;
 import java.io.InputStream;
