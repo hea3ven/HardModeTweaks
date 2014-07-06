@@ -41,19 +41,19 @@ import org.objectweb.asm.tree.VarInsnNode;
 public class ClassTransformerHardModeTweaks implements IClassTransformer {
 
 	private static final ObfuscatedClass WORLD_SERVER_CLASS = new ObfuscatedClass(
-			"net.minecraft.world.WorldServer", "mj");
+			"net.minecraft.world.WorldServer", "mt");
 	private static final ObfuscatedMethod WORLD_SERVER_TICK = new ObfuscatedMethod(
 			WORLD_SERVER_CLASS, "tick", "b");
 	private static final ObfuscatedClass WORLD_CLIENT = new ObfuscatedClass(
-			"net.minecraft.client.multiplayer.WorldClient", "biz");
+			"net.minecraft.client.multiplayer.WorldClient", "bjf");
 	private static final ObfuscatedMethod WORLD_CLIENT_TICK = new ObfuscatedMethod(
 			WORLD_CLIENT, "tick", "b");
 	private static final ObfuscatedMethod WORLD_CLIENT_GET_WORLD_TIME = new ObfuscatedMethod(
-			WORLD_CLIENT, "getWorldTime", "I");
+			WORLD_CLIENT, "getWorldTime", "J");
 	private static final ObfuscatedMethod WORLD_CLIENT_SET_WORLD_TIME = new ObfuscatedMethod(
 			WORLD_CLIENT, "setWorldTime", "b");
 	private static final ObfuscatedClass WORLD_INFO = new ObfuscatedClass(
-			"net.minecraft.world.storage.WorldInfo", "axe");
+			"net.minecraft.world.storage.WorldInfo", "ays");
 	private static final ObfuscatedMethod WORLD_INFO_GET_WORLD_TIME = new ObfuscatedMethod(
 			WORLD_INFO, "getWorldTime", "g");
 	private static final ObfuscatedMethod WORLD_INFO_SET_WORLD_TIME = new ObfuscatedMethod(
@@ -61,13 +61,13 @@ public class ClassTransformerHardModeTweaks implements IClassTransformer {
 	private static final ObfuscatedField WORLD_INFO_WORLD_TIME = new ObfuscatedField(
 			WORLD_INFO, "worldTime", "h");
 	private static final ObfuscatedClass WORLD = new ObfuscatedClass(
-			"net.minecraft.world.World", "afn");
+			"net.minecraft.world.World", "ahb");
 	private static final ObfuscatedMethod WORLD_GET_WORLD_INFO_MTHD = new ObfuscatedMethod(
-			WORLD, "getWorldInfo", "M");
+			WORLD, "getWorldInfo", "N");
 	private static final ObfuscatedField WORLD_PROVIDER = new ObfuscatedField(
 			WORLD, "provider", "t");
 	private static final ObfuscatedClass WORLD_PROVIDER_CLASS = new ObfuscatedClass(
-			"net.minecraft.world.WorldProvider", "apa");
+			"net.minecraft.world.WorldProvider", "aqo");
 	private static final ObfuscatedField WORLD_PROVIDER_WORLD_OBJ_FLD = new ObfuscatedField(
 			WORLD_PROVIDER_CLASS, "worldObj", "b");
 	private static final ObfuscatedMethod WORLD_PROVIDER_CALC_CEL_ANGLE = new ObfuscatedMethod(
