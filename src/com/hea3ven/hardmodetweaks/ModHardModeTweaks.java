@@ -1,7 +1,7 @@
 /**
- * 
+ *
  * Copyright (c) 2014 Hea3veN
- * 
+ *
  *  This file is part of HardModeTweaks.
  *
  *  HardModeTweaks is free software: you can redistribute it and/or modify
@@ -21,20 +21,21 @@
 
 package com.hea3ven.hardmodetweaks;
 
-import net.minecraftforge.common.MinecraftForge;
+import com.google.common.eventbus.Subscribe;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.google.common.eventbus.EventBus;
-import com.google.common.eventbus.Subscribe;
-import com.hea3ven.hardmodetweaks.config.Config;
-
+import cpw.mods.fml.client.event.ConfigChangedEvent;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+
+import com.hea3ven.hardmodetweaks.config.Config;
 
 public class ModHardModeTweaks {
 
@@ -46,43 +47,34 @@ public class ModHardModeTweaks {
     @SidedProxy(clientSide = "com.hea3ven.hardmodetweaks.HardModeTweaksCommonProxy", serverSide = "com.hea3ven.hardmodetweaks.HardModeTweaksCommonProxy")
     public static HardModeTweaksCommonProxy proxy;
 
-    private HardModeRulesManager rulesManager;
-    private EatingRegenManager eatingRegenManager;
-    private MobDamageManager mobDamageManager;
-    private AITweaksManager aiTweaksManager;
-
-    private boolean doEatingRegen;
-
     public ModHardModeTweaks() {
-        rulesManager = new HardModeRulesManager();
-        eatingRegenManager = new EatingRegenManager();
-        mobDamageManager = new MobDamageManager();
-        aiTweaksManager = new AITweaksManager();
-        doEatingRegen = true;
     }
 
     @Subscribe
     public void preInit(FMLPreInitializationEvent event) {
 
         logger.info("Loading config");
-        Config.init(event.getModConfigurationDirectory());
+        Config.init(event.getSuggestedConfigurationFile());
+        FMLCommonHandler.instance().bus().register(this);
     }
 
     @Subscribe
     public void modInit(FMLInitializationEvent event) {
-        logger.debug("Registering event listeners on the forge bus");
-        if (doEatingRegen)
-            MinecraftForge.EVENT_BUS.register(eatingRegenManager);
-        MinecraftForge.EVENT_BUS.register(mobDamageManager);
-        MinecraftForge.EVENT_BUS.register(aiTweaksManager);
+        onConfigChanged(null);
     }
 
     @Subscribe
     public void postInit(FMLPostInitializationEvent event) {
     }
 
-    public void registerBus(EventBus bus) {
-        bus.register(rulesManager);
+    @SubscribeEvent
+    public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent eventArgs) {
+        if (eventArgs == null || eventArgs.modID.equals("hardmodetweaks")) {
+            logger.info("Reloading config");
+            Config.reload();
+            AITweaksManager.onConfigChanged();
+            EatingRegenManager.onConfigChanged();
+            HardModeRulesManager.onConfigChanged();
+        }
     }
-
 }

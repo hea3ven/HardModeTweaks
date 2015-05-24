@@ -1,0 +1,16 @@
+hardmodetweaks.config.daynightcycle.cat=Day/Night cycle
+hardmodetweaks.config.daynightcycle.cat.tooltip=Changes to the day and night cycle.
+hardmodetweaks.config.daynightcycle.cycleLenghtMult=Length multiplier
+hardmodetweaks.config.daynightcycle.daynightratio=Day to night ratio
+hardmodetweaks.config.foodheal.cat=Healing Food
+hardmodetweaks.config.foodheal.cat.tooltip=Heal when eating food.
+hardmodetweaks.config.foodheal.enable=Enable healing food
+hardmodetweaks.config.foodheal.requiredvalue=Required value
+hardmodetweaks.config.foodheal.healoffset=Heal offset
+hardmodetweaks.config.foodheal.healmultiplier=Heal multiplier
+hardmodetweaks.config.gamerules.cat=Game Rules
+hardmodetweaks.config.gamerules.cat.tooltip=Apply game rules.
+hardmodetweaks.config.gamerules.enable=Enable Game Rules
+hardmodetweaks.config.other.cat=Other
+hardmodetweaks.config.other.cat.tooltip=Other tweaks.
+hardmodetweaks.config.other.animalaitweak=Tweak animal AI

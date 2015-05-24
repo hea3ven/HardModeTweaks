@@ -1,4 +1,5 @@
     * Added config to make the day longer/shorter than the night.
+    * Added config gui.
 Version 1.0b4:
     * Prevent healing when eating if the food has a negative effect.
     * Added config option for arrows to ignore armor.

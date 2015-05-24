@@ -23,33 +23,49 @@ package com.hea3ven.hardmodetweaks;
 
 import java.util.Map.Entry;
 
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.world.GameRules;
-import net.minecraft.world.WorldServer;
+import com.google.common.eventbus.EventBus;
+import com.google.common.eventbus.Subscribe;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.google.common.eventbus.Subscribe;
-import com.hea3ven.hardmodetweaks.config.Config;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.GameRules;
+import net.minecraft.world.WorldServer;
 
 import cpw.mods.fml.common.event.FMLServerStartedEvent;
 
+import com.hea3ven.hardmodetweaks.config.Config;
+
 public class HardModeRulesManager {
 
-    private Logger logger = LogManager
-            .getLogger("HardModeTweaks.HardModeRulesManager");
+    private Logger logger = LogManager.getLogger("HardModeTweaks.HardModeRulesManager");
+
+    private static HardModeRulesManager instance = null;
+
+    public static EventBus bus;
+
+    public static void onConfigChanged() {
+        if (Config.enableGameRules) {
+            if (instance == null) {
+                instance = new HardModeRulesManager();
+                bus.register(instance);
+            }
+        } else {
+            if (instance != null) {
+                bus.unregister(instance);
+                instance = null;
+            }
+        }
+    }
 
     @Subscribe
     public void serverStarted(FMLServerStartedEvent e) {
-        if (Config.enableGameRules) {
-            logger.debug("Applying the game rules");
-            WorldServer server = MinecraftServer.getServer()
-                    .worldServerForDimension(0);
-            GameRules rules = server.getGameRules();
-            for (Entry<String, String> entry : Config.gameRules.entrySet()) {
-                rules.setOrCreateGameRule(entry.getKey(), entry.getValue());
-            }
+        logger.debug("Applying the game rules");
+        WorldServer server = MinecraftServer.getServer().worldServerForDimension(0);
+        GameRules rules = server.getGameRules();
+        for (Entry<String, String> entry : Config.gameRules.entrySet()) {
+            rules.setOrCreateGameRule(entry.getKey(), entry.getValue());
         }
     }
 }

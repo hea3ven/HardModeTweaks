@@ -21,32 +21,48 @@
 
 package com.hea3ven.hardmodetweaks;
 
-import net.minecraft.item.EnumAction;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemFood;
-import net.minecraftforge.event.entity.player.PlayerUseItemEvent;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.hea3ven.hardmodetweaks.config.Config;
+import net.minecraft.item.EnumAction;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemFood;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.player.PlayerUseItemEvent;
+
+import com.hea3ven.hardmodetweaks.config.Config;
+
 public class EatingRegenManager {
 
-    private Logger logger = LogManager
-            .getLogger("HardModeTweaks.EatingRegenManager");
+    private Logger logger = LogManager.getLogger("HardModeTweaks.EatingRegenManager");
 
     private static final int HUNGER_POTION_ID = 17;
     private static final int POISON_POTION_ID = 19;
     private static final int WITHER_POTION_ID = 20;
 
+    private static EatingRegenManager instance = null;
+
+    public static void onConfigChanged() {
+        if (Config.enableEatingHeal) {
+            if (instance == null) {
+                instance = new EatingRegenManager();
+                MinecraftForge.EVENT_BUS.register(instance);
+            }
+        } else {
+            if (instance != null) {
+                MinecraftForge.EVENT_BUS.unregister(instance);
+                instance = null;
+            }
+        }
+    }
+
     @SubscribeEvent
     public void playerUseItemFinished(PlayerUseItemEvent.Finish e) {
         logger.debug("Event PlayerUseItemEvent.Finish received");
-        if (Config.enableEatingHeal
-                && e.item.getItem().getItemUseAction(e.item) == EnumAction.eat
+        if (Config.enableEatingHeal && e.item.getItem().getItemUseAction(e.item) == EnumAction.eat
                 && e.item.getItem() instanceof ItemFood) {
             logger.debug("Finished eating");
             if (negativePotionEffect(e.item.getItem()))
@@ -63,8 +79,7 @@ public class EatingRegenManager {
 
     private boolean negativePotionEffect(Item item) {
         int foodPotionId = ((ItemFood) item).potionId;
-        return foodPotionId == HUNGER_POTION_ID
-                || foodPotionId == POISON_POTION_ID
+        return foodPotionId == HUNGER_POTION_ID || foodPotionId == POISON_POTION_ID
                 || foodPotionId == WITHER_POTION_ID;
     }
 }

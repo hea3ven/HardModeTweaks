@@ -21,17 +21,17 @@
 
 package com.hea3ven.hardmodetweaks;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.common.eventbus.EventBus;
-import com.hea3ven.hardmodetweaks.config.ProjectConfig;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import cpw.mods.fml.common.DummyModContainer;
 import cpw.mods.fml.common.LoadController;
@@ -39,10 +39,12 @@ import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.ModMetadata;
 import cpw.mods.fml.common.versioning.ArtifactVersion;
 
+import com.hea3ven.hardmodetweaks.config.HardModeTweaksGuiFactory;
+import com.hea3ven.hardmodetweaks.config.ProjectConfig;
+
 public class ModContainerHardModeTweaks extends DummyModContainer {
 
-    private Logger logger = LogManager
-            .getLogger("HardModeTweaks.ModContainerHardModeTweaks");
+    private Logger logger = LogManager.getLogger("HardModeTweaks.ModContainerHardModeTweaks");
 
     public ModContainerHardModeTweaks() {
         super(new ModMetadata());
@@ -66,8 +68,8 @@ public class ModContainerHardModeTweaks extends DummyModContainer {
 
         if (ProjectConfig.forge_version != null) {
             Loader.instance().computeDependencies(
-                    "required-after:Forge@[" + ProjectConfig.forge_version
-                            + ",)", requirements, dependencies, dependants);
+                    "required-after:Forge@[" + ProjectConfig.forge_version + ",)", requirements,
+                    dependencies, dependants);
             meta.requiredMods = requirements;
             meta.dependencies = dependencies;
             meta.dependants = dependants;
@@ -77,10 +79,14 @@ public class ModContainerHardModeTweaks extends DummyModContainer {
     }
 
     @Override
-    public boolean registerBus(EventBus bus, LoadController controller) {
-        bus.register(ModHardModeTweaks.instance);
-        ModHardModeTweaks.instance.registerBus(bus);
-        return true;
+    public String getGuiClassName() {
+        return HardModeTweaksGuiFactory.class.getName();
     }
 
+    @Override
+    public boolean registerBus(EventBus bus, LoadController controller) {
+        bus.register(ModHardModeTweaks.instance);
+        HardModeRulesManager.bus = bus;
+        return true;
+    }
 }
