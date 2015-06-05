@@ -28,6 +28,10 @@ public class Config {
     public static float healValueOffset;
     public static float healValueMultiplier;
 
+    public static boolean enableMobsTweaks;
+    public static boolean spidersApplySlowness;
+    public static boolean replaceCaveSpiderPoison;
+
     public static boolean enableGameRules;
     public static Map<String, String> gameRules;
 
@@ -45,6 +49,10 @@ public class Config {
     private Property requiredFoodValueProp;
     private Property healValueOffsetProp;
     private Property healValueMultiplierProp;
+
+    private Property enableMobsTweaksProp;
+    private Property spidersApplySlownessProp;
+    private Property replaceCaveSpiderPoisonProp;
 
     private Property enableGameRulesProp;
     private Map<String, Property> gameRulesProps;
@@ -76,6 +84,7 @@ public class Config {
                 "hardmodetweaks.config.daynightcycle.cat");
         generalConfig.getCategory("FoodHealing").setLanguageKey(
                 "hardmodetweaks.config.foodheal.cat");
+        generalConfig.getCategory("Mobs").setLanguageKey("hardmodetweaks.config.mobs.cat");
         generalConfig.getCategory("GameRules")
                 .setLanguageKey("hardmodetweaks.config.gamerules.cat");
         generalConfig.getCategory("Other").setLanguageKey("hardmodetweaks.config.other.cat");
@@ -109,6 +118,16 @@ public class Config {
                 "Enable changing the animals AI to make them run from their attackers.")
                 .setLanguageKey("hardmodetweaks.config.other.animalaitweak");
 
+        enableMobsTweaksProp = generalConfig.get("Mobs", "enableMobsTweak", true,
+                "Enable tweaks for mobs.").setLanguageKey(
+                "hardmodetweaks.config.mobs.enableMobsTweak");
+        spidersApplySlownessProp = generalConfig.get("Mobs", "spidersApplySlowness", true,
+                "Enable to make spiders apply slowness when they attack.").setLanguageKey(
+                "hardmodetweaks.config.mobs.spidersApplySlowness");
+        replaceCaveSpiderPoisonProp = generalConfig.get("Mobs", "replaceCaveSpiderPoison", true,
+                "Enable to make it so cave spiders apply weakness in stead of poison.")
+                .setLanguageKey("hardmodetweaks.config.mobs.replaceCaveSpiderPoison");
+
         enableGameRulesProp = generalConfig
                 .get("GameRules", "enableGameRules", true, "Enable changing the game rules.")
                 .setLanguageKey("hardmodetweaks.config.gamerules.enable")
@@ -132,12 +151,16 @@ public class Config {
         Config.dayLengthMultiplier = 1.0d / cycleLengthMultiplierProp.getDouble(1.0d);
         Config.dayToNightRatio = 2.0f * (float) dayToNightRatioProp.getDouble(0.5d);
 
-        Config.enableTweakAnimalAI = enableTweakAnimalAIProp.getBoolean(true);
+        Config.enableTweakAnimalAI = enableTweakAnimalAIProp.getBoolean();
 
-        Config.enableEatingHeal = enableEatingHealProp.getBoolean(true);
+        Config.enableEatingHeal = enableEatingHealProp.getBoolean();
         Config.requiredFoodValue = requiredFoodValueProp.getInt();
         Config.healValueOffset = (float) healValueOffsetProp.getDouble(3.0d);
         Config.healValueMultiplier = (float) healValueMultiplierProp.getDouble(0.3d);
+
+        Config.enableMobsTweaks = enableMobsTweaksProp.getBoolean();
+        Config.spidersApplySlowness = spidersApplySlownessProp.getBoolean();
+        Config.replaceCaveSpiderPoison = replaceCaveSpiderPoisonProp.getBoolean();
 
         Config.enableGameRules = enableGameRulesProp.getBoolean(true);
         Config.gameRules = new HashMap<String, String>();
@@ -160,6 +183,7 @@ public class Config {
         elems.add(new ConfigElement(generalConfig.getCategory("DayNightCycle")));
         elems.add(new ConfigElement(generalConfig.getCategory("FoodHealing")));
         elems.add(new ConfigElement(generalConfig.getCategory("GameRules")));
+        elems.add(new ConfigElement(generalConfig.getCategory("Mobs")));
         elems.add(new ConfigElement(generalConfig.getCategory("Other")));
         return elems;
     }

@@ -74,6 +74,7 @@ public class ModHardModeTweaks {
             Config.reload();
             AITweaksManager.onConfigChanged();
             EatingRegenManager.onConfigChanged();
+            MobsTweaksManager.onConfigChanged();
             HardModeRulesManager.onConfigChanged();
         }
     }
