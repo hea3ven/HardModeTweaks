@@ -18,6 +18,7 @@ import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
 
 public class Config {
+    public static boolean enableDayCycleTweaks = true;
     public static double dayLengthMultiplier;
     public static float dayToNightRatio;
 
@@ -40,6 +41,7 @@ public class Config {
     private File configfile;
     private Configuration generalConfig;
 
+    private Property enableDayCycleTweaksProp;
     private Property cycleLengthMultiplierProp;
     private Property dayToNightRatioProp;
 
@@ -89,6 +91,11 @@ public class Config {
                 .setLanguageKey("hardmodetweaks.config.gamerules.cat");
         generalConfig.getCategory("Other").setLanguageKey("hardmodetweaks.config.other.cat");
 
+        enableDayCycleTweaksProp = generalConfig
+                .get("DayNightCycle", "enableDayCycleTweaks", true,
+                        "Enable the day/night cycle tweaks")
+                .setLanguageKey("hardmodetweaks.config.daynightcycle.enableDayCycleTweaks")
+                .setRequiresWorldRestart(true);
         cycleLengthMultiplierProp = generalConfig
                 .get("DayNightCycle", "cycleLengthMultiplier", 1.0d,
                         "Change the length of the day/night cycle, 1.0 is the same as vanilla, which is 20 minutes.")
@@ -135,11 +142,10 @@ public class Config {
         gameRulesProps = new HashMap<String, Property>();
         GameRules rules = new GameRules();
         for (String ruleName : rules.getRules()) {
-            gameRulesProps
-                    .put(ruleName,
-                            generalConfig.get("GameRules", ruleName,
-                                    rules.getGameRuleStringValue(ruleName)).setRequiresWorldRestart(true))
-                    ;
+            gameRulesProps.put(ruleName,
+                    generalConfig
+                            .get("GameRules", ruleName, rules.getGameRuleStringValue(ruleName))
+                            .setRequiresWorldRestart(true));
         }
     }
 
@@ -148,15 +154,16 @@ public class Config {
     }
 
     private void load() {
-        Config.dayLengthMultiplier = 1.0d / cycleLengthMultiplierProp.getDouble(1.0d);
-        Config.dayToNightRatio = 2.0f * (float) dayToNightRatioProp.getDouble(0.5d);
+        Config.enableDayCycleTweaks = enableDayCycleTweaksProp.getBoolean();
+        Config.dayLengthMultiplier = 1.0d / cycleLengthMultiplierProp.getDouble();
+        Config.dayToNightRatio = 2.0f * (float) dayToNightRatioProp.getDouble();
 
         Config.enableTweakAnimalAI = enableTweakAnimalAIProp.getBoolean();
 
         Config.enableEatingHeal = enableEatingHealProp.getBoolean();
         Config.requiredFoodValue = requiredFoodValueProp.getInt();
-        Config.healValueOffset = (float) healValueOffsetProp.getDouble(3.0d);
-        Config.healValueMultiplier = (float) healValueMultiplierProp.getDouble(0.3d);
+        Config.healValueOffset = (float) healValueOffsetProp.getDouble();
+        Config.healValueMultiplier = (float) healValueMultiplierProp.getDouble();
 
         Config.enableMobsTweaks = enableMobsTweaksProp.getBoolean();
         Config.spidersApplySlowness = spidersApplySlownessProp.getBoolean();
