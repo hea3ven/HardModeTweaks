@@ -1,5 +1,6 @@
 hardmodetweaks.config.daynightcycle.cat=Day/Night cycle
 hardmodetweaks.config.daynightcycle.cat.tooltip=Changes to the day and night cycle.
+hardmodetweaks.config.daynightcycle.enableDayCycleTweaks=Enable Day/Night cycle tweaks
 hardmodetweaks.config.daynightcycle.cycleLenghtMult=Length multiplier
 hardmodetweaks.config.daynightcycle.daynightratio=Day to night ratio
 hardmodetweaks.config.foodheal.cat=Healing Food
@@ -10,7 +11,7 @@ hardmodetweaks.config.foodheal.healoffset=Heal offset
 hardmodetweaks.config.foodheal.healmultiplier=Heal multiplier
 hardmodetweaks.config.mobs.cat=Mobs
 hardmodetweaks.config.mobs.cat.tooltip=Tweaks to mobs.
-hardmodetweaks.config.mobs.enableMobsTweaks=Enable the mobs tweaks
+hardmodetweaks.config.mobs.enableMobsTweak=Enable the mobs tweaks
 hardmodetweaks.config.mobs.spidersApplySlowness=Spiders apply slowness
 hardmodetweaks.config.mobs.replaceCaveSpiderPoison=Replace cave spider's poison
 hardmodetweaks.config.gamerules.cat=Game Rules

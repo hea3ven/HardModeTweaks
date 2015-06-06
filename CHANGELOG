@@ -1,7 +1,8 @@
+Version 1.1.0:
     * Added config to make the day longer/shorter than the night.
-    * Added config gui.
+    * Added config gui, config file was reestructured.
     * Added tweaks to spiders.
-    * Removed tweaks to mobs' damage.
+    * Removed tweaks to the mobs damage.
 Version 1.0b4:
     * Prevent healing when eating if the food has a negative effect.
     * Added config option for arrows to ignore armor.
