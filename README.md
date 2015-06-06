@@ -5,6 +5,7 @@ Hard Mode Tweaks is a compilation of gameplay modifications, mainly around playi
 ## Download
 
 From MediaFire: [Hard Mode Tweaks v1.1.0](http://www.mediafire.com/download/g7622of6a6j0vn7/hardmodetweaks-1.1.0.jar)
+
 From Curse: [Hard Mode Tweaks v1.1.0](http://minecraft.curseforge.com/mc-mods/231325-hard-mode-tweaks/files/2241586/download)
 
 ## Installation
