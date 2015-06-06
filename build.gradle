@@ -25,12 +25,17 @@ archivesBaseName = "hardmodetweaks"
 
 minecraft {
     version = "1.7.10-10.13.0.1160"
-    assetDir = "eclipse/assets"
+    runDir = "eclipse/"
+    replaceIn "src/com/hea3ven/hardmodetweaks/config/ProjectConfig.java"
+    replace "PROJECTVERSION", project.version
+    replace "MCVERSION", project.minecraft.version
+    replace "FORGEVERSION", project.minecraft.apiVersion.split('-')[1]
 }
 
 jar {
     manifest {
         attributes("FMLCorePlugin":"com.hea3ven.hardmodetweaks.core.LoadingPluginHardModeTweaks")
+        attributes("FMLCorePluginContainsFMLMod":"true")
     }
 }
 

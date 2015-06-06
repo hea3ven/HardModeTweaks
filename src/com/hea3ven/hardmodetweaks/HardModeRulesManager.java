@@ -23,17 +23,15 @@ package com.hea3ven.hardmodetweaks;
 
 import java.util.Map.Entry;
 
-import com.google.common.eventbus.EventBus;
-import com.google.common.eventbus.Subscribe;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.GameRules;
-import net.minecraft.world.WorldServer;
 
-import cpw.mods.fml.common.event.FMLServerStartedEvent;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.world.WorldEvent;
 
 import com.hea3ven.hardmodetweaks.config.Config;
 
@@ -43,29 +41,28 @@ public class HardModeRulesManager {
 
     private static HardModeRulesManager instance = null;
 
-    public static EventBus bus;
-
     public static void onConfigChanged() {
         if (Config.enableGameRules) {
             if (instance == null) {
                 instance = new HardModeRulesManager();
-                bus.register(instance);
+                MinecraftForge.EVENT_BUS.register(instance);
             }
         } else {
             if (instance != null) {
-                bus.unregister(instance);
+                MinecraftForge.EVENT_BUS.unregister(instance);
                 instance = null;
             }
         }
     }
 
-    @Subscribe
-    public void serverStarted(FMLServerStartedEvent e) {
-        logger.debug("Applying the game rules");
-        WorldServer server = MinecraftServer.getServer().worldServerForDimension(0);
-        GameRules rules = server.getGameRules();
-        for (Entry<String, String> entry : Config.gameRules.entrySet()) {
-            rules.setOrCreateGameRule(entry.getKey(), entry.getValue());
+    @SubscribeEvent
+    public void serverStarted(WorldEvent.Load event) {
+        if (!event.world.isRemote && event.world.provider.dimensionId == 0) {
+            logger.debug("Applying the game rules");
+            GameRules rules = event.world.getGameRules();
+            for (Entry<String, String> entry : Config.gameRules.entrySet()) {
+                rules.setOrCreateGameRule(entry.getKey(), entry.getValue());
+            }
         }
     }
 }

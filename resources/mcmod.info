@@ -1,6 +1,6 @@
 [
 {
-  "modid": "hardmodetweaks",
+  "modid": "hardmodetweaks|main",
   "name": "Hard Mode Tweaks",
   "description": "Gameplay changes.",
   "version": "${version}",
@@ -12,5 +12,19 @@
   "logoFile": "",
   "screenshots": [],
   "dependencies": ["required-after:Forge@[10.12.0.1060,)"]
-}
-]
+},
+{
+  "modid": "hardmodetweaks|core",
+  "name": "Hard Mode Tweaks",
+  "description": "Gameplay changes.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "https://github.com/hea3ven/HardModeTweaks",
+  "updateUrl": "https://github.com/hea3ven/HardModeTweaks",
+  "authorList": ["Hea3veN"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": ["required-after:Forge@[10.12.0.1060,)"],
+  "parent": "hardmodetweaks|core"
+}]

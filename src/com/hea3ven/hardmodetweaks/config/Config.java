@@ -138,8 +138,8 @@ public class Config {
             gameRulesProps
                     .put(ruleName,
                             generalConfig.get("GameRules", ruleName,
-                                    rules.getGameRuleStringValue(ruleName)))
-                    .setRequiresWorldRestart(true);
+                                    rules.getGameRuleStringValue(ruleName)).setRequiresWorldRestart(true))
+                    ;
         }
     }
 

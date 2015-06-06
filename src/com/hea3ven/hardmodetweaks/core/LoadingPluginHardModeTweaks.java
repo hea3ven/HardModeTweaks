@@ -23,10 +23,9 @@ package com.hea3ven.hardmodetweaks.core;
 
 import java.util.Map;
 
-import com.hea3ven.hardmodetweaks.HardModeTweaksAccessTransformer;
-import com.hea3ven.hardmodetweaks.ModContainerHardModeTweaks;
-
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
+
+import com.hea3ven.hardmodetweaks.HardModeTweaksAccessTransformer;
 
 public class LoadingPluginHardModeTweaks implements IFMLLoadingPlugin {
 
@@ -37,7 +36,7 @@ public class LoadingPluginHardModeTweaks implements IFMLLoadingPlugin {
 
 	@Override
 	public String getModContainerClass() {
-		return ModContainerHardModeTweaks.class.getName();
+		return ModContainerHardModeTweaksCore.class.getName();
 	}
 
 	@Override

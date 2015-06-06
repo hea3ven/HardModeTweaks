@@ -21,13 +21,15 @@
 
 package com.hea3ven.hardmodetweaks;
 
-import com.google.common.eventbus.Subscribe;
+import java.io.File;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import cpw.mods.fml.client.event.ConfigChangedEvent;
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
@@ -36,7 +38,11 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 import com.hea3ven.hardmodetweaks.config.Config;
+import com.hea3ven.hardmodetweaks.config.ProjectConfig;
 
+@Mod(modid = "hardmodetweaks|main", version = ProjectConfig.version,
+        dependencies = "required-after:Forge@[" + ProjectConfig.forge_version + ",)",
+        guiFactory = "com.hea3ven.hardmodetweaks.config.HardModeTweaksGuiFactory")
 public class ModHardModeTweaks {
 
     private Logger logger = LogManager.getLogger("HardModeTweaks.Mod");
@@ -44,32 +50,33 @@ public class ModHardModeTweaks {
     @Instance("hardmodetweaks")
     public static ModHardModeTweaks instance;
 
-    @SidedProxy(clientSide = "com.hea3ven.hardmodetweaks.HardModeTweaksCommonProxy", serverSide = "com.hea3ven.hardmodetweaks.HardModeTweaksCommonProxy")
+    @SidedProxy(clientSide = "com.hea3ven.hardmodetweaks.HardModeTweaksCommonProxy",
+            serverSide = "com.hea3ven.hardmodetweaks.HardModeTweaksCommonProxy")
     public static HardModeTweaksCommonProxy proxy;
 
     public ModHardModeTweaks() {
     }
 
-    @Subscribe
+    @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
 
         logger.info("Loading config");
-        Config.init(event.getSuggestedConfigurationFile());
+        Config.init(new File(event.getModConfigurationDirectory(), "hardmodetweaks.cfg"));
         FMLCommonHandler.instance().bus().register(this);
     }
 
-    @Subscribe
+    @EventHandler
     public void modInit(FMLInitializationEvent event) {
         onConfigChanged(null);
     }
 
-    @Subscribe
+    @EventHandler
     public void postInit(FMLPostInitializationEvent event) {
     }
 
     @SubscribeEvent
     public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent eventArgs) {
-        if (eventArgs == null || eventArgs.modID.equals("hardmodetweaks")) {
+        if (eventArgs == null || eventArgs.modID.equals("hardmodetweaks|main")) {
             logger.info("Reloading config");
             Config.reload();
             AITweaksManager.onConfigChanged();
