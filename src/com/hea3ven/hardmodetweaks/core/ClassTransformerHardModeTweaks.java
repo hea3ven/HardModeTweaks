@@ -60,7 +60,7 @@ public class ClassTransformerHardModeTweaks implements IClassTransformer {
 			WORLD_INFO, "setWorldTime", "c");
 	private static final ObfuscatedField WORLD_INFO_WORLD_TIME = new ObfuscatedField(
 			WORLD_INFO, "worldTime", "h");
-	private static final ObfuscatedClass WORLD = new ObfuscatedClass(
+	public static final ObfuscatedClass WORLD = new ObfuscatedClass(
 			"net.minecraft.world.World", "ahb");
 	private static final ObfuscatedMethod WORLD_GET_WORLD_INFO_MTHD = new ObfuscatedMethod(
 			WORLD, "getWorldInfo", "N");
@@ -79,6 +79,9 @@ public class ClassTransformerHardModeTweaks implements IClassTransformer {
 	@Override
 	public byte[] transform(String name, String transformedName,
 			byte[] basicClass) {
+	    if (name.startsWith("com.hea3ven.hardmodetweaks.core"))
+	        return basicClass;
+
 		if (WORLD_SERVER_CLASS.matchesName(name)) {
 			logger.info("Class WorldServer({}/{}) is loading, patching it",
 					name, transformedName);
@@ -107,6 +110,10 @@ public class ClassTransformerHardModeTweaks implements IClassTransformer {
 					WORLD_PROVIDER_CLASS.isObfuscated(name));
 		}
 
+		if (TransformerBlockLeaves.matches(name)){
+		    return writeClass(TransformerBlockLeaves.transform(name, readClass(basicClass)));
+		}
+
 		return basicClass;
 	}
 
@@ -118,7 +125,7 @@ public class ClassTransformerHardModeTweaks implements IClassTransformer {
 		ClassNode classNode = readClass(basicClass);
 
 		logger.info("Looking for tick method of WorldServer");
-		MethodNode tickMethod = getMethod(classNode,
+		MethodNode tickMethod = ASMUtils.getMethod(classNode,
 				WORLD_SERVER_TICK.get(obfuscated), "()V");
 		if (tickMethod == null)
 			error("Could not find the method");
@@ -174,7 +181,7 @@ public class ClassTransformerHardModeTweaks implements IClassTransformer {
 		ClassNode classNode = readClass(basicClass);
 
 		logger.info("Looking for tick method of WorldClient");
-		MethodNode tickMethod = getMethod(classNode,
+		MethodNode tickMethod = ASMUtils.getMethod(classNode,
 				WORLD_CLIENT_TICK.get(obfuscated), "()V");
 		if (tickMethod == null)
 			error("Could not find the method");
@@ -235,7 +242,7 @@ public class ClassTransformerHardModeTweaks implements IClassTransformer {
 		ClassNode classNode = readClass(basicClass);
 
 		logger.info("Renaming getWorldTime method of WorldInfo to getRealWorldTime");
-		MethodNode getWorldTimeMethod = getMethod(classNode,
+		MethodNode getWorldTimeMethod = ASMUtils.getMethod(classNode,
 				WORLD_INFO_GET_WORLD_TIME.get(obfuscated), "()J");
 		if (getWorldTimeMethod == null)
 			error("Could not find the method");
@@ -244,7 +251,7 @@ public class ClassTransformerHardModeTweaks implements IClassTransformer {
 		logger.info("Finished renaming getWorldTime method of WorldInfo");
 
 		logger.info("Renaming setWorldTime method of WorldInfo to setRealWorldTime");
-		MethodNode setWorldTimeMethod = getMethod(classNode,
+		MethodNode setWorldTimeMethod = ASMUtils.getMethod(classNode,
 				WORLD_INFO_SET_WORLD_TIME.get(obfuscated), "(J)V");
 		if (setWorldTimeMethod == null)
 			error("Could not find the method");
@@ -310,7 +317,7 @@ public class ClassTransformerHardModeTweaks implements IClassTransformer {
 		ClassNode classNode = readClass(basicClass);
 
 		logger.info("Searching for the calculateCelestialAngle method of WorldProvider");
-		MethodNode calcCelAngleMethod = getMethod(classNode,
+		MethodNode calcCelAngleMethod = ASMUtils.getMethod(classNode,
 				WORLD_PROVIDER_CALC_CEL_ANGLE.get(obfuscated), "(JF)F");
 		if (calcCelAngleMethod == null)
 			error("Could not find the method");
@@ -356,17 +363,6 @@ public class ClassTransformerHardModeTweaks implements IClassTransformer {
 		ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_MAXS);
 		classNode.accept(writer);
 		return writer.toByteArray();
-	}
-
-	private MethodNode getMethod(ClassNode classNode, String methodName,
-			String methodDesc) {
-		Iterator<MethodNode> methods = classNode.methods.iterator();
-		while (methods.hasNext()) {
-			MethodNode m = methods.next();
-			if ((m.name.equals(methodName) && m.desc.equals(methodDesc)))
-				return m;
-		}
-		return null;
 	}
 
 	private void error(String msg) {

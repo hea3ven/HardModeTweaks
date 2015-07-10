@@ -1,3 +1,4 @@
+    * Added tweak to make leaves blocks non-solid (like vines).
 Version 1.1.0:
     * Added config to make the day longer/shorter than the night.
     * Added config gui, config file was reestructured.
