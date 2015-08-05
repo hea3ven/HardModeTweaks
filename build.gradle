@@ -42,9 +42,11 @@ jar {
 sourceSets.main {
     java {
         srcDirs 'src'
+        srcDirs 'Hea3venTweaks/src/main/java'
     }
     resources {
         srcDirs 'resources'
+        srcDirs 'Hea3venTweaks/src/main/resources'
     }
 }
 
