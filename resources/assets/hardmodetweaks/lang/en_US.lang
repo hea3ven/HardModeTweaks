@@ -20,3 +20,5 @@ hardmodetweaks.config.gamerules.enable=Enable Game Rules
 hardmodetweaks.config.other.cat=Other
 hardmodetweaks.config.other.cat.tooltip=Other tweaks.
 hardmodetweaks.config.other.animalaitweak=Tweak animal AI
+hardmodetweaks.config.other.preventboatbreak=Prevent boat breaking
+hardmodetweaks.config.other.nonsolidleaves=Non-solid Leaves
