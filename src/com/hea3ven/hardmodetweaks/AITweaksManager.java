@@ -7,11 +7,10 @@ import net.minecraft.entity.ai.EntityAITasks;
 
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import com.hea3ven.hardmodetweaks.config.Config;
 import com.hea3ven.hardmodetweaks.entity.ai.EntityAIPanicAway;
-
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class AITweaksManager {
 

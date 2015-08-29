@@ -8,11 +8,10 @@ import net.minecraft.entity.monster.EntitySpider;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import com.hea3ven.hardmodetweaks.config.Config;
 

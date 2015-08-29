@@ -29,12 +29,12 @@ apply plugin: 'forge'
 
 sourceCompatibility = 1.6
 
-version = "1.1.1"
+version = "1.8-1.1.1"
 group = "com.hea3ven"
 archivesBaseName = "hardmodetweaks"
 
 minecraft {
-    version = "1.7.10-10.13.0.1160"
+    version = "1.8-11.14.3.1500"
     runDir = "eclipse/"
     replaceIn "src/com/hea3ven/hardmodetweaks/config/ProjectConfig.java"
     replace "PROJECTVERSION", project.version

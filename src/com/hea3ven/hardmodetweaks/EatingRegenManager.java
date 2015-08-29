@@ -28,10 +28,9 @@ import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerUseItemEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import com.hea3ven.hardmodetweaks.config.Config;
 
@@ -62,12 +61,12 @@ public class EatingRegenManager {
     @SubscribeEvent
     public void playerUseItemFinished(PlayerUseItemEvent.Finish e) {
         logger.debug("Event PlayerUseItemEvent.Finish received");
-        if (Config.enableEatingHeal && e.item.getItem().getItemUseAction(e.item) == EnumAction.eat
+        if (Config.enableEatingHeal && e.item.getItem().getItemUseAction(e.item) == EnumAction.EAT
                 && e.item.getItem() instanceof ItemFood) {
             logger.debug("Finished eating");
             if (negativePotionEffect(e.item.getItem()))
                 return;
-            int foodValue = ((ItemFood) e.item.getItem()).func_150905_g(e.item);
+            int foodValue = ((ItemFood) e.item.getItem()).getHealAmount(e.item);
             if (foodValue > Config.requiredFoodValue) {
                 float healAmount = (foodValue - Config.healValueOffset)
                         * Config.healValueMultiplier;

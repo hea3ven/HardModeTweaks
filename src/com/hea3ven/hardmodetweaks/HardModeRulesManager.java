@@ -28,10 +28,9 @@ import org.apache.logging.log4j.Logger;
 
 import net.minecraft.world.GameRules;
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.WorldEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import com.hea3ven.hardmodetweaks.config.Config;
 
@@ -57,7 +56,7 @@ public class HardModeRulesManager {
 
     @SubscribeEvent
     public void serverStarted(WorldEvent.Load event) {
-        if (!event.world.isRemote && event.world.provider.dimensionId == 0) {
+        if (!event.world.isRemote && event.world.provider.getDimensionId() == 0) {
             logger.debug("Applying the game rules");
             GameRules rules = event.world.getGameRules();
             for (Entry<String, String> entry : Config.gameRules.entrySet()) {

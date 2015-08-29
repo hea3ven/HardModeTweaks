@@ -23,7 +23,7 @@ package com.hea3ven.hardmodetweaks.core;
 
 import java.util.Map;
 
-import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
+import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
 
 import com.hea3ven.hardmodetweaks.HardModeTweaksAccessTransformer;
 

@@ -32,7 +32,7 @@ public class EntityAIPanicAway extends EntityAIBase {
                         5, 4);
             else
                 vec3 = RandomPositionGenerator.findRandomTargetBlockAwayFrom(
-                        this.creature, 5, 4, Vec3.createVectorHelper(
+                        this.creature, 5, 4, new Vec3(
                                 this.creature.getAITarget().posX,
                                 this.creature.getAITarget().posY,
                                 this.creature.getAITarget().posZ));

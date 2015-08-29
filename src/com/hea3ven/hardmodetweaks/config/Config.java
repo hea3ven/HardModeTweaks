@@ -10,12 +10,11 @@ import org.apache.logging.log4j.Level;
 
 import net.minecraft.world.GameRules;
 
-import cpw.mods.fml.client.config.IConfigElement;
-import cpw.mods.fml.common.FMLLog;
-
 import net.minecraftforge.common.config.ConfigElement;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
+import net.minecraftforge.fml.client.config.IConfigElement;
+import net.minecraftforge.fml.common.FMLLog;
 
 import com.hea3ven.tweaks.DayNightCycle;
 import com.hea3ven.tweaks.Hea3venTweaks;
