@@ -15,6 +15,16 @@ buildscript {
     }
 }
 
+repositories {
+    maven {
+        url "https://raw.github.com/hea3ven/mvn-repo/master"
+    }
+}
+
+configurations {
+    release
+}
+
 apply plugin: 'forge'
 
 sourceCompatibility = 1.6
@@ -32,10 +42,25 @@ minecraft {
     replace "FORGEVERSION", project.minecraft.apiVersion.split('-')[1]
 }
 
+dependencies {
+    compile 'com.hea3ven.tools.asmtweaks:asmtweaks:1.0.0'
+    release('com.hea3ven.tools.asmtweaks:asmtweaks:1.0.0') {
+        transitive = false
+    }
+    release('com.hea3ven.tools.mappings:mappings:1.0.0') {
+        transitive = false
+    }
+}
+
+
 jar {
     manifest {
         attributes("FMLCorePlugin":"com.hea3ven.hardmodetweaks.core.LoadingPluginHardModeTweaks")
         attributes("FMLCorePluginContainsFMLMod":"true")
+    }
+
+    into ('libs') {
+        from configurations.release
     }
 }
 

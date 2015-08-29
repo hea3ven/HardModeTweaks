@@ -171,19 +171,19 @@ public class Config {
 	}
 
 	private void load() {
-		Hea3venTweaks.asmTweaksManager.getConfig().setConfig("DayNightCycle.enabled",
+		Hea3venTweaks.setConfig("DayNightCycle.enabled",
 				Boolean.toString(enableDayCycleTweaksProp.getBoolean()));
-		Hea3venTweaks.asmTweaksManager.getConfig().setConfig("DayNightCycle.cycleLengthMultiplier",
+		Hea3venTweaks.setConfig("DayNightCycle.cycleLengthMultiplier",
 				Double.toString(cycleLengthMultiplierProp.getDouble()));
 		DayNightCycle.dayLengthMultiplier = 1.0d / cycleLengthMultiplierProp.getDouble();
-		Hea3venTweaks.asmTweaksManager.getConfig().setConfig("DayNightCycle.dayToNightRatio",
+		Hea3venTweaks.setConfig("DayNightCycle.dayToNightRatio",
 				Float.toString((float) dayToNightRatioProp.getDouble()));
 		DayNightCycle.dayToNightRatio = 2.0f * (float) dayToNightRatioProp.getDouble();
 
 		Config.enableTweakAnimalAI = enableTweakAnimalAIProp.getBoolean();
-		Hea3venTweaks.asmTweaksManager.getConfig().setConfig("PreventBoatBreak.enabled",
+		Hea3venTweaks.setConfig("PreventBoatBreak.enabled",
 				Boolean.toString(enablePreventBoatBreakProp.getBoolean()));
-		Hea3venTweaks.asmTweaksManager.getConfig().setConfig("NonSolidLeaves.enabled",
+		Hea3venTweaks.setConfig("NonSolidLeaves.enabled",
 				Boolean.toString(enableNonSolidLeavesProp.getBoolean()));
 
 		Config.enableEatingHeal = enableEatingHealProp.getBoolean();
