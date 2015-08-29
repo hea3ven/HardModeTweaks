@@ -34,7 +34,7 @@ group = "com.hea3ven"
 archivesBaseName = "hardmodetweaks"
 
 minecraft {
-    version = "1.7.10-10.13.0.1160"
+    version = "1.7.10-10.13.1.1219"
     runDir = "eclipse/"
     replaceIn "src/com/hea3ven/hardmodetweaks/config/ProjectConfig.java"
     replace "PROJECTVERSION", project.version

@@ -1,3 +1,4 @@
+    * Added tweak to prevent being able to sleep in recently placed beds.
 Version 1.1.1:
     * Added tweak to make leaves blocks non-solid (like vines).
     * Added tweak to prevent boats from breaking.

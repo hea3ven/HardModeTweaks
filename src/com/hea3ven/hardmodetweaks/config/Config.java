@@ -32,6 +32,9 @@ public class Config {
 	public static boolean spidersApplySlowness;
 	public static boolean replaceCaveSpiderPoison;
 
+	public static boolean enableSleepPrevention;
+	public static int sleepPreventionTimeout;
+
 	public static boolean enableGameRules;
 	public static Map<String, String> gameRules;
 
@@ -52,6 +55,9 @@ public class Config {
 	private Property requiredFoodValueProp;
 	private Property healValueOffsetProp;
 	private Property healValueMultiplierProp;
+
+	private Property enableSleepPreventionProp;
+	private Property sleepPreventionTimeoutProp;
 
 	private Property enableMobsTweaksProp;
 	private Property spidersApplySlownessProp;
@@ -140,6 +146,15 @@ public class Config {
 				.setLanguageKey("hardmodetweaks.config.other.nonsolidleaves")
 				.setRequiresWorldRestart(true);
 
+		enableSleepPreventionProp = generalConfig
+				.get("Sleep", "enableSleepPrevention", true,
+						"Enable beds requiring a timeout after being placed before they can be used.")
+				.setLanguageKey("hardmodetweaks.config.sleep.enable");
+		sleepPreventionTimeoutProp = generalConfig
+				.get("Sleep", "sleepTimeout", 3,
+						"The number of days that must pass after placing a bed before it can be used.")
+				.setLanguageKey("hardmodetweaks.config.sleep.timeout");
+
 		enableMobsTweaksProp = generalConfig
 				.get("Mobs", "enableMobsTweak", true, "Enable tweaks for mobs.")
 				.setLanguageKey("hardmodetweaks.config.mobs.enableMobsTweak");
@@ -195,6 +210,10 @@ public class Config {
 		Config.spidersApplySlowness = spidersApplySlownessProp.getBoolean();
 		Config.replaceCaveSpiderPoison = replaceCaveSpiderPoisonProp.getBoolean();
 
+		Config.enableSleepPrevention = enableSleepPreventionProp.getBoolean();
+		Config.sleepPreventionTimeout = (int) (sleepPreventionTimeoutProp.getInt() * 24000
+				* cycleLengthMultiplierProp.getDouble());
+
 		Config.enableGameRules = enableGameRulesProp.getBoolean(true);
 		Config.gameRules = new HashMap<String, String>();
 		for (String ruleName : gameRulesProps.keySet()) {
@@ -217,6 +236,7 @@ public class Config {
 		elems.add(new ConfigElement(generalConfig.getCategory("FoodHealing")));
 		elems.add(new ConfigElement(generalConfig.getCategory("GameRules")));
 		elems.add(new ConfigElement(generalConfig.getCategory("Mobs")));
+		elems.add(new ConfigElement(generalConfig.getCategory("Sleep")));
 		elems.add(new ConfigElement(generalConfig.getCategory("Other")));
 		return elems;
 	}

@@ -83,6 +83,7 @@ public class ModHardModeTweaks {
             EatingRegenManager.onConfigChanged();
             MobsTweaksManager.onConfigChanged();
             HardModeRulesManager.onConfigChanged();
+            SleepManager.onConfigChanged();
         }
     }
 }
