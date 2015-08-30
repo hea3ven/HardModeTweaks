@@ -32,6 +32,7 @@ public class Config {
 	public static boolean spidersApplySlowness;
 	public static boolean replaceCaveSpiderPoison;
 	public static boolean creeperSpawnTweak;
+	public static float zombieKnockbackResistance;
 
 	public static boolean enableSleepPrevention;
 	public static int sleepPreventionTimeout;
@@ -64,6 +65,7 @@ public class Config {
 	private Property spidersApplySlownessProp;
 	private Property replaceCaveSpiderPoisonProp;
 	private Property creeperSpawnTweakProp;
+	private Property zombieKnockbackResistanceProp;
 
 	private Property enableGameRulesProp;
 	private Map<String, Property> gameRulesProps;
@@ -172,6 +174,10 @@ public class Config {
 				.get("Mobs", "creeperSpawnTweak", true,
 						"Make it so that creepers only spawn on blocks without sky access.")
 				.setLanguageKey("hardmodetweaks.config.mobs.creeperSpawnTweak");
+		zombieKnockbackResistanceProp = generalConfig
+				.get("Mobs", "zombieKnockbackResistance", 0.6d,
+						"The value for zombies knockback resistance, use values between 0.0 and 1.0. Set to 0.0 to disable.")
+				.setLanguageKey("hardmodetweaks.config.mobs.zombieKnockbackResistance");
 
 		enableGameRulesProp = generalConfig
 				.get("GameRules", "enableGameRules", true, "Enable changing the game rules.")
@@ -216,6 +222,7 @@ public class Config {
 		Config.spidersApplySlowness = spidersApplySlownessProp.getBoolean();
 		Config.replaceCaveSpiderPoison = replaceCaveSpiderPoisonProp.getBoolean();
 		Config.creeperSpawnTweak = creeperSpawnTweakProp.getBoolean();
+		Config.zombieKnockbackResistance = (float) zombieKnockbackResistanceProp.getDouble();
 
 		Config.enableSleepPrevention = enableSleepPreventionProp.getBoolean();
 		Config.sleepPreventionTimeout = (int) (sleepPreventionTimeoutProp.getInt() * 24000

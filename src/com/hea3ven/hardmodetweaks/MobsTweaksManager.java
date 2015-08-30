@@ -3,9 +3,12 @@ package com.hea3ven.hardmodetweaks;
 import java.util.HashSet;
 
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.monster.EntityCaveSpider;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.monster.EntitySpider;
+import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.MathHelper;
@@ -77,6 +80,19 @@ public class MobsTweaksManager {
 				if (skyLight > 8) {
 					event.setResult(Result.DENY);
 				}
+			}
+		}
+	}
+
+	@SubscribeEvent
+	public void onLivingSpawnSpecialSpawnEvent(LivingSpawnEvent.SpecialSpawn event) {
+		if (Config.zombieKnockbackResistance > 0) {
+			if (event.entityLiving instanceof EntityZombie) {
+				EntityZombie zombie = (EntityZombie) event.entityLiving;
+				zombie
+						.getEntityAttribute(SharedMonsterAttributes.knockbackResistance)
+						.applyModifier(new AttributeModifier("Base value",
+								Config.zombieKnockbackResistance, 0));
 			}
 		}
 	}
