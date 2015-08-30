@@ -31,6 +31,7 @@ public class Config {
 	public static boolean enableMobsTweaks;
 	public static boolean spidersApplySlowness;
 	public static boolean replaceCaveSpiderPoison;
+	public static boolean creeperSpawnTweak;
 
 	public static boolean enableSleepPrevention;
 	public static int sleepPreventionTimeout;
@@ -62,6 +63,7 @@ public class Config {
 	private Property enableMobsTweaksProp;
 	private Property spidersApplySlownessProp;
 	private Property replaceCaveSpiderPoisonProp;
+	private Property creeperSpawnTweakProp;
 
 	private Property enableGameRulesProp;
 	private Map<String, Property> gameRulesProps;
@@ -166,6 +168,10 @@ public class Config {
 				.get("Mobs", "replaceCaveSpiderPoison", true,
 						"Enable to make it so cave spiders apply weakness in stead of poison.")
 				.setLanguageKey("hardmodetweaks.config.mobs.replaceCaveSpiderPoison");
+		creeperSpawnTweakProp = generalConfig
+				.get("Mobs", "creeperSpawnTweak", true,
+						"Make it so that creepers only spawn on blocks without sky access.")
+				.setLanguageKey("hardmodetweaks.config.mobs.creeperSpawnTweak");
 
 		enableGameRulesProp = generalConfig
 				.get("GameRules", "enableGameRules", true, "Enable changing the game rules.")
@@ -209,6 +215,7 @@ public class Config {
 		Config.enableMobsTweaks = enableMobsTweaksProp.getBoolean();
 		Config.spidersApplySlowness = spidersApplySlownessProp.getBoolean();
 		Config.replaceCaveSpiderPoison = replaceCaveSpiderPoisonProp.getBoolean();
+		Config.creeperSpawnTweak = creeperSpawnTweakProp.getBoolean();
 
 		Config.enableSleepPrevention = enableSleepPreventionProp.getBoolean();
 		Config.sleepPreventionTimeout = (int) (sleepPreventionTimeoutProp.getInt() * 24000
