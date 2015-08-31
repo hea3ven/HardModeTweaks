@@ -68,10 +68,12 @@ sourceSets.main {
     java {
         srcDirs 'src'
         srcDirs 'Hea3venTweaks/src/main/java'
+        srcDirs 'Hea3venTweaks/src/bootstrap/java'
     }
     resources {
         srcDirs 'resources'
         srcDirs 'Hea3venTweaks/src/main/resources'
+        srcDirs 'Hea3venTweaks/src/bootstrap/resources'
     }
 }
 

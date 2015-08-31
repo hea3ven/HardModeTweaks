@@ -30,6 +30,11 @@ public class Config {
 	public static boolean enableMobsTweaks;
 	public static boolean spidersApplySlowness;
 	public static boolean replaceCaveSpiderPoison;
+	public static boolean creeperSpawnTweak;
+	public static float zombieKnockbackResistance;
+
+	public static boolean enableSleepPrevention;
+	public static int sleepPreventionTimeout;
 
 	public static boolean enableGameRules;
 	public static Map<String, String> gameRules;
@@ -52,9 +57,14 @@ public class Config {
 	private Property healValueOffsetProp;
 	private Property healValueMultiplierProp;
 
+	private Property enableSleepPreventionProp;
+	private Property sleepPreventionTimeoutProp;
+
 	private Property enableMobsTweaksProp;
 	private Property spidersApplySlownessProp;
 	private Property replaceCaveSpiderPoisonProp;
+	private Property creeperSpawnTweakProp;
+	private Property zombieKnockbackResistanceProp;
 
 	private Property enableGameRulesProp;
 	private Map<String, Property> gameRulesProps;
@@ -139,6 +149,15 @@ public class Config {
 				.setLanguageKey("hardmodetweaks.config.other.nonsolidleaves")
 				.setRequiresWorldRestart(true);
 
+		enableSleepPreventionProp = generalConfig
+				.get("Sleep", "enableSleepPrevention", true,
+						"Enable beds requiring a timeout after being placed before they can be used.")
+				.setLanguageKey("hardmodetweaks.config.sleep.enable");
+		sleepPreventionTimeoutProp = generalConfig
+				.get("Sleep", "sleepTimeout", 3,
+						"The number of days that must pass after placing a bed before it can be used.")
+				.setLanguageKey("hardmodetweaks.config.sleep.timeout");
+
 		enableMobsTweaksProp = generalConfig
 				.get("Mobs", "enableMobsTweak", true, "Enable tweaks for mobs.")
 				.setLanguageKey("hardmodetweaks.config.mobs.enableMobsTweak");
@@ -150,6 +169,14 @@ public class Config {
 				.get("Mobs", "replaceCaveSpiderPoison", true,
 						"Enable to make it so cave spiders apply weakness in stead of poison.")
 				.setLanguageKey("hardmodetweaks.config.mobs.replaceCaveSpiderPoison");
+		creeperSpawnTweakProp = generalConfig
+				.get("Mobs", "creeperSpawnTweak", true,
+						"Make it so that creepers only spawn on blocks without sky access.")
+				.setLanguageKey("hardmodetweaks.config.mobs.creeperSpawnTweak");
+		zombieKnockbackResistanceProp = generalConfig
+				.get("Mobs", "zombieKnockbackResistance", 0.6d,
+						"The value for zombies knockback resistance, use values between 0.0 and 1.0. Set to 0.0 to disable.")
+				.setLanguageKey("hardmodetweaks.config.mobs.zombieKnockbackResistance");
 
 		enableGameRulesProp = generalConfig
 				.get("GameRules", "enableGameRules", true, "Enable changing the game rules.")
@@ -193,6 +220,12 @@ public class Config {
 		Config.enableMobsTweaks = enableMobsTweaksProp.getBoolean();
 		Config.spidersApplySlowness = spidersApplySlownessProp.getBoolean();
 		Config.replaceCaveSpiderPoison = replaceCaveSpiderPoisonProp.getBoolean();
+		Config.creeperSpawnTweak = creeperSpawnTweakProp.getBoolean();
+		Config.zombieKnockbackResistance = (float) zombieKnockbackResistanceProp.getDouble();
+
+		Config.enableSleepPrevention = enableSleepPreventionProp.getBoolean();
+		Config.sleepPreventionTimeout = (int) (sleepPreventionTimeoutProp.getInt() * 24000
+				* cycleLengthMultiplierProp.getDouble());
 
 		Config.enableGameRules = enableGameRulesProp.getBoolean(true);
 		Config.gameRules = new HashMap<String, String>();
@@ -216,6 +249,7 @@ public class Config {
 		elems.add(new ConfigElement(generalConfig.getCategory("FoodHealing")));
 		elems.add(new ConfigElement(generalConfig.getCategory("GameRules")));
 		elems.add(new ConfigElement(generalConfig.getCategory("Mobs")));
+		elems.add(new ConfigElement(generalConfig.getCategory("Sleep")));
 		elems.add(new ConfigElement(generalConfig.getCategory("Other")));
 		return elems;
 	}
