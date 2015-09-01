@@ -1,3 +1,4 @@
+Version 1.1.2:
     * Added tweak to prevent being able to sleep in recently placed beds.
     * Added tweak to prevent creepers from spawning on blocks with direct sky access.
     * Added config option for zombie's knockbackResistance attribute.
