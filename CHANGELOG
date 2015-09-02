@@ -1,3 +1,4 @@
+Version 1.1.3:
     * Fixed sometimes crashing when using beds, fixes #1.
 Version 1.1.2:
     * Added tweak to prevent being able to sleep in recently placed beds.
