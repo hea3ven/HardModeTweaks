@@ -20,10 +20,10 @@ public class SleepManager {
 
 	public static class BlockPlacement {
 
-		private long worldTime;
-		private int x;
-		private int y;
-		private int z;
+		public long worldTime;
+		public int x;
+		public int y;
+		public int z;
 
 		public BlockPlacement(long worldTime, int x, int y, int z) {
 			this.worldTime = worldTime;
@@ -69,11 +69,14 @@ public class SleepManager {
 	@SubscribeEvent
 	public void sleep(PlayerSleepInBedEvent event) {
 		BlockPlacement bedPlacement = getPlacement(event.x, event.y, event.z);
+		if (bedPlacement == null)
+			return;
 		if (event.entity.worldObj.getTotalWorldTime()
 				- bedPlacement.worldTime < Config.sleepPreventionTimeout) {
 			event.entityPlayer.addChatComponentMessage(
 					new ChatComponentTranslation("tile.bed.recentlyPlaced", new Object[0]));
 			event.result = EntityPlayer.EnumStatus.OTHER_PROBLEM;
+		} else {
 			bedPlacements.remove(bedPlacement);
 		}
 	}

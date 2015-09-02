@@ -1,3 +1,4 @@
+    * Fixed sometimes crashing when using beds, fixes #1.
 Version 1.1.2:
     * Added tweak to prevent being able to sleep in recently placed beds.
     * Added tweak to prevent creepers from spawning on blocks with direct sky access.
