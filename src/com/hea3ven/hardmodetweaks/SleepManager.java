@@ -50,7 +50,7 @@ public class SleepManager {
 
 	@SubscribeEvent
 	public void blockPlaceEvent(BlockEvent.MultiPlaceEvent event) {
-		if (event.placedBlock instanceof BlockBed) {
+		if (event.placedBlock.getBlock() instanceof BlockBed) {
 			for (BlockSnapshot snap : event.getReplacedBlockSnapshots()) {
 				BlockPlacement placement = getPlacement(snap.pos);
 				if (placement != null)
