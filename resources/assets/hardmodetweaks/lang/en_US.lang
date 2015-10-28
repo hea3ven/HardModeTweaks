@@ -9,6 +9,7 @@ hardmodetweaks.config.foodheal.enable=Enable healing food
 hardmodetweaks.config.foodheal.requiredvalue=Required value
 hardmodetweaks.config.foodheal.healoffset=Heal offset
 hardmodetweaks.config.foodheal.healmultiplier=Heal multiplier
+hardmodetweaks.config.foodheal.foodValues=Food values tweaks
 hardmodetweaks.config.mobs.cat=Mobs
 hardmodetweaks.config.mobs.cat.tooltip=Tweaks to mobs.
 hardmodetweaks.config.mobs.enableMobsTweak=Enable the mobs tweaks
