@@ -1,5 +1,8 @@
     - 1.8:
         * Fix the sleep prevention tweak not working.
+    * Added config to modify foods values and saturation.
+    * Added config to limit the break speed of blocks, fixes #3.
+    * Fixed a performance issue when loading classes, fixes #2.
 Version 1.1.3:
     * Fixed sometimes crashing when using beds, fixes #1.
 Version 1.1.2:

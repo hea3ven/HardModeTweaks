@@ -84,6 +84,7 @@ public class ModHardModeTweaks {
             MobsTweaksManager.onConfigChanged();
             HardModeRulesManager.onConfigChanged();
             SleepManager.onConfigChanged();
+            WorldTweaksManager.onConfigChanged();
         }
     }
 }

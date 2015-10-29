@@ -36,7 +36,8 @@ archivesBaseName = "hardmodetweaks"
 
 minecraft {
     version = "1.8-11.14.3.1500"
-    runDir = "eclipse/"
+    runDir = "run/"
+
     replaceIn "src/com/hea3ven/hardmodetweaks/config/ProjectConfig.java"
     replace "PROJECTVERSION", project.version
     replace "MCVERSION", project.minecraft.version
@@ -44,11 +45,11 @@ minecraft {
 }
 
 dependencies {
-    compile 'com.hea3ven.tools.asmtweaks:asmtweaks:1.0.0'
-    release('com.hea3ven.tools.asmtweaks:asmtweaks:1.0.0') {
+    compile 'com.hea3ven.tools.asmtweaks:h3nt-asmtweaks:1.0.2'
+    release('com.hea3ven.tools.asmtweaks:h3nt-asmtweaks:1.0.2') {
         transitive = false
     }
-    release('com.hea3ven.tools.mappings:mappings:1.0.0') {
+    release('com.hea3ven.tools.mappings:h3nt-mappings:1.0.1') {
         transitive = false
     }
 }
@@ -92,6 +93,12 @@ processResources {
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
         exclude 'project.properties'
+    }
+}
+
+idea {
+    module {
+        inheritOutputDirs = true
     }
 }
 
