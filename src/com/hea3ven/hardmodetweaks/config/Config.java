@@ -41,6 +41,9 @@ public class Config {
 	public static boolean enableSleepPrevention;
 	public static int sleepPreventionTimeout;
 
+	public static boolean enableWorldTweaks;
+	public static float maxBreakSpeed;
+
 	public static boolean enableGameRules;
 	public static Map<String, String> gameRules;
 
@@ -71,6 +74,9 @@ public class Config {
 	private Property replaceCaveSpiderPoisonProp;
 	private Property creeperSpawnTweakProp;
 	private Property zombieKnockbackResistanceProp;
+
+	private Property enableWorldTweaksProp;
+	private Property maxBreakSpeedProp;
 
 	private Property enableGameRulesProp;
 	private Map<String, Property> gameRulesProps;
@@ -107,6 +113,8 @@ public class Config {
 		generalConfig
 				.getCategory("GameRules")
 				.setLanguageKey("hardmodetweaks.config.gamerules.cat");
+		generalConfig.getCategory("Sleep").setLanguageKey("hardmodetweaks.config.sleep.cat");
+		generalConfig.getCategory("World").setLanguageKey("hardmodetweaks.config.world.cat");
 		generalConfig.getCategory("Other").setLanguageKey("hardmodetweaks.config.other.cat");
 
 		enableDayCycleTweaksProp = generalConfig
@@ -202,6 +210,15 @@ public class Config {
 						"The value for zombies knockback resistance, use values between 0.0 and 1.0. Set to 0.0 to disable.")
 				.setLanguageKey("hardmodetweaks.config.mobs.zombieKnockbackResistance");
 
+		enableWorldTweaksProp = generalConfig
+				.get("World", "enableWorldTweaks", true, "Enable world tweaks.")
+				.setLanguageKey("hardmodetweaks.config.world.enable");
+		maxBreakSpeedProp = generalConfig
+				.get("World", "maxBreakSpeed", 300,
+						"The maximum break speed allowed. For reference, diamond pickaxe is a"
+								+ " break speed of 8, and with efficiency V it's speed is 34")
+				.setLanguageKey("hardmodetweaks.config.world.maxBreakSpeed");
+
 		enableGameRulesProp = generalConfig
 				.get("GameRules", "enableGameRules", true, "Enable changing the game rules.")
 				.setLanguageKey("hardmodetweaks.config.gamerules.enable")
@@ -257,6 +274,9 @@ public class Config {
 		Config.sleepPreventionTimeout = (int) (sleepPreventionTimeoutProp.getInt() * 24000
 				* cycleLengthMultiplierProp.getDouble());
 
+		Config.enableWorldTweaks = enableWorldTweaksProp.getBoolean();
+		Config.maxBreakSpeed = (float) maxBreakSpeedProp.getDouble();
+
 		Config.enableGameRules = enableGameRulesProp.getBoolean(true);
 		Config.gameRules = new HashMap<String, String>();
 		for (String ruleName : gameRulesProps.keySet()) {
@@ -280,6 +300,7 @@ public class Config {
 		elems.add(new ConfigElement(generalConfig.getCategory("GameRules")));
 		elems.add(new ConfigElement(generalConfig.getCategory("Mobs")));
 		elems.add(new ConfigElement(generalConfig.getCategory("Sleep")));
+		elems.add(new ConfigElement(generalConfig.getCategory("World")));
 		elems.add(new ConfigElement(generalConfig.getCategory("Other")));
 		return elems;
 	}
