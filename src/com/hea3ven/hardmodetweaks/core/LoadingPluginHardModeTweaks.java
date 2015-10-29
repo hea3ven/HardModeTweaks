@@ -25,8 +25,6 @@ import java.util.Map;
 
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
 
-import com.hea3ven.hardmodetweaks.HardModeTweaksAccessTransformer;
-
 public class LoadingPluginHardModeTweaks implements IFMLLoadingPlugin {
 
 	@Override
@@ -50,7 +48,7 @@ public class LoadingPluginHardModeTweaks implements IFMLLoadingPlugin {
 
 	@Override
 	public String getAccessTransformerClass() {
-		return HardModeTweaksAccessTransformer.class.getName();
+		return null;
 	}
 
 }

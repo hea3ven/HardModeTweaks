@@ -112,7 +112,7 @@ public class EatingRegenManager {
     }
 
     private boolean negativePotionEffect(Item item) {
-        int foodPotionId = ((ItemFood) item).potionId;
+        int foodPotionId = ReflectionHelper.getPrivateValue(ItemFood.class, (ItemFood)item, 5);
         return foodPotionId == HUNGER_POTION_ID || foodPotionId == POISON_POTION_ID
                 || foodPotionId == WITHER_POTION_ID;
     }
