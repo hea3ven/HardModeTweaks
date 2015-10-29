@@ -72,7 +72,7 @@ public class EatingRegenManager {
             } else if (foodCfg.getName().equals("minecraft:cooked_salmon")) {
                 modifyFishFoodValue(FishType.SALMON, foodCfg, true);
             } else {
-                Item item = (Item) Item.itemRegistry.getObject(foodCfg.getName());
+                Item item = Item.getByNameOrId(foodCfg.getName());
                 if (!(item instanceof ItemFood)) {
                     logger.warn("The item '{}' is not a food item", foodCfg.getName());
                     continue;
@@ -87,9 +87,9 @@ public class EatingRegenManager {
 
     private void modifyFishFoodValue(FishType fishType, FoodConfig foodCfg, boolean cooked) {
         ReflectionHelper.setPrivateValue(FishType.class, fishType, foodCfg.getValue(),
-                !cooked ? 9 : 11);
+                !cooked ? 7 : 9);
         ReflectionHelper.setPrivateValue(FishType.class, fishType, foodCfg.getSaturation(),
-                !cooked ? 10 : 12);
+                !cooked ? 8 : 10);
     }
 
     @SubscribeEvent

@@ -1,9 +1,8 @@
 package com.hea3ven.hardmodetweaks;
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import com.hea3ven.hardmodetweaks.config.Config;
 

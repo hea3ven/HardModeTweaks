@@ -1,18 +1,5 @@
-buildscript {
-    repositories {
-        mavenCentral()
-        maven {
-            name = "forge"
-            url = "http://files.minecraftforge.net/maven"
-        }
-        maven {
-            name = "sonatype"
-            url = "https://oss.sonatype.org/content/repositories/snapshots/"
-        }
-    }
-    dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
-    }
+plugins {
+    id "net.minecraftforge.gradle.forge" version "2.0.2"
 }
 
 repositories {
@@ -25,8 +12,6 @@ configurations {
     release
 }
 
-apply plugin: 'forge'
-
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
@@ -35,13 +20,15 @@ group = "com.hea3ven"
 archivesBaseName = "hardmodetweaks"
 
 minecraft {
-    version = "1.8-11.14.3.1500"
+    version = "1.8-11.14.3.1525"
     runDir = "run/"
+
+    mappings = "snapshot_20141130"
 
     replaceIn "src/com/hea3ven/hardmodetweaks/config/ProjectConfig.java"
     replace "PROJECTVERSION", project.version
     replace "MCVERSION", project.minecraft.version
-    replace "FORGEVERSION", project.minecraft.apiVersion.split('-')[1]
+    replace "FORGEVERSION", project.minecraft.forgeVersion
 }
 
 dependencies {
@@ -82,12 +69,12 @@ sourceSets.main {
 processResources {
     inputs.property "version", project.version
     inputs.property "mcversion", project.minecraft.version
-    inputs.property "forgeversion", project.minecraft.apiVersion
+    inputs.property "forgeversion", project.minecraft.forgeVersion
 
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
         include 'project.properties'
-        expand 'version':project.version, 'mcversion':project.minecraft.version, 'forgeversion':project.minecraft.apiVersion
+        expand 'version':project.version, 'mcversion':project.minecraft.version, 'forgeversion':project.minecraft.forgeVersion
     }
 
     from(sourceSets.main.resources.srcDirs) {
