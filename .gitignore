@@ -5,3 +5,5 @@ eclipse/
 .settings/
 .classpath
 .project
+/classes
+*.iml

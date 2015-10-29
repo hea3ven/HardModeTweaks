@@ -1,4 +1,5 @@
     * Added config to modify foods values and saturation.
+    * Fixed a performance issue when loading classes.
 Version 1.1.3:
     * Fixed sometimes crashing when using beds, fixes #1.
 Version 1.1.2:
