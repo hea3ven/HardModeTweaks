@@ -5,13 +5,14 @@ Hard Mode Tweaks is a compilation of gameplay modifications, mainly around playi
 ## Download
 
 From MediaFire:
- * 1.7.10: [Hard Mode Tweaks v1.1.3](http://www.mediafire.com/download/417oyhntsudwy1h/hardmodetweaks-1.1.3.jar)
- * 1.8: [Hard Mode Tweaks v1.8-1.1.3](http://www.mediafire.com/download/hy9rviuck9j58uo/hardmodetweaks-1.8-1.1.3.jar)
+ * 1.7.10: [Hard Mode Tweaks v1.1.4](http://www.mediafire.com/download/mcigd3e55n9oa47/hardmodetweaks-1.1.4.jar) ([CHANGELOG](https://raw.githubusercontent.com/hea3ven/HardModeTweaks/master/CHANGELOG))
+ * 1.8: [Hard Mode Tweaks v1.8-1.1.4](http://www.mediafire.com/download/a0lmesu51459vpp/hardmodetweaks-1.8-1.1.4.jar) ([CHANGELOG](https://raw.githubusercontent.com/hea3ven/HardModeTweaks/mc1.8/CHANGELOG))
 
-From Curse: [Hard Mode Tweaks](http://minecraft.curseforge.com/mc-mods/231325-hard-mode-tweaks/files)
+
+From Curse: [Hard Mode Tweaks](http://www.curse.com/mc-mods/Minecraft/231325-hard-mode-tweaks)
 
 ## Installation
 
 1. Install Forge.
-2. Copy the "hardmodetweaks-1.1.3.jar" file to the "mods" folder.
+2. Copy the "hardmodetweaks-1.1.4.jar" file to the "mods" folder.
 
