@@ -25,7 +25,7 @@ minecraft {
 
     mappings = "snapshot_20141130"
 
-    replaceIn "src/com/hea3ven/hardmodetweaks/config/ProjectConfig.java"
+    replaceIn "src/main/java/com/hea3ven/hardmodetweaks/config/ProjectConfig.java"
     replace "PROJECTVERSION", project.version
     replace "MCVERSION", project.minecraft.version
     replace "FORGEVERSION", project.minecraft.forgeVersion
@@ -55,12 +55,12 @@ jar {
 
 sourceSets.main {
     java {
-        srcDirs 'src'
+        srcDirs 'src/main/java'
         srcDirs 'Hea3venTweaks/src/main/java'
         srcDirs 'Hea3venTweaks/src/bootstrap/java'
     }
     resources {
-        srcDirs 'resources'
+        srcDirs 'src/main/resources'
         srcDirs 'Hea3venTweaks/src/main/resources'
         srcDirs 'Hea3venTweaks/src/bootstrap/resources'
     }
