@@ -1,34 +1,44 @@
+    * Update to minecraft 1.8.8.
+
 Version 1.1.4:
     - 1.8:
         * Fix the sleep prevention tweak not working.
     * Added config to modify foods values and saturation.
     * Added config to limit the break speed of blocks, fixes #3.
     * Fixed a performance issue when loading classes, fixes #2.
+
 Version 1.1.3:
     * Fixed sometimes crashing when using beds, fixes #1.
+
 Version 1.1.2:
     - 1.8:
         * Update to minecraft 1.8
     * Added tweak to prevent being able to sleep in recently placed beds.
     * Added tweak to prevent creepers from spawning on blocks with direct sky access.
     * Added config option for zombie's knockbackResistance attribute.
+
 Version 1.1.1:
     * Added tweak to make leaves blocks non-solid (like vines).
     * Added tweak to prevent boats from breaking.
+
 Version 1.1.0:
     * Added config to make the day longer/shorter than the night.
     * Added config gui, config file was reestructured.
     * Added tweaks to spiders.
     * Removed tweaks to the mobs damage.
+
 Version 1.0b4:
     * Prevent healing when eating if the food has a negative effect.
     * Added config option for arrows to ignore armor.
     * Added tweak for animals to run away from attacker instead of randomly.
+
 Version 1.0b3:
     * Fixed typo error on the dayLengthMultiplier option.
     * Added damage config options for endermen, ghasts and silverfish.
+
 Version 1.0b2:
     * Added extra config options for the eating regen.
     * Added config options for the damage of monsters.
+
 Version 1.0b1:
     * initial release.

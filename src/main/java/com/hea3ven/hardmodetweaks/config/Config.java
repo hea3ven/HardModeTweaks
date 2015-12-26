@@ -229,7 +229,7 @@ public class Config {
 		for (String ruleName : rules.getRules()) {
 			gameRulesProps.put(ruleName,
 					generalConfig
-							.get("GameRules", ruleName, rules.getGameRuleStringValue(ruleName))
+							.get("GameRules", ruleName, rules.getString(ruleName))
 							.setRequiresWorldRestart(true));
 		}
 	}

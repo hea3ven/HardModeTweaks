@@ -1,8 +1,21 @@
-plugins {
-    id "net.minecraftforge.gradle.forge" version "2.0.2"
+buildscript {
+	repositories {
+		jcenter()
+		maven {
+			name = "forge"
+			url = "http://files.minecraftforge.net/maven"
+		}
+		mavenCentral()
+	}
+	dependencies {
+		classpath 'net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT'
+	}
 }
 
+apply plugin: 'net.minecraftforge.gradle.forge'
+
 repositories {
+    mavenLocal()
     maven {
         url "https://raw.github.com/hea3ven/mvn-repo/master"
     }
@@ -20,10 +33,13 @@ group = "com.hea3ven"
 archivesBaseName = "hardmodetweaks"
 
 minecraft {
-    version = "1.8-11.14.3.1525"
+	version = "1.8.8-11.15.0.1623-1.8.8"
+
     runDir = "run/"
 
-    mappings = "snapshot_20141130"
+    mappings = "snapshot_20151212"
+
+	coreMod = "com.hea3ven.hardmodetweaks.core.LoadingPluginHardModeTweaks"
 
     replaceIn "src/main/java/com/hea3ven/hardmodetweaks/config/ProjectConfig.java"
     replace "PROJECTVERSION", project.version
@@ -43,11 +59,6 @@ dependencies {
 
 
 jar {
-    manifest {
-        attributes("FMLCorePlugin":"com.hea3ven.hardmodetweaks.core.LoadingPluginHardModeTweaks")
-        attributes("FMLCorePluginContainsFMLMod":"true")
-    }
-
     into ('libs') {
         from configurations.release
     }
