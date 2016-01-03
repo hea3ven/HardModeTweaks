@@ -59,6 +59,9 @@ dependencies {
 
 
 jar {
+    manifest {
+        attributes("H3NTBootstrap": "/assets/hardmodetweaks/bootstrap.json")
+    }
     into ('libs') {
         from configurations.release
     }
