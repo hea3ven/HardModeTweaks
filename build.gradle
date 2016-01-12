@@ -60,7 +60,7 @@ dependencies {
 
 jar {
     manifest {
-        attributes("H3NTBootstrap": "/assets/hardmodetweaks/bootstrap.json")
+        attributes("H3NTBootstrap": "/assets/hardmodetweaks/bootstrap.json", "FMLCorePluginContainsFMLMod": "true")
     }
     into ('libs') {
         from configurations.release

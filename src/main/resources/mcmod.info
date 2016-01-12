@@ -26,5 +26,5 @@
   "logoFile": "",
   "screenshots": [],
   "dependencies": ["required-after:Forge@[10.12.0.1060,)"],
-  "parent": "hardmodetweaks|core"
+  "parent": "hardmodetweaks|main"
 }]
