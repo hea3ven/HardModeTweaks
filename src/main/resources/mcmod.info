@@ -11,7 +11,7 @@
   "credits": "",
   "logoFile": "",
   "screenshots": [],
-  "dependencies": ["required-after:Forge@[10.12.0.1060,)"]
+  "dependencies": ["required-after:Forge@[${forgeversion},)"]
 },
 {
   "modid": "hardmodetweaks|core",
@@ -25,6 +25,6 @@
   "credits": "",
   "logoFile": "",
   "screenshots": [],
-  "dependencies": ["required-after:Forge@[10.12.0.1060,)"],
+  "dependencies": ["required-after:Forge@[${forgeversion},)"],
   "parent": "hardmodetweaks|main"
 }]

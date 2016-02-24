@@ -1,22 +1,20 @@
 /**
- *
  * Copyright (c) 2014 Hea3veN
- *
- *  This file is part of HardModeTweaks.
- *
- *  HardModeTweaks is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU Lesser General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  HardModeTweaks is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU Lesser General Public License
- *  along with HardModeTweaks.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * <p/>
+ * This file is part of HardModeTweaks.
+ * <p/>
+ * HardModeTweaks is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * <p/>
+ * HardModeTweaks is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * <p/>
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with HardModeTweaks.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package com.hea3ven.hardmodetweaks;
@@ -37,12 +35,15 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import com.hea3ven.hardmodetweaks.config.Config;
-import com.hea3ven.hardmodetweaks.config.ProjectConfig;
 
-@Mod(modid = "hardmodetweaks|main", version = ProjectConfig.version,
-		dependencies = "required-after:Forge@[" + ProjectConfig.forge_version + ",)",
+@Mod(modid = ModHardModeTweaks.MODID, version = ModHardModeTweaks.VERSION,
+		dependencies = ModHardModeTweaks.DEPENDENCIES,
 		guiFactory = "com.hea3ven.hardmodetweaks.config.HardModeTweaksGuiFactory")
 public class ModHardModeTweaks {
+
+	public static final String MODID = "hardmodetweaks|main";
+	public static final String VERSION = "@PROJECTVERSION@";
+	public static final String DEPENDENCIES = "required-after:Forge@[FORGEVERSION,)";
 
 	private Logger logger = LogManager.getLogger("HardModeTweaks.Mod");
 

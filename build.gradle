@@ -5,101 +5,37 @@ buildscript {
 			name = "forge"
 			url = "http://files.minecraftforge.net/maven"
 		}
-		mavenCentral()
+		maven {
+			name = "sonatype"
+			url = "https://oss.sonatype.org/content/repositories/snapshots/"
+		}
 	}
 	dependencies {
 		classpath 'net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT'
+		classpath 'com.matthewprenger:CurseGradle:1.0-SNAPSHOT'
+		classpath 'org.ajoberstar:grgit:1.4.1'
 	}
 }
 
+plugins {
+	id "org.ajoberstar.grgit" version "1.4.1"
+}
+
 apply plugin: 'net.minecraftforge.gradle.forge'
-
-repositories {
-    mavenLocal()
-    maven {
-        url "https://raw.github.com/hea3ven/mvn-repo/master"
-    }
-}
-
-configurations {
-    release
-}
-
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
-
-version = "1.8-1.1.4"
-group = "com.hea3ven"
-archivesBaseName = "hardmodetweaks"
-
-minecraft {
-	version = "1.8.8-11.15.0.1623-1.8.8"
-
-    runDir = "run/"
-
-    mappings = "snapshot_20151212"
-
-	coreMod = "com.hea3ven.hardmodetweaks.core.LoadingPluginHardModeTweaks"
-
-    replaceIn "src/main/java/com/hea3ven/hardmodetweaks/config/ProjectConfig.java"
-    replace "PROJECTVERSION", project.version
-    replace "MCVERSION", project.minecraft.version
-    replace "FORGEVERSION", project.minecraft.forgeVersion
-}
+apply plugin: 'com.matthewprenger.cursegradle'
+apply from: 'mcbuild.gradle'
 
 dependencies {
+    release 'com.hea3ven.tools.mappings:h3nt-mappings:1.0.1'
+
     compile 'com.hea3ven.tools.asmtweaks:h3nt-asmtweaks:1.0.2'
-    release('com.hea3ven.tools.asmtweaks:h3nt-asmtweaks:1.0.2') {
-        transitive = false
-    }
-    release('com.hea3ven.tools.mappings:h3nt-mappings:1.0.1') {
-        transitive = false
-    }
-}
-
-
-jar {
-    manifest {
-        attributes("H3NTBootstrap": "/assets/hardmodetweaks/bootstrap.json", "FMLCorePluginContainsFMLMod": "true")
-    }
-    into ('libs') {
-        from configurations.release
-    }
+    release 'com.hea3ven.tools.asmtweaks:h3nt-asmtweaks:1.0.2'
 }
 
 sourceSets.main {
-    java {
-        srcDirs 'src/main/java'
-        srcDirs 'Hea3venTweaks/src/main/java'
-        srcDirs 'Hea3venTweaks/src/bootstrap/java'
-    }
-    resources {
-        srcDirs 'src/main/resources'
-        srcDirs 'Hea3venTweaks/src/main/resources'
-        srcDirs 'Hea3venTweaks/src/bootstrap/resources'
-    }
-}
-
-processResources {
-    inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft.version
-    inputs.property "forgeversion", project.minecraft.forgeVersion
-
-    from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
-        include 'project.properties'
-        expand 'version':project.version, 'mcversion':project.minecraft.version, 'forgeversion':project.minecraft.forgeVersion
-    }
-
-    from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
-        exclude 'project.properties'
-    }
-}
-
-idea {
-    module {
-        inheritOutputDirs = true
-    }
+    java.srcDirs += 'Hea3venTweaks/src/main/java'
+    java.srcDirs += 'Hea3venTweaks/src/bootstrap/java'
+    resources.srcDirs += 'Hea3venTweaks/src/main/resources'
+    resources.srcDirs += 'Hea3venTweaks/src/bootstrap/resources'
 }
 
