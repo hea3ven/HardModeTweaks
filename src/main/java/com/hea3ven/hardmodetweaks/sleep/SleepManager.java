@@ -1,4 +1,4 @@
-package com.hea3ven.hardmodetweaks;
+package com.hea3ven.hardmodetweaks.sleep;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -8,15 +8,14 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentTranslation;
 
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.BlockSnapshot;
 import net.minecraftforge.event.entity.player.PlayerSleepInBedEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-import com.hea3ven.hardmodetweaks.config.Config;
-
 public class SleepManager {
+
+	public static int sleepPreventionTimeout = 3;
 
 	public static class BlockPlacement {
 
@@ -27,26 +26,9 @@ public class SleepManager {
 			this.worldTime = worldTime;
 			this.pos = pos;
 		}
-
 	}
 
-	private static SleepManager instance = null;
-
-	public static void onConfigChanged() {
-		if (Config.enableSleepPrevention) {
-			if (instance == null) {
-				instance = new SleepManager();
-				MinecraftForge.EVENT_BUS.register(instance);
-			}
-		} else {
-			if (instance != null) {
-				MinecraftForge.EVENT_BUS.unregister(instance);
-				instance = null;
-			}
-		}
-	}
-
-	private Set<BlockPlacement> bedPlacements = new HashSet<BlockPlacement>();
+	private Set<BlockPlacement> bedPlacements = new HashSet<>();
 
 	@SubscribeEvent
 	public void blockPlaceEvent(BlockEvent.MultiPlaceEvent event) {
@@ -56,8 +38,7 @@ public class SleepManager {
 				if (placement != null)
 					placement.worldTime = event.world.getTotalWorldTime();
 				else
-					bedPlacements
-							.add(new BlockPlacement(event.world.getTotalWorldTime(), snap.pos));
+					bedPlacements.add(new BlockPlacement(event.world.getTotalWorldTime(), snap.pos));
 			}
 		}
 	}
@@ -67,10 +48,9 @@ public class SleepManager {
 		BlockPlacement bedPlacement = getPlacement(event.pos);
 		if (bedPlacement == null)
 			return;
-		if (event.entity.worldObj.getTotalWorldTime()
-				- bedPlacement.worldTime < Config.sleepPreventionTimeout) {
+		if (event.entity.worldObj.getTotalWorldTime() - bedPlacement.worldTime < sleepPreventionTimeout) {
 			event.entityPlayer.addChatComponentMessage(
-					new ChatComponentTranslation("tile.bed.recentlyPlaced", new Object[0]));
+					new ChatComponentTranslation("tile.bed.recentlyPlaced"));
 			event.result = EntityPlayer.EnumStatus.OTHER_PROBLEM;
 		} else {
 			bedPlacements.remove(bedPlacement);
@@ -79,9 +59,8 @@ public class SleepManager {
 
 	private BlockPlacement getPlacement(BlockPos pos) {
 		for (BlockPlacement bedPlacement : bedPlacements) {
-			if (pos.equals(bedPlacement.pos)) {
+			if (pos.equals(bedPlacement.pos))
 				return bedPlacement;
-			}
 		}
 		return null;
 	}

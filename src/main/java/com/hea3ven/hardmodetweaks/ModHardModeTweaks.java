@@ -19,6 +19,8 @@
 
 package com.hea3ven.hardmodetweaks;
 
+import com.hea3ven.hardmodetweaks.world.WorldTweaksManager;
+
 import java.io.File;
 
 import org.apache.logging.log4j.LogManager;
@@ -35,6 +37,9 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import com.hea3ven.hardmodetweaks.config.Config;
+import com.hea3ven.hardmodetweaks.gamerules.GameRulesManager;
+import com.hea3ven.hardmodetweaks.mobs.MobsTweaksManager;
+import com.hea3ven.hardmodetweaks.other.AITweaksManager;
 
 @Mod(modid = ModHardModeTweaks.MODID, version = ModHardModeTweaks.VERSION,
 		dependencies = ModHardModeTweaks.DEPENDENCIES,
@@ -50,9 +55,9 @@ public class ModHardModeTweaks {
 	@Instance("hardmodetweaks")
 	public static ModHardModeTweaks instance;
 
-	@SidedProxy(clientSide = "com.hea3ven.hardmodetweaks.HardModeTweaksCommonProxy",
-			serverSide = "com.hea3ven.hardmodetweaks.HardModeTweaksCommonProxy")
-	public static HardModeTweaksCommonProxy proxy;
+	@SidedProxy(clientSide = "com.hea3ven.hardmodetweaks.HardModeTweaksProxy",
+			serverSide = "com.hea3ven.hardmodetweaks.HardModeTweaksProxy")
+	public static HardModeTweaksProxy proxy;
 
 	public ModHardModeTweaks() {
 	}
@@ -63,15 +68,18 @@ public class ModHardModeTweaks {
 		logger.info("Loading config");
 		Config.init(new File(event.getModConfigurationDirectory(), "hardmodetweaks.cfg"));
 		MinecraftForge.EVENT_BUS.register(this);
+		proxy.onPreInitEvent(event);
 	}
 
 	@Mod.EventHandler
 	public void modInit(FMLInitializationEvent event) {
 		onConfigChanged(null);
+		proxy.onInitEvent(event);
 	}
 
 	@Mod.EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
+		proxy.onPostInitEvent(event);
 	}
 
 	@SubscribeEvent
@@ -79,12 +87,7 @@ public class ModHardModeTweaks {
 		if (eventArgs == null || eventArgs.modID.equals("hardmodetweaks|main")) {
 			logger.info("Reloading config");
 			Config.reload();
-			AITweaksManager.onConfigChanged();
 			EatingRegenManager.onConfigChanged();
-			MobsTweaksManager.onConfigChanged();
-			HardModeRulesManager.onConfigChanged();
-			SleepManager.onConfigChanged();
-			WorldTweaksManager.onConfigChanged();
 		}
 	}
 }

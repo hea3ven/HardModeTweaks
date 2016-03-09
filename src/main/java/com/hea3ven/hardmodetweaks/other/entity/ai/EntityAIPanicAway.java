@@ -1,4 +1,4 @@
-package com.hea3ven.hardmodetweaks.entity.ai;
+package com.hea3ven.hardmodetweaks.other.entity.ai;
 
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.ai.EntityAIBase;

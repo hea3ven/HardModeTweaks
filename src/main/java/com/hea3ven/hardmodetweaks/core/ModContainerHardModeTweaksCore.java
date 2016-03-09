@@ -50,7 +50,6 @@ public class ModContainerHardModeTweaksCore extends DummyModContainer {
         meta.authorList = Arrays.asList("Hea3veN");
         meta.description = "Core mod for Hard Mode Tweaks";
         meta.url = "https://github.com/hea3ven/HardModeTweaks";
-        meta.updateUrl = "https://github.com/hea3ven/HardModeTweaks";
         meta.screenshots = new String[0];
         // meta.logoFile = "/hmt_logo.png";
         meta.parent = "hardmodetweaks|main";

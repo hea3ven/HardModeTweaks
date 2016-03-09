@@ -2,15 +2,10 @@ package com.hea3ven.hardmodetweaks.config;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.google.common.collect.Lists;
-
 import org.apache.logging.log4j.Level;
-
-import net.minecraft.world.GameRules;
 
 import net.minecraftforge.common.config.ConfigElement;
 import net.minecraftforge.common.config.Configuration;
@@ -19,11 +14,8 @@ import net.minecraftforge.fml.client.config.IConfigElement;
 import net.minecraftforge.fml.common.FMLLog;
 
 import com.hea3ven.hardmodetweaks.EatingRegenManager.FoodConfig;
-import com.hea3ven.tweaks.DayNightCycle;
-import com.hea3ven.tweaks.Hea3venTweaks;
 
 public class Config {
-	public static boolean enableTweakAnimalAI;
 	public static boolean enableEatingHeal;
 
 	public static int requiredFoodValue;
@@ -31,54 +23,19 @@ public class Config {
 	public static float healValueMultiplier;
 	public static List<FoodConfig> foodValuesConfig;
 
-	public static boolean enableMobsTweaks;
-	public static boolean spidersApplySlowness;
-	public static boolean replaceCaveSpiderPoison;
-	public static boolean creeperSpawnTweak;
-	public static float zombieKnockbackResistance;
-
-	public static boolean enableSleepPrevention;
-	public static int sleepPreventionTimeout;
-
-	public static boolean enableWorldTweaks;
-	public static float maxBreakSpeed;
-
-	public static boolean enableGameRules;
-	public static Map<String, String> gameRules;
-
 	private static Config INSTANCE;
 
 	private File configfile;
 	private Configuration generalConfig;
 
-	private Property enableDayCycleTweaksProp;
-	private Property cycleLengthMultiplierProp;
-	private Property dayToNightRatioProp;
-
 	private Property enableEatingHealProp;
-	private Property enableTweakAnimalAIProp;
-	private Property enablePreventBoatBreakProp;
-	private Property enableNonSolidLeavesProp;
 
 	private Property requiredFoodValueProp;
 	private Property healValueOffsetProp;
 	private Property healValueMultiplierProp;
 	private Property foodValuesConfigProp;
 
-	private Property enableSleepPreventionProp;
-	private Property sleepPreventionTimeoutProp;
 
-	private Property enableMobsTweaksProp;
-	private Property spidersApplySlownessProp;
-	private Property replaceCaveSpiderPoisonProp;
-	private Property creeperSpawnTweakProp;
-	private Property zombieKnockbackResistanceProp;
-
-	private Property enableWorldTweaksProp;
-	private Property maxBreakSpeedProp;
-
-	private Property enableGameRulesProp;
-	private Map<String, Property> gameRulesProps;
 
 	private Config(File configFile) {
 		this.configfile = configFile;
@@ -116,22 +73,6 @@ public class Config {
 		generalConfig.getCategory("World").setLanguageKey("hardmodetweaks.config.world.cat");
 		generalConfig.getCategory("Other").setLanguageKey("hardmodetweaks.config.other.cat");
 
-		enableDayCycleTweaksProp = generalConfig
-				.get("DayNightCycle", "enableDayCycleTweaks", true,
-						"Enable the day/night cycle tweaks")
-				.setLanguageKey("hardmodetweaks.config.daynightcycle.enableDayCycleTweaks")
-				.setRequiresWorldRestart(true);
-		cycleLengthMultiplierProp = generalConfig
-				.get("DayNightCycle", "cycleLengthMultiplier", 1.0d,
-						"Change the length of the day/night cycle, 1.0 is the same as vanilla, which is 20 minutes.")
-				.setLanguageKey("hardmodetweaks.config.daynightcycle.cycleLenghtMult")
-				.setRequiresWorldRestart(true);
-		dayToNightRatioProp = generalConfig
-				.get("DayNightCycle", "dayToNightRatio", 0.5d,
-						"Ratio between the length of the day and the length of the night, values should be between 0.0 and 1.0. A value of 0.5 means day and night are the same length, a value of 0.75 means the day is longer than the night.")
-				.setLanguageKey("hardmodetweaks.config.daynightcycle.daynightratio")
-				.setRequiresWorldRestart(true);
-
 		enableEatingHealProp = generalConfig
 				.get("FoodHealing", "enableFoodHealing", true,
 						"Enable the healing when you eat food.")
@@ -166,72 +107,6 @@ public class Config {
 						"Modifications to food's value and saturation."
 								+ " Remove all entries to leave as default vanilla values.")
 				.setLanguageKey("hardmodetweaks.config.foodheal.foodValues");
-
-		enableTweakAnimalAIProp = generalConfig
-				.get("Other", "enableAnimalAITweak", true,
-						"Enable changing the animals AI to make them run from their attackers.")
-				.setLanguageKey("hardmodetweaks.config.other.animalaitweak");
-		enablePreventBoatBreakProp = generalConfig
-				.get("Other", "enablePreventBoatBreak", true,
-						"Enable to make it so that boats don't break when hitting blocks.")
-				.setLanguageKey("hardmodetweaks.config.other.preventboatbreak")
-				.setRequiresWorldRestart(true);
-		enableNonSolidLeavesProp = generalConfig
-				.get("Other", "enableNonSolidLeaves", true,
-						"Enable tweak to make leaves blocks non-solid (like vines).")
-				.setLanguageKey("hardmodetweaks.config.other.nonsolidleaves")
-				.setRequiresWorldRestart(true);
-
-		enableSleepPreventionProp = generalConfig
-				.get("Sleep", "enableSleepPrevention", true,
-						"Enable beds requiring a timeout after being placed before they can be used.")
-				.setLanguageKey("hardmodetweaks.config.sleep.enable");
-		sleepPreventionTimeoutProp = generalConfig
-				.get("Sleep", "sleepTimeout", 3,
-						"The number of days that must pass after placing a bed before it can be used.")
-				.setLanguageKey("hardmodetweaks.config.sleep.timeout");
-
-		enableMobsTweaksProp = generalConfig
-				.get("Mobs", "enableMobsTweak", true, "Enable tweaks for mobs.")
-				.setLanguageKey("hardmodetweaks.config.mobs.enableMobsTweak");
-		spidersApplySlownessProp = generalConfig
-				.get("Mobs", "spidersApplySlowness", true,
-						"Enable to make spiders apply slowness when they attack.")
-				.setLanguageKey("hardmodetweaks.config.mobs.spidersApplySlowness");
-		replaceCaveSpiderPoisonProp = generalConfig
-				.get("Mobs", "replaceCaveSpiderPoison", true,
-						"Enable to make it so cave spiders apply weakness in stead of poison.")
-				.setLanguageKey("hardmodetweaks.config.mobs.replaceCaveSpiderPoison");
-		creeperSpawnTweakProp = generalConfig
-				.get("Mobs", "creeperSpawnTweak", true,
-						"Make it so that creepers only spawn on blocks without sky access.")
-				.setLanguageKey("hardmodetweaks.config.mobs.creeperSpawnTweak");
-		zombieKnockbackResistanceProp = generalConfig
-				.get("Mobs", "zombieKnockbackResistance", 0.6d,
-						"The value for zombies knockback resistance, use values between 0.0 and 1.0. Set to 0.0 to disable.")
-				.setLanguageKey("hardmodetweaks.config.mobs.zombieKnockbackResistance");
-
-		enableWorldTweaksProp = generalConfig
-				.get("World", "enableWorldTweaks", true, "Enable world tweaks.")
-				.setLanguageKey("hardmodetweaks.config.world.enable");
-		maxBreakSpeedProp = generalConfig
-				.get("World", "maxBreakSpeed", 300,
-						"The maximum break speed allowed. For reference, diamond pickaxe is a"
-								+ " break speed of 8, and with efficiency V it's speed is 34")
-				.setLanguageKey("hardmodetweaks.config.world.maxBreakSpeed");
-
-		enableGameRulesProp = generalConfig
-				.get("GameRules", "enableGameRules", true, "Enable changing the game rules.")
-				.setLanguageKey("hardmodetweaks.config.gamerules.enable")
-				.setRequiresWorldRestart(true);
-		gameRulesProps = new HashMap<String, Property>();
-		GameRules rules = new GameRules();
-		for (String ruleName : rules.getRules()) {
-			gameRulesProps.put(ruleName,
-					generalConfig
-							.get("GameRules", ruleName, rules.getString(ruleName))
-							.setRequiresWorldRestart(true));
-		}
 	}
 
 	private void read() {
@@ -239,21 +114,6 @@ public class Config {
 	}
 
 	private void load() {
-		Hea3venTweaks.setConfig("DayNightCycle.enabled",
-				Boolean.toString(enableDayCycleTweaksProp.getBoolean()));
-		Hea3venTweaks.setConfig("DayNightCycle.cycleLengthMultiplier",
-				Double.toString(cycleLengthMultiplierProp.getDouble()));
-		DayNightCycle.dayLengthMultiplier = 1.0d / cycleLengthMultiplierProp.getDouble();
-		Hea3venTweaks.setConfig("DayNightCycle.dayToNightRatio",
-				Float.toString((float) dayToNightRatioProp.getDouble()));
-		DayNightCycle.dayToNightRatio = 2.0f * (float) dayToNightRatioProp.getDouble();
-
-		Config.enableTweakAnimalAI = enableTweakAnimalAIProp.getBoolean();
-		Hea3venTweaks.setConfig("PreventBoatBreak.enabled",
-				Boolean.toString(enablePreventBoatBreakProp.getBoolean()));
-		Hea3venTweaks.setConfig("NonSolidLeaves.enabled",
-				Boolean.toString(enableNonSolidLeavesProp.getBoolean()));
-
 		Config.enableEatingHeal = enableEatingHealProp.getBoolean();
 		Config.requiredFoodValue = requiredFoodValueProp.getInt();
 		Config.healValueOffset = (float) healValueOffsetProp.getDouble();
@@ -265,24 +125,6 @@ public class Config {
 				foodValuesConfig.add(foodConfig);
 		}
 
-		Config.enableMobsTweaks = enableMobsTweaksProp.getBoolean();
-		Config.spidersApplySlowness = spidersApplySlownessProp.getBoolean();
-		Config.replaceCaveSpiderPoison = replaceCaveSpiderPoisonProp.getBoolean();
-		Config.creeperSpawnTweak = creeperSpawnTweakProp.getBoolean();
-		Config.zombieKnockbackResistance = (float) zombieKnockbackResistanceProp.getDouble();
-
-		Config.enableSleepPrevention = enableSleepPreventionProp.getBoolean();
-		Config.sleepPreventionTimeout = (int) (sleepPreventionTimeoutProp.getInt() * 24000
-				* cycleLengthMultiplierProp.getDouble());
-
-		Config.enableWorldTweaks = enableWorldTweaksProp.getBoolean();
-		Config.maxBreakSpeed = (float) maxBreakSpeedProp.getDouble();
-
-		Config.enableGameRules = enableGameRulesProp.getBoolean(true);
-		Config.gameRules = new HashMap<String, String>();
-		for (String ruleName : gameRulesProps.keySet()) {
-			Config.gameRules.put(ruleName, gameRulesProps.get(ruleName).getString());
-		}
 	}
 
 	private void save() {

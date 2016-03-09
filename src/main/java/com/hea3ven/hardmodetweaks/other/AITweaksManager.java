@@ -1,4 +1,4 @@
-package com.hea3ven.hardmodetweaks;
+package com.hea3ven.hardmodetweaks.other;
 
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLiving;
@@ -10,29 +10,15 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import com.hea3ven.hardmodetweaks.config.Config;
-import com.hea3ven.hardmodetweaks.entity.ai.EntityAIPanicAway;
+import com.hea3ven.hardmodetweaks.other.entity.ai.EntityAIPanicAway;
 
 public class AITweaksManager {
 
-    private static AITweaksManager instance = null;
-
-    public static void onConfigChanged() {
-        if (Config.enableTweakAnimalAI) {
-            if (instance == null) {
-                instance = new AITweaksManager();
-                MinecraftForge.EVENT_BUS.register(instance);
-            }
-        } else {
-            if (instance != null) {
-                MinecraftForge.EVENT_BUS.unregister(instance);
-                instance = null;
-            }
-        }
-    }
+	public static boolean enableTweakAnimalAI;
 
 	@SubscribeEvent
 	public void specialSpawnEvent(EntityJoinWorldEvent e) {
-		if (Config.enableTweakAnimalAI && e.entity instanceof EntityLiving) {
+		if (enableTweakAnimalAI && e.entity instanceof EntityLiving) {
 			replaceAIPanicTask((EntityLiving) e.entity);
 		}
 	}
