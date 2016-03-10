@@ -18,7 +18,7 @@ public class ProxyModHardModeTweaksOther extends ProxyModBase {
 	}
 
 	public CategoryConfigManagerBuilder getConfig() {
-		return new CategoryConfigManagerBuilder("World")
+		return new CategoryConfigManagerBuilder("Other")
 				.addValue("enableAnimalAITweak", "true", Type.BOOLEAN,
 						"Enable changing the animals AI to make them run from their attackers.",
 						new Consumer<Property>() {

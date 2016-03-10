@@ -1,6 +1,6 @@
 [
 {
-  "modid": "hardmodetweaks|main",
+  "modid": "hardmodetweaks",
   "name": "Hard Mode Tweaks",
   "description": "Gameplay changes.",
   "version": "${version}",
@@ -14,7 +14,7 @@
   "dependencies": ["required-after:Forge@[${forgeversion},)"]
 },
 {
-  "modid": "hardmodetweaks|core",
+  "modid": "hardmodetweakscore",
   "name": "Hard Mode Tweaks",
   "description": "Gameplay changes.",
   "version": "${version}",
@@ -26,7 +26,7 @@
   "logoFile": "",
   "screenshots": [],
   "dependencies": ["required-after:Forge@[${forgeversion},)"],
-  "parent": "hardmodetweaks|main"
+  "parent": "hardmodetweaks"
 },
 {
   "modid": "twintails",

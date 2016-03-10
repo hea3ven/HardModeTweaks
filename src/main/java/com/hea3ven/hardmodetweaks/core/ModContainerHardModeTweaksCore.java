@@ -44,7 +44,7 @@ public class ModContainerHardModeTweaksCore extends DummyModContainer {
         logger.debug("configuring the mod");
 
         ModMetadata meta = getMetadata();
-        meta.modId = "hardmodetweaks|core";
+        meta.modId = "hardmodetweakscore";
         meta.name = "Hard Mode Tweaks Core";
         meta.version = "1.0.0";
         meta.authorList = Arrays.asList("Hea3veN");
@@ -52,7 +52,7 @@ public class ModContainerHardModeTweaksCore extends DummyModContainer {
         meta.url = "https://github.com/hea3ven/HardModeTweaks";
         meta.screenshots = new String[0];
         // meta.logoFile = "/hmt_logo.png";
-        meta.parent = "hardmodetweaks|main";
+        meta.parent = "hardmodetweaks";
 
         meta.requiredMods = Sets.newHashSet();
         meta.dependencies = Lists.newArrayList();

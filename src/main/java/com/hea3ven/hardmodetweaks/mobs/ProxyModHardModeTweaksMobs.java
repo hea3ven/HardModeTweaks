@@ -17,7 +17,7 @@ public class ProxyModHardModeTweaksMobs extends ProxyModBase {
 	}
 
 	public CategoryConfigManagerBuilder getConfig() {
-		return new CategoryConfigManagerBuilder("Sleep")
+		return new CategoryConfigManagerBuilder("Mobs")
 				.addValue("enableMobsTweak", "true", Type.BOOLEAN, "Enable tweaks for mobs.",
 						new Consumer<Property>() {
 							@Override
