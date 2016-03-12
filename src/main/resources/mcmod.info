@@ -27,19 +27,5 @@
   "screenshots": [],
   "dependencies": ["required-after:Forge@[${forgeversion},)"],
   "parent": "hardmodetweaks"
-},
-{
-  "modid": "twintails",
-  "name": "TwinTails",
-  "description": "Tail ON!",
-  "version": "${version}",
-  "mcversion": "${mcversion}",
-  "url": "",
-  "updateUrl": "",
-  "authorList": ["Hea3veN"],
-  "credits": "",
-  "logoFile": "/assets/twintails/twintails_logo.png",
-  "screenshots": [],
-  "dependencies": []
 }
 ]
