@@ -6,18 +6,15 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Property;
 import net.minecraftforge.common.config.Property.Type;
 
-import com.hea3ven.tools.commonutils.mod.ProxyModBase;
+import com.hea3ven.tools.commonutils.mod.ProxyModModule;
 import com.hea3ven.tools.commonutils.mod.config.FileConfigManagerBuilder.CategoryConfigManagerBuilder;
 import com.hea3ven.tweaks.DayNightCycle;
 
-public class ProxyModHardModeTweaksSleep extends ProxyModBase {
+public class ProxyModHardModeTweaksSleep extends ProxyModModule {
 
 	private SleepManager sleepManager = null;
 
-	public ProxyModHardModeTweaksSleep(String modId) {
-		super(modId);
-	}
-
+	@Override
 	public CategoryConfigManagerBuilder getConfig() {
 		return new CategoryConfigManagerBuilder("Sleep")
 				.addValue("enableSleepPrevention", "true", Type.BOOLEAN,

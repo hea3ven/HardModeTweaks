@@ -6,17 +6,14 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Property;
 import net.minecraftforge.common.config.Property.Type;
 
-import com.hea3ven.tools.commonutils.mod.ProxyModBase;
+import com.hea3ven.tools.commonutils.mod.ProxyModModule;
 import com.hea3ven.tools.commonutils.mod.config.FileConfigManagerBuilder.CategoryConfigManagerBuilder;
 import com.hea3ven.tweaks.Hea3venTweaks;
 
-public class ProxyModHardModeTweaksOther extends ProxyModBase {
+public class ProxyModHardModeTweaksOther extends ProxyModModule {
 	private AITweaksManager aiManager;
 
-	public ProxyModHardModeTweaksOther(String modId) {
-		super(modId);
-	}
-
+	@Override
 	public CategoryConfigManagerBuilder getConfig() {
 		return new CategoryConfigManagerBuilder("Other")
 				.addValue("enableAnimalAITweak", "true", Type.BOOLEAN,

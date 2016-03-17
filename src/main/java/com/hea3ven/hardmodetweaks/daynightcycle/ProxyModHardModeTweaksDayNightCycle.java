@@ -5,16 +5,13 @@ import java.util.function.Consumer;
 import net.minecraftforge.common.config.Property;
 import net.minecraftforge.common.config.Property.Type;
 
-import com.hea3ven.tools.commonutils.mod.ProxyModBase;
+import com.hea3ven.tools.commonutils.mod.ProxyModModule;
 import com.hea3ven.tools.commonutils.mod.config.FileConfigManagerBuilder.CategoryConfigManagerBuilder;
 import com.hea3ven.tweaks.DayNightCycle;
 import com.hea3ven.tweaks.Hea3venTweaks;
 
-public class ProxyModHardModeTweaksDayNightCycle extends ProxyModBase {
-	public ProxyModHardModeTweaksDayNightCycle(String modId) {
-		super(modId);
-	}
-
+public class ProxyModHardModeTweaksDayNightCycle extends ProxyModModule {
+	@Override
 	public CategoryConfigManagerBuilder getConfig() {
 		return new CategoryConfigManagerBuilder("DayNightCycle")
 				.addValue("enableDayCycleTweaks", "true", Type.BOOLEAN, "Enable the day/night cycle tweaks",

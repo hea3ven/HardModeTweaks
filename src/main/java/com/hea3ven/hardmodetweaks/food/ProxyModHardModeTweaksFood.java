@@ -9,15 +9,11 @@ import net.minecraftforge.common.config.Property;
 import net.minecraftforge.common.config.Property.Type;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 
-import com.hea3ven.tools.commonutils.mod.ProxyModBase;
+import com.hea3ven.tools.commonutils.mod.ProxyModModule;
 import com.hea3ven.tools.commonutils.mod.config.FileConfigManagerBuilder.CategoryConfigManagerBuilder;
 
-public class ProxyModHardModeTweaksFood extends ProxyModBase {
+public class ProxyModHardModeTweaksFood extends ProxyModModule {
 	private FoodTweaksManager foodManager;
-
-	public ProxyModHardModeTweaksFood(String modId) {
-		super(modId);
-	}
 
 	@Override
 	public void onInitEvent(FMLInitializationEvent event) {
@@ -27,6 +23,7 @@ public class ProxyModHardModeTweaksFood extends ProxyModBase {
 			FoodValueTweaker.modifyFoodValues();
 	}
 
+	@Override
 	public CategoryConfigManagerBuilder getConfig() {
 		return new CategoryConfigManagerBuilder("Food")
 				.addValue("enableFoodTweaks", "true", Type.BOOLEAN,

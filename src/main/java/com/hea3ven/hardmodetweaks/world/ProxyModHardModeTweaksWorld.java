@@ -6,16 +6,13 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Property;
 import net.minecraftforge.common.config.Property.Type;
 
-import com.hea3ven.tools.commonutils.mod.ProxyModBase;
+import com.hea3ven.tools.commonutils.mod.ProxyModModule;
 import com.hea3ven.tools.commonutils.mod.config.FileConfigManagerBuilder.CategoryConfigManagerBuilder;
 
-public class ProxyModHardModeTweaksWorld extends ProxyModBase {
+public class ProxyModHardModeTweaksWorld extends ProxyModModule {
 	private WorldTweaksManager worldManager;
 
-	public ProxyModHardModeTweaksWorld(String modId) {
-		super(modId);
-	}
-
+	@Override
 	public CategoryConfigManagerBuilder getConfig() {
 		return new CategoryConfigManagerBuilder("World")
 				.addValue("enableWorldTweaks", "true", Type.BOOLEAN,

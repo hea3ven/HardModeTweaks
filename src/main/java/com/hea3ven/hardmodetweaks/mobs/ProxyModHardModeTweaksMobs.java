@@ -6,16 +6,13 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Property;
 import net.minecraftforge.common.config.Property.Type;
 
-import com.hea3ven.tools.commonutils.mod.ProxyModBase;
+import com.hea3ven.tools.commonutils.mod.ProxyModModule;
 import com.hea3ven.tools.commonutils.mod.config.FileConfigManagerBuilder.CategoryConfigManagerBuilder;
 
-public class ProxyModHardModeTweaksMobs extends ProxyModBase {
+public class ProxyModHardModeTweaksMobs extends ProxyModModule {
 	private MobsTweaksManager mobsManager;
 
-	public ProxyModHardModeTweaksMobs(String modId) {
-		super(modId);
-	}
-
+	@Override
 	public CategoryConfigManagerBuilder getConfig() {
 		return new CategoryConfigManagerBuilder("Mobs")
 				.addValue("enableMobsTweak", "true", Type.BOOLEAN, "Enable tweaks for mobs.",

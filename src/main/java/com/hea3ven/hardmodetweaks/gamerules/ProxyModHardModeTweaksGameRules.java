@@ -8,17 +8,14 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Property;
 import net.minecraftforge.common.config.Property.Type;
 
-import com.hea3ven.tools.commonutils.mod.ProxyModBase;
+import com.hea3ven.tools.commonutils.mod.ProxyModModule;
 import com.hea3ven.tools.commonutils.mod.config.FileConfigManagerBuilder.CategoryConfigManagerBuilder;
 
-public class ProxyModHardModeTweaksGameRules extends ProxyModBase {
+public class ProxyModHardModeTweaksGameRules extends ProxyModModule {
 
 	private GameRulesManager rulesManager;
 
-	public ProxyModHardModeTweaksGameRules(String modId) {
-		super(modId);
-	}
-
+	@Override
 	public CategoryConfigManagerBuilder getConfig() {
 		CategoryConfigManagerBuilder cfg = new CategoryConfigManagerBuilder("GameRules")
 				.addValue("enableGameRules", "true", Type.BOOLEAN, "Enable changing the game rules.",

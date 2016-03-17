@@ -19,13 +19,6 @@
 
 package com.hea3ven.hardmodetweaks;
 
-import com.hea3ven.hardmodetweaks.daynightcycle.ProxyModHardModeTweaksDayNightCycle;
-import com.hea3ven.hardmodetweaks.food.ProxyModHardModeTweaksFood;
-import com.hea3ven.hardmodetweaks.gamerules.ProxyModHardModeTweaksGameRules;
-import com.hea3ven.hardmodetweaks.mobs.ProxyModHardModeTweaksMobs;
-import com.hea3ven.hardmodetweaks.other.ProxyModHardModeTweaksOther;
-import com.hea3ven.hardmodetweaks.sleep.ProxyModHardModeTweaksSleep;
-import com.hea3ven.hardmodetweaks.world.ProxyModHardModeTweaksWorld;
 import com.hea3ven.tools.commonutils.mod.ProxyModComposite;
 import com.hea3ven.tools.commonutils.mod.config.FileConfigManagerBuilder;
 
@@ -49,12 +42,12 @@ public class HardModeTweaksProxy extends ProxyModComposite {
 		addConfigManager(new FileConfigManagerBuilder()
 				.setFileName("hardmodetweaks.cfg")
 				.setDesc("Hard Mode Tweaks Config")
-				.add(this.<ProxyModHardModeTweaksDayNightCycle>getModule("daynightcycle").getConfig())
-				.add(this.<ProxyModHardModeTweaksSleep>getModule("sleep").getConfig())
-				.add(this.<ProxyModHardModeTweaksFood>getModule("food").getConfig())
-				.add(this.<ProxyModHardModeTweaksGameRules>getModule("gamerules").getConfig())
-				.add(this.<ProxyModHardModeTweaksMobs>getModule("mobs").getConfig())
-				.add(this.<ProxyModHardModeTweaksWorld>getModule("world").getConfig())
-				.add(this.<ProxyModHardModeTweaksOther>getModule("other").getConfig()));
+				.add(this.getModule("daynightcycle").getConfig())
+				.add(this.getModule("sleep").getConfig())
+				.add(this.getModule("food").getConfig())
+				.add(this.getModule("gamerules").getConfig())
+				.add(this.getModule("mobs").getConfig())
+				.add(this.getModule("world").getConfig())
+				.add(this.getModule("other").getConfig()));
 	}
 }
