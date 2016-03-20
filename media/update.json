@@ -1,8 +1,10 @@
 {
 	"homepage": "https://github.com/hea3ven/HardModeTweaks",
 	"promos": {
+		"1.9-latest": "1.9-1.2.0",
 		"1.8-latest": "1.1.4",
 		"1.7.10-latest": "1.8.8-1.1.4",
+		"1.9-recommended": "1.9-1.2.0",
 		"1.8-recommended": "1.1.4",
 		"1.7.10-recommended": "1.8.8-1.1.4"
 	},
@@ -22,8 +24,8 @@
 		"1.8-1.1.3": "    * Fixed sometimes crashing when using beds, fixes #1.",
 		"1.8-1.1.4": "    * Added config to modify foods values and saturation.\n    * Added config to limit the break speed of blocks, fixes #3.\n    * Fixed a performance issue when loading classes, fixes #2.\n    * Fix the sleep prevention tweak not working."
 	},
-	"1.8.9": {
-		"commit": null,
-		"1.8.9-1.2.0": "    * Update to minecraft 1.8.9"
+	"1.9": {
+		"commit": "5625a8cd81aac069492f267b0512a2e50059bbef",
+		"1.9-1.2.0": "    * Update to minecraft 1.8.9.\n    * Remove the food healing mechanic and replace it with regeneration that consumes a lot more saturation/hunger."
 	}
 }

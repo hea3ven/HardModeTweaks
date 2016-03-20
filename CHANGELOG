@@ -1,4 +1,6 @@
-    * Update to minecraft 1.8.8.
+Version 1.9-1.2.0:
+    * Update to minecraft 1.9.
+    * Remove the food healing mechanic and replace it with regeneration that consumes a lot more saturation/hunger.
 
 Version 1.1.4:
     - 1.8:
