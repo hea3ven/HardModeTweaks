@@ -31,8 +31,8 @@ dependencies {
     compile 'com.hea3ven.tools.asmtweaks:h3nt-asmtweaks:1.0.2'
     release 'com.hea3ven.tools.asmtweaks:h3nt-asmtweaks:1.0.2'
 
-    compile 'com.hea3ven.tools.commonutils:h3nt-commonutils:1.1.2'
-    release 'com.hea3ven.tools.commonutils:h3nt-commonutils:1.1.2'
+    compile 'com.hea3ven.tools.commonutils:h3nt-commonutils:2.0.0'
+    release 'com.hea3ven.tools.commonutils:h3nt-commonutils:2.0.0'
 }
 
 sourceSets.main {

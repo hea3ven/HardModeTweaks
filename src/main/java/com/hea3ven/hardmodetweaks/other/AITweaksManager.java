@@ -12,11 +12,9 @@ import com.hea3ven.hardmodetweaks.other.entity.ai.EntityAIPanicAway;
 
 public class AITweaksManager {
 
-	public static boolean enableTweakAnimalAI;
-
 	@SubscribeEvent
 	public void specialSpawnEvent(EntityJoinWorldEvent e) {
-		if (enableTweakAnimalAI && e.entity instanceof EntityLiving) {
+		if (e.entity instanceof EntityLiving) {
 			replaceAIPanicTask((EntityLiving) e.entity);
 		}
 	}

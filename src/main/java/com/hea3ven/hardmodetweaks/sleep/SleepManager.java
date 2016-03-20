@@ -5,8 +5,8 @@ import java.util.Set;
 
 import net.minecraft.block.BlockBed;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentTranslation;
 
 import net.minecraftforge.common.util.BlockSnapshot;
 import net.minecraftforge.event.entity.player.PlayerSleepInBedEvent;
@@ -50,7 +50,7 @@ public class SleepManager {
 			return;
 		if (event.entity.worldObj.getTotalWorldTime() - bedPlacement.worldTime < sleepPreventionTimeout) {
 			event.entityPlayer.addChatComponentMessage(
-					new ChatComponentTranslation("tile.bed.recentlyPlaced"));
+					new TextComponentTranslation("tile.bed.recentlyPlaced"));
 			event.result = EntityPlayer.EnumStatus.OTHER_PROBLEM;
 		} else {
 			bedPlacements.remove(bedPlacement);

@@ -39,7 +39,7 @@ public class GameRulesManager {
 
 	@SubscribeEvent
 	public void serverStarted(WorldEvent.Load event) {
-		if (!event.world.isRemote && event.world.provider.getDimensionId() == 0) {
+		if (!event.world.isRemote && event.world.provider.getDimension() == 0) {
 			logger.debug("Applying the game rules");
 			GameRules rules = event.world.getGameRules();
 			for (Entry<String, String> entry : gameRules.entrySet()) {

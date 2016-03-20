@@ -9,9 +9,9 @@ import net.minecraft.entity.monster.EntityCaveSpider;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.monster.EntitySpider;
 import net.minecraft.entity.monster.EntityZombie;
-import net.minecraft.potion.Potion;
+import net.minecraft.init.MobEffects;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.EnumSkyBlock;
 
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
@@ -34,7 +34,7 @@ public class MobsTweaksManager {
 			if (event.source.getDamageType().equals("mob")
 					&& event.source.getEntity() instanceof EntitySpider) {
 				event.entityLiving
-						.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 200, 1));
+						.addPotionEffect(new PotionEffect(MobEffects.moveSlowdown, 200, 1));
 			}
 		}
 
@@ -49,8 +49,8 @@ public class MobsTweaksManager {
 	@SubscribeEvent
 	public void onLivingUpdateEvent(LivingUpdateEvent event) {
 		if (poisonedEntities.contains(event.entityLiving)) {
-			event.entityLiving.removePotionEffect(Potion.poison.id);
-			event.entityLiving.addPotionEffect(new PotionEffect(Potion.weakness.id, 15 * 20));
+			event.entityLiving.removePotionEffect(MobEffects.poison);
+			event.entityLiving.addPotionEffect(new PotionEffect(MobEffects.weakness, 15 * 20));
 			poisonedEntities.remove(event.entityLiving);
 		}
 	}
@@ -74,7 +74,7 @@ public class MobsTweaksManager {
 			if (event.entityLiving instanceof EntityZombie) {
 				EntityZombie zombie = (EntityZombie) event.entityLiving;
 				zombie
-						.getEntityAttribute(SharedMonsterAttributes.knockbackResistance)
+						.getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE)
 						.applyModifier(new AttributeModifier("Base value",
 								zombieKnockbackResistance, 0));
 			}

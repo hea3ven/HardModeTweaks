@@ -34,15 +34,6 @@ public class ProxyModHardModeTweaksOther extends ProxyModModule {
 								}
 							}
 						})
-				.addValue("enablePreventBoatBreak", "true", Type.BOOLEAN,
-						"Enable to make it so that boats don't break when hitting blocks.",
-						new Consumer<Property>() {
-							@Override
-							public void accept(Property property) {
-								Hea3venTweaks.setConfig("PreventBoatBreak.enabled",
-										Boolean.toString(property.getBoolean()));
-							}
-						}, true, true)
 				.addValue("enableNonSolidLeaves", "true", Type.BOOLEAN,
 						"Enable tweak to make leaves blocks non-solid (like vines).",
 						new Consumer<Property>() {

@@ -28,9 +28,9 @@ public class ExtendedEntityPropertiesHealTimeout implements IExtendedEntityPrope
 	}
 
 	public boolean isDone() {
-		timeout++;
-		if (timeout >= FoodTweaksManager.healTimeout) {
-			timeout = 0;
+		timeout--;
+		if (timeout <= 0) {
+			timeout = FoodTweaksManager.healTimeout;
 			return true;
 		} else {
 			return false;

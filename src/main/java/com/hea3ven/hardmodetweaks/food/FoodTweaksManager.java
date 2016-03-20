@@ -1,5 +1,8 @@
 package com.hea3ven.hardmodetweaks.food;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import net.minecraft.entity.player.EntityPlayer;
 
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -11,6 +14,8 @@ public class FoodTweaksManager {
 	public static byte healTimeout = 20;
 	public static float healAmount = 0.2f;
 	public static float healExhaustion = 3.0f;
+
+	private Map<EntityPlayer, ExtendedEntityPropertiesHealTimeout> timeouts = new HashMap<>();
 
 	@SubscribeEvent
 	public void onPlayerTickEvent(PlayerTickEvent event) {
@@ -27,10 +32,9 @@ public class FoodTweaksManager {
 	}
 
 	private boolean isTimeoutDone(EntityPlayer player) {
-		ExtendedEntityPropertiesHealTimeout timeout =
-				(ExtendedEntityPropertiesHealTimeout) player.getExtendedProperties("HealTimer");
+		ExtendedEntityPropertiesHealTimeout timeout = timeouts.get(player);
 		if (timeout == null) {
-			player.registerExtendedProperties("HealTimer", new ExtendedEntityPropertiesHealTimeout());
+			timeouts.put(player, new ExtendedEntityPropertiesHealTimeout());
 			return false;
 		} else {
 			timeout.tick();
