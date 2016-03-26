@@ -14,8 +14,8 @@ public class AITweaksManager {
 
 	@SubscribeEvent
 	public void specialSpawnEvent(EntityJoinWorldEvent e) {
-		if (e.entity instanceof EntityLiving) {
-			replaceAIPanicTask((EntityLiving) e.entity);
+		if (e.getEntity() instanceof EntityLiving) {
+			replaceAIPanicTask((EntityLiving) e.getEntity());
 		}
 	}
 

@@ -9,7 +9,7 @@ public class WorldTweaksManager {
 
 	@SubscribeEvent
 	public void onPlayerBreakSpeedEvent(PlayerEvent.BreakSpeed event) {
-		if (event.newSpeed > maxBreakSpeed)
-			event.newSpeed = maxBreakSpeed;
+		if (event.getNewSpeed() > maxBreakSpeed)
+			event.setNewSpeed(maxBreakSpeed);
 	}
 }

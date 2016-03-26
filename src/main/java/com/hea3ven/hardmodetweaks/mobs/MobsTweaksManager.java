@@ -31,36 +31,36 @@ public class MobsTweaksManager {
 	@SubscribeEvent
 	public void onLivingAttackEvent(LivingAttackEvent event) {
 		if (spidersApplySlowness) {
-			if (event.source.getDamageType().equals("mob")
-					&& event.source.getEntity() instanceof EntitySpider) {
-				event.entityLiving
+			if (event.getSource().getDamageType().equals("mob")
+					&& event.getSource().getEntity() instanceof EntitySpider) {
+				event.getEntityLiving()
 						.addPotionEffect(new PotionEffect(MobEffects.moveSlowdown, 200, 1));
 			}
 		}
 
 		if (replaceCaveSpiderPoison) {
-			if (event.source.getDamageType().equals("mob")
-					&& event.source.getEntity() instanceof EntityCaveSpider) {
-				poisonedEntities.add(event.entityLiving);
+			if (event.getSource().getDamageType().equals("mob")
+					&& event.getSource().getEntity() instanceof EntityCaveSpider) {
+				poisonedEntities.add(event.getEntityLiving());
 			}
 		}
 	}
 
 	@SubscribeEvent
 	public void onLivingUpdateEvent(LivingUpdateEvent event) {
-		if (poisonedEntities.contains(event.entityLiving)) {
-			event.entityLiving.removePotionEffect(MobEffects.poison);
-			event.entityLiving.addPotionEffect(new PotionEffect(MobEffects.weakness, 15 * 20));
-			poisonedEntities.remove(event.entityLiving);
+		if (poisonedEntities.contains(event.getEntityLiving())) {
+			event.getEntityLiving().removePotionEffect(MobEffects.poison);
+			event.getEntityLiving().addPotionEffect(new PotionEffect(MobEffects.weakness, 15 * 20));
+			poisonedEntities.remove(event.getEntityLiving());
 		}
 	}
 
 	@SubscribeEvent
 	public void onLivingSpawnCheckSpawnEvent(LivingSpawnEvent.CheckSpawn event) {
 		if (creeperSpawnTweak) {
-			if (event.entityLiving instanceof EntityCreeper) {
-				int skyLight = event.world.getLightFromNeighborsFor(EnumSkyBlock.SKY,
-						new BlockPos(event.x, event.y, event.z));
+			if (event.getEntityLiving() instanceof EntityCreeper) {
+				int skyLight = event.getWorld().getLightFor(EnumSkyBlock.SKY,
+						new BlockPos(event.getX(), event.getY(), event.getZ()));
 				if (skyLight > 8) {
 					event.setResult(Result.DENY);
 				}
@@ -71,8 +71,8 @@ public class MobsTweaksManager {
 	@SubscribeEvent
 	public void onLivingSpawnSpecialSpawnEvent(LivingSpawnEvent.SpecialSpawn event) {
 		if (zombieKnockbackResistance > 0) {
-			if (event.entityLiving instanceof EntityZombie) {
-				EntityZombie zombie = (EntityZombie) event.entityLiving;
+			if (event.getEntityLiving() instanceof EntityZombie) {
+				EntityZombie zombie = (EntityZombie) event.getEntityLiving();
 				zombie
 						.getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE)
 						.applyModifier(new AttributeModifier("Base value",

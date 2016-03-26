@@ -4,23 +4,18 @@ import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
-import net.minecraftforge.common.IExtendedEntityProperties;
-
-public class ExtendedEntityPropertiesHealTimeout implements IExtendedEntityProperties {
+public class ExtendedEntityPropertiesHealTimeout {
 
 	private byte timeout;
 
-	@Override
 	public void saveNBTData(NBTTagCompound compound) {
 		compound.setByte("HealTimeout", timeout);
 	}
 
-	@Override
 	public void loadNBTData(NBTTagCompound compound) {
 		timeout = compound.getByte("HealTimeout");
 	}
 
-	@Override
 	public void init(Entity entity, World world) {
 	}
 

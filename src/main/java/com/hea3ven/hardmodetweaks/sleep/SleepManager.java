@@ -32,26 +32,28 @@ public class SleepManager {
 
 	@SubscribeEvent
 	public void blockPlaceEvent(BlockEvent.MultiPlaceEvent event) {
-		if (event.placedBlock.getBlock() instanceof BlockBed) {
+		if (event.getPlacedBlock().getBlock() instanceof BlockBed) {
 			for (BlockSnapshot snap : event.getReplacedBlockSnapshots()) {
-				BlockPlacement placement = getPlacement(snap.pos);
+				BlockPlacement placement = getPlacement(snap.getPos());
 				if (placement != null)
-					placement.worldTime = event.world.getTotalWorldTime();
+					placement.worldTime = event.getWorld().getTotalWorldTime();
 				else
-					bedPlacements.add(new BlockPlacement(event.world.getTotalWorldTime(), snap.pos));
+					bedPlacements.add(
+							new BlockPlacement(event.getWorld().getTotalWorldTime(), snap.getPos()));
 			}
 		}
 	}
 
 	@SubscribeEvent
 	public void sleep(PlayerSleepInBedEvent event) {
-		BlockPlacement bedPlacement = getPlacement(event.pos);
+		BlockPlacement bedPlacement = getPlacement(event.getPos());
 		if (bedPlacement == null)
 			return;
-		if (event.entity.worldObj.getTotalWorldTime() - bedPlacement.worldTime < sleepPreventionTimeout) {
-			event.entityPlayer.addChatComponentMessage(
+		if (event.getEntity().worldObj.getTotalWorldTime() - bedPlacement.worldTime <
+				sleepPreventionTimeout) {
+			event.getEntityPlayer().addChatComponentMessage(
 					new TextComponentTranslation("tile.bed.recentlyPlaced"));
-			event.result = EntityPlayer.EnumStatus.OTHER_PROBLEM;
+			event.setResult(EntityPlayer.EnumStatus.OTHER_PROBLEM);
 		} else {
 			bedPlacements.remove(bedPlacement);
 		}

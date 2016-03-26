@@ -39,9 +39,9 @@ public class GameRulesManager {
 
 	@SubscribeEvent
 	public void serverStarted(WorldEvent.Load event) {
-		if (!event.world.isRemote && event.world.provider.getDimension() == 0) {
+		if (!event.getWorld().isRemote && event.getWorld().provider.getDimension() == 0) {
 			logger.debug("Applying the game rules");
-			GameRules rules = event.world.getGameRules();
+			GameRules rules = event.getWorld().getGameRules();
 			for (Entry<String, String> entry : gameRules.entrySet()) {
 				rules.setOrCreateGameRule(entry.getKey(), entry.getValue());
 			}
