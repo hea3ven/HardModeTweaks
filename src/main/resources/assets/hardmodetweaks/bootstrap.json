@@ -11,8 +11,8 @@
 			"required": "1.1.x"
 		},
 		"h3nt-commonutils": {
-			"version": "2.0.0",
-			"required": "2.0.x"
+			"version": "2.1.0",
+			"required": "2.1.x"
 		}
 	}
 }
