@@ -26,15 +26,15 @@ apply plugin: 'com.matthewprenger.cursegradle'
 apply from: 'mcbuild.gradle'
 
 dependencies {
-    release 'com.hea3ven.tools.mappings:h3nt-mappings:1.1.0'
+    release "com.hea3ven.tools.mappings:h3nt-mappings:${version_h3nt_mappings}"
 
     // compile project(':asmtweaks')
-    compile 'com.hea3ven.tools.asmtweaks:h3nt-asmtweaks:1.1.0'
-    release 'com.hea3ven.tools.asmtweaks:h3nt-asmtweaks:1.1.0'
+    compile "com.hea3ven.tools.asmtweaks:h3nt-asmtweaks:${version_asmtweaks}"
+    release "com.hea3ven.tools.asmtweaks:h3nt-asmtweaks:${version_asmtweaks}"
 
 	// compile project(':CommonUtils')
-    compile 'com.hea3ven.tools.commonutils:h3nt-commonutils:2.1.0'
-    release 'com.hea3ven.tools.commonutils:h3nt-commonutils:2.1.0'
+	compile "com.hea3ven.tools.commonutils:h3nt-commonutils:${version_commonutils}:deobf"
+	release "com.hea3ven.tools.commonutils:h3nt-commonutils:${version_commonutils}"
 }
 
 sourceSets.main {
