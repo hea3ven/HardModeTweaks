@@ -34,7 +34,7 @@ public class MobsTweaksManager {
 			if (event.getSource().getDamageType().equals("mob")
 					&& event.getSource().getEntity() instanceof EntitySpider) {
 				event.getEntityLiving()
-						.addPotionEffect(new PotionEffect(MobEffects.moveSlowdown, 200, 1));
+						.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 200, 1));
 			}
 		}
 
@@ -49,8 +49,8 @@ public class MobsTweaksManager {
 	@SubscribeEvent
 	public void onLivingUpdateEvent(LivingUpdateEvent event) {
 		if (poisonedEntities.contains(event.getEntityLiving())) {
-			event.getEntityLiving().removePotionEffect(MobEffects.poison);
-			event.getEntityLiving().addPotionEffect(new PotionEffect(MobEffects.weakness, 15 * 20));
+			event.getEntityLiving().removePotionEffect(MobEffects.POISON);
+			event.getEntityLiving().addPotionEffect(new PotionEffect(MobEffects.WEAKNESS, 15 * 20));
 			poisonedEntities.remove(event.getEntityLiving());
 		}
 	}
