@@ -29,12 +29,12 @@ public class LoadingPluginHardModeTweaks implements IFMLLoadingPlugin {
 
 	@Override
 	public String[] getASMTransformerClass() {
-		return new String[]{ClassTransformerHardModeTweaks.class.getName()};
+		return new String[] {"com.hea3ven.hardmodetweaks.core.ClassTransformerHardModeTweaks"};
 	}
 
 	@Override
 	public String getModContainerClass() {
-		return ModContainerHardModeTweaksCore.class.getName();
+		return "com.hea3ven.hardmodetweaks.core.ModContainerHardModeTweaksCore";
 	}
 
 	@Override
@@ -50,5 +50,4 @@ public class LoadingPluginHardModeTweaks implements IFMLLoadingPlugin {
 	public String getAccessTransformerClass() {
 		return null;
 	}
-
 }
