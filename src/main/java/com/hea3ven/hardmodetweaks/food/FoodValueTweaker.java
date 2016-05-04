@@ -18,24 +18,30 @@ public class FoodValueTweaker {
 
 	public static void modifyFoodValues() {
 		for (FoodConfig foodCfg : foodValuesConfig) {
-			if (foodCfg.getName().equals("minecraft:raw_fish")) {
-				modifyFishFoodValue(FishType.COD, foodCfg, false);
-			} else if (foodCfg.getName().equals("minecraft:cooked_fish")) {
-				modifyFishFoodValue(FishType.COD, foodCfg, true);
-			} else if (foodCfg.getName().equals("minecraft:raw_salmon")) {
-				modifyFishFoodValue(FishType.SALMON, foodCfg, false);
-			} else if (foodCfg.getName().equals("minecraft:cooked_salmon")) {
-				modifyFishFoodValue(FishType.SALMON, foodCfg, true);
-			} else {
-				Item item = Item.getByNameOrId(foodCfg.getName());
-				if (!(item instanceof ItemFood)) {
-					logger.warn("The item '{}' is not a food item", foodCfg.getName());
-					continue;
-				}
-				ItemFood food = (ItemFood) item;
+			switch (foodCfg.getName()) {
+				case "minecraft:raw_fish":
+					modifyFishFoodValue(FishType.COD, foodCfg, false);
+					break;
+				case "minecraft:cooked_fish":
+					modifyFishFoodValue(FishType.COD, foodCfg, true);
+					break;
+				case "minecraft:raw_salmon":
+					modifyFishFoodValue(FishType.SALMON, foodCfg, false);
+					break;
+				case "minecraft:cooked_salmon":
+					modifyFishFoodValue(FishType.SALMON, foodCfg, true);
+					break;
+				default:
+					Item item = Item.getByNameOrId(foodCfg.getName());
+					if (!(item instanceof ItemFood)) {
+						logger.warn("The item '{}' is not a food item", foodCfg.getName());
+						continue;
+					}
+					ItemFood food = (ItemFood) item;
 
-				ReflectionHelper.setPrivateValue(ItemFood.class, food, foodCfg.getValue(), 1);
-				ReflectionHelper.setPrivateValue(ItemFood.class, food, foodCfg.getSaturation(), 2);
+					ReflectionHelper.setPrivateValue(ItemFood.class, food, foodCfg.getValue(), 1);
+					ReflectionHelper.setPrivateValue(ItemFood.class, food, foodCfg.getSaturation(), 2);
+					break;
 			}
 		}
 	}

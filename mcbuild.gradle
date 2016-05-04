@@ -37,8 +37,8 @@ version = "${version_mc}-${project_version}"
 group = "${project_group}"
 archivesBaseName = "${project_name}"
 
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 minecraft {
 	version = "${version_mc}-${version_forge}" + (project.hasProperty('version_forge_branch')? '-' + version_forge_branch : '')
