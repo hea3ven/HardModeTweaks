@@ -32,7 +32,7 @@ public class BedPlacements extends WorldSavedData {
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
+	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
 		NBTTagList placeNbt = new NBTTagList();
 		for (Entry<BlockPos, Long> entry : placements.entrySet()) {
 			NBTTagCompound placementNbt = new NBTTagCompound();
@@ -41,6 +41,7 @@ public class BedPlacements extends WorldSavedData {
 			placeNbt.appendTag(placementNbt);
 		}
 		nbt.setTag("bedPlacements", placeNbt);
+		return nbt;
 	}
 
 	public void onBedPlaced(World world, BlockPos pos) {

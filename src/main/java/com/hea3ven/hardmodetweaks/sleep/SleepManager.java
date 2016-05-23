@@ -34,7 +34,7 @@ public class SleepManager {
 
 		event.getEntityPlayer()
 				.addChatComponentMessage(new TextComponentTranslation("tile.bed.recentlyPlaced"));
-		event.setResult(EntityPlayer.EnumStatus.OTHER_PROBLEM);
+		event.setResult(EntityPlayer.SleepResult.OTHER_PROBLEM);
 	}
 
 	@Nonnull
