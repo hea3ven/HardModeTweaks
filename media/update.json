@@ -1,4 +1,8 @@
 {
+    "1.9.4": {
+        "commit": "38320e442af4ec15900ff9bf68008aabeb4a7447",
+        "1.9.4-1.2.2": "    * Update to Minecraft 1.9.4."
+    },
     "1.8": {
         "1.8-1.1.4": "    * Added config to modify foods values and saturation.\n    * Added config to limit the break speed of blocks, fixes #3.\n    * Fixed a performance issue when loading classes, fixes #2.\n    * Fix the sleep prevention tweak not working.",
         "commit": null,
@@ -29,7 +33,9 @@
         "1.9-latest": "1.9-1.2.2",
         "1.7.10-recommended": "1.8.8-1.1.4",
         "1.8-recommended": "1.1.4",
-        "1.9-recommended": "1.9-1.2.2"
+        "1.9.4-recommended": "1.9.4-1.2.2",
+        "1.9-recommended": "1.9-1.2.2",
+        "1.9.4-latest": "1.9.4-1.2.2"
     },
     "homepage": "https://github.com/hea3ven/HardModeTweaks"
 }
